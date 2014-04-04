@@ -1,5 +1,4 @@
-"Ceci est un jolie test pour tester le git de mickool."
-Ok
-
+"Ceci est un joli test pour tester le git de mickool."
+Attention à la faute !
 
 E.
