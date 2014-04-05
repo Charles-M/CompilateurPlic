@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * Le fameux arbre qu'il faudrait faire faire par l'analyseur syntaxique, et decorer par le sémantique
- * @author ASUS
+ * @author ASUS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>WHO IS ASUS ?
  */
 public class Lexique {
     

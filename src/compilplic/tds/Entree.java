@@ -10,14 +10,14 @@ package compilplic.tds;
  */
 class Entree {
     
-    private String type ;
+    private String nom ;
 
-    public Entree(String type) {
-        this.type = type;
+    public Entree(String nom) {
+        this.nom = nom;
     }
 
-    public String getType() {
-        return type;
+    public String getNom() {
+        return nom;
     }
     
 }
