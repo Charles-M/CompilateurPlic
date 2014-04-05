@@ -1,10 +1,10 @@
-package paleo.analyse ;
+package compilplic.analyse ;
 
 import java_cup.runtime.*;
-import paleo.lexique.* ;
+import compilplic.lexique.* ;
 
 action code {: public Lexique lexique = new Lexique() ;
-				Variable elt ;
+                private Instruction inst ;
 	    :} ;
    
 /* Parser code to change the way the parser reports errors (include
@@ -14,7 +14,7 @@ parser code {:
     /* Change the method report_error so it will display the line and column of where the error
        occurred in the input as well as the reason for the error which is passed into the method
        in the String 'message'. */
-    public void report_error(String message, Object info) {
+    public void report_error(String message , Object info) {
    
         /* Create a StringBuffer called 'm' with the string 'Error' in it. */
         StringBuffer m = new StringBuffer("Error");
@@ -35,7 +35,7 @@ parser code {:
                 if (s.right >= 0)                    
                     /* Add to the end of the StringBuffer error message the column number of the 
                        error in the input. */
-                    m.append(", column "+(s.right+1));
+                    m.append(" , column "+(s.right+1));
             }
         }
    
@@ -43,7 +43,7 @@ parser code {:
            was passed into this method. */
         m.append(" : "+message);
    
-        /* Print the contents of the StringBuffer 'm', which contains an error message, out on 
+        /* Print the contents of the StringBuffer 'm' , which contains an error message , out on 
            a line. */
         System.err.println(m);
     }
@@ -51,8 +51,8 @@ parser code {:
     /* Change the method report_fatal_error so when it reports a fatal error it will display the 
        line and column number of where the fatal error occurred in the input as well as the reason
        for the fatal error which is passed into the method in the object 'message' and then exit.*/
-    public void report_fatal_error(String message, Object info) {
-        report_error(message, info);
+    public void report_fatal_error(String message , Object info) {
+        report_error(message , info);
         System.exit(1);
     }
 :};
@@ -60,83 +60,56 @@ parser code {:
 /* ------------Declaration of Terminals and Non Terminals Section----------- */
    
 /* Terminals (tokens returned by the scanner).  
-   Terminals that have no value are listed first and then terminals that do have a value, in this 
-   case a String value, are listed on the next line down. */
+   Terminals that have no value are listed first and then terminals that do have a value , in this 
+   case a String value , are listed on the next line down. */
 
-terminal Symbol    POINTVIRGULE, EGAL, NULL ;
-terminal String    TYPEPRIMITIF, IDF, CLASSE, EXPR ;
+terminal Symbol PARENTH_OUVRANTE, PARENTH_FERMANTE, PLUS, MOINS, MULT, GT, LT, DOUBLE_EQUAL, DIFF ;
+terminal String CSTE_ENT ;
    
 /* Non terminals used in the grammar section.  
    Non terminals that have an object value are listed first and then non terminals that have an 
-   integer value are listed.  An object value means that it can be any type, it isn't set to a 
+   integer value are listed.  An object value means that it can be any type , it isn't set to a 
    specific type.  So it could be an Integer or a String or whatever. */
 
-non terminal String DECL, AFF, LINST, INST, DAFF ;
-non terminal Lexique PROG ;
+non terminal String EXP, OPER ;
+
+/* truc bizare sur les priorités */
+
+precedence left PLUS, MOINS, MULT, GT, LT, DOUBLE_EQUAL, DIFF ;
 
 /* ----------------------------Grammar Section-------------------- */
 /* GRAMMAIRE DE L'ANALYSEUR SYNTAXIQUE
 
-PROG	::=	LINST
-
-LINST	::= LINST INST
-	|		INST
-	
-INST	::= DECL POINTVIRGULE
-	|		AFF POINTVIRGULE
-	|		DAFF POINTVIRGULE
-
-DECL	::=	TYPEPRIMITIF IDF
-	|	CLASSE IDF
-	
-AFF		::= IDF EGAL EXPR
-	|		IDF EGAL NULL
-	
-
-DAFF	::= TYPEPRIMITIF IDF EGAL EXPR
-	|		CLASSE IDF EGAL EXPR
-	|		CLASSE IDF EGAL NULL
-	
+EXP ::= cste_ent | ( EXP ) | - EXP | EXP OPER EXP
+OPER ::= + | - | * | > | < | == | !=
 
 */
 
-start with PROG ;
+start with EXP ;
 
-PROG	::=	LINST 
-		{: RESULT = lexique ; :}
-		;
+EXP	::= CSTE_ENT:i
+	 {: System.out.println("syn : "+i) ; :}
+         |  PARENTH_OUVRANTE EXP PARENTH_FERMANTE
+         {: System.out.println("syn : (+expr+)") ; :}
+         |  MOINS EXP
+         {: System.out.println("syn : - expr") ; :}
+         |  EXP OPER EXP
+         {: System.out.println("syn : +expr1+ +op+ +expr2") ; :}
+	;
 		
-LINST	::= LINST INST
-	|		INST
-		;
-		
-INST	::= DECL POINTVIRGULE
-	|		AFF POINTVIRGULE
-	|		DAFF POINTVIRGULE
-		;
+OPER    ::= PLUS
+	 {: System.out.println("syn : +") ; :}
+         | MOINS
+	 {: System.out.println("syn : -") ; :}
+         | MULT
+	 {: System.out.println("syn : *") ; :}
+         | GT
+	 {: System.out.println("syn : >") ; :}
+         | LT
+	 {: System.out.println("syn : <") ; :}
+         | DOUBLE_EQUAL
+	 {: System.out.println("syn : ==") ; :}
+         | DIFF
+         {: System.out.println("syn : !=") ; :}
+        ;
 
-DECL	::=	TYPEPRIMITIF:t IDF:i
-			{:  elt = new VariableDeclPrimitive(i) ;
-				lexique.ajouter(elt) ; :}
-	|	CLASSE:c IDF:i
-			{: 	elt = new VariableDeclObjet(i) ;
-				lexique.ajouter(elt) ; :}
-		;
-		
-AFF		::= IDF:i EGAL EXPR:e
-			{: 	lexique.affecter(i) ; :}
-		|	IDF:i EGAL NULL
-			{: 	lexique.nullifier(i) ; :}
-		;
-		
-DAFF	::= TYPEPRIMITIF:t IDF:i EGAL EXPR:e
-			{: 	elt = new VariablePrimitive(i) ;
-				lexique.ajouter(elt) ; :}
-	|		CLASSE:c IDF:i EGAL EXPR:e
-			{: 	elt = new VariableObjet(i) ;
-				lexique.ajouter(elt) ; :}
-	|		CLASSE:c IDF:i EGAL NULL
-			{: 	elt = new VariableNulle(i) ;
-				lexique.ajouter(elt) ; :}
-		;
-		

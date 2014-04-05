@@ -1,90 +1,84 @@
-package paleo.analyse ;
+package compilplic.analyse ;
 
 import java_cup.runtime.*;
       
 %%
    
 %class AnalyseurLexical
+%cup
 %public
 
 %line
 %column
     
-%type Symbol
+%integer
 %eofval{
         return symbol(CodesLexicaux.EOF) ;
 %eofval}
 
-%cup
+
    
 %{
+    // retourne le symbol lu
   private Symbol symbol(int type) {
 	return new Symbol(type, yyline, yycolumn) ;
   }
 
+    // retourne le symbol lu et sa valeur
   private Symbol symbol(int type, Object value) {
 	return new Symbol(type, yyline, yycolumn, value) ;
   }
 %}
 
-%state Expression
 %state commentaireLigne
 %state commentaireBloc
-
-idf = [a-z_][a-zA-Z0-9_]*
-typePrimitif = "boolean" | "char" | "int" | "double" | "float" | "short" | "long" | "byte"
-classe = [A-Z][a-zA-Z0-9_<>]*
-expr = [^;]*
-
-commentaireLigne = \/\/[^\n]*\n
-commentaireBloc = \/\*([^*]|\*+[^*/])*\*+\/
 
 /* A line terminator is a \r (carriage return), \n (line feed), or \r\n. */
 LineTerminator = \r|\n|\r\n
    
 /* White space is a line terminator, space, tab, or line feed. */
-WhiteSpace     = {LineTerminator} | [ \t\f]
-   
-null = {WhiteSpace}*null{WhiteSpace}*
+WhiteSpace = {LineTerminator} | [ \t\f]
+
+constEnt = {WhiteSpace}*[1-9][0-9]*{WhiteSpace}*
+typePrimitif = {WhiteSpace}*"entier"{WhiteSpace}*
+idf = [a-z_][a-zA-Z0-9_]*
+operateur = "+" | "-" | "*" | ">" | "<" | "==" | "!="
+commentaireLigne = \/\/[^\n]*\n
+commentaireBloc = \/\*([^*]|\*+[^*/])*\*+\/
 
 tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
 
-void = {idf}[\.]{expr}[;]
-
-
 %%
 
-<YYINITIAL> {void}				{}
+{WhiteSpace}*   {}
 
-<YYINITIAL> "//"				{/*System.out.println("com ligne " + yytext()) ;*/ yybegin(commentaireLigne) ;}
+<YYINITIAL> {operateur}   { 
+    switch(yytext()) {
+        case "+" :
+            return symbol(CodesLexicaux.PLUS, yytext());
+        case "-" :
+            return symbol(CodesLexicaux.MOINS, yytext());
+        case "*" :
+            return symbol(CodesLexicaux.MULT, yytext());
+        case "<" :
+            return symbol(CodesLexicaux.LT, yytext());
+        case ">" :
+            return symbol(CodesLexicaux.GT, yytext());
+        case "==" :
+            return symbol(CodesLexicaux.DOUBLE_EQUAL, yytext());
+        case "!=" :
+            return symbol(CodesLexicaux.DIFF, yytext());
+    }
+}
+<YYINITIAL> {constEnt}	{ return symbol(CodesLexicaux.CSTE_ENT, yytext());}
+<YYINITIAL> "("		{ return symbol(CodesLexicaux.PARENTH_OUVRANTE);}
+<YYINITIAL> ")"		{ return symbol(CodesLexicaux.PARENTH_FERMANTE);}
 
-<YYINITIAL> "/*"				{/*System.out.println("com bloc " + yytext()) ;*/ yybegin(commentaireBloc) ;}
-
-<YYINITIAL> ";"           	   	{ return symbol(CodesLexicaux.POINTVIRGULE); }
-
-<YYINITIAL> "="					{ // changement d'etat
-									yybegin(Expression) ;
-									return symbol(CodesLexicaux.EGAL) ;
-								}
-
-<YYINITIAL> {classe}|{tableau}	{ /*System.out.println("classe ou tableau " + yytext()) ;*/ return symbol(CodesLexicaux.CLASSE, yytext()); }
-
-<YYINITIAL> {typePrimitif}		{ /*System.out.println("type primitif " + yytext()) ;*/ return symbol(CodesLexicaux.TYPEPRIMITIF, yytext()); }
-
-<YYINITIAL> {idf}				{ /*System.out.println("identificateur " + yytext()) ;*/ return symbol(CodesLexicaux.IDF, yytext()) ; }
-							 	
-<Expression> {null}				{ return symbol(CodesLexicaux.NULL); }
-
-<Expression> {expr}				{ return symbol(CodesLexicaux.EXPR, yytext()) ; }
-
-<Expression> ";"				{ // retour dans YYINITIAL
-									yybegin(YYINITIAL) ;
-									return symbol(CodesLexicaux.POINTVIRGULE) ;}
+<YYINITIAL> "//"		{System.out.println("com ligne " + yytext()) ; yybegin(commentaireLigne) ;}
+<YYINITIAL> "/*"		{System.out.println("com bloc " + yytext()) ; yybegin(commentaireBloc) ;}
 						
 <commentaireBloc>	"*/"		{yybegin(YYINITIAL) ;}
-
 <commentaireLigne>	"\n"		{yybegin(YYINITIAL) ;}
 
-.			{/*System.out.println("autre " + yytext());*/}
-\n			{/*System.out.println("retour ligne " + yytext());*/}
-
+<YYINITIAL> \n			{System.out.println("retour ligne " + yytext());}
+<YYINITIAL> .			{System.out.println("autre " + yytext());}
