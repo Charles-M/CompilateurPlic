@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class Test {
 
     public Test() throws IOException {
-        String expression = "12 + 3-(   -078 * (1+666))" ;
+        String expression = "12 + 3" ;
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(expression)));
         try {
             as.parse() ;

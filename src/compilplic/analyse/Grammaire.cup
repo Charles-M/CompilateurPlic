@@ -2,6 +2,7 @@ package compilplic.analyse ;
 
 import java_cup.runtime.*;
 import compilplic.lexique.* ;
+import compilplic.lexique.expression.* ;
 
 action code {: public Lexique lexique = new Lexique() ;
                 private Instruction inst ;
@@ -63,7 +64,8 @@ parser code {:
    Terminals that have no value are listed first and then terminals that do have a value , in this 
    case a String value , are listed on the next line down. */
 
-terminal Symbol PARENTH_OUVRANTE, PARENTH_FERMANTE, PLUS, MOINS, MULT, GT, LT, DOUBLE_EQUAL, DIFF ;
+terminal Binaire PLUS, MOINS, MULT, GT, LT, DOUBLE_EQUAL, DIFF ;
+terminal Symbol PARENTH_OUVRANTE, PARENTH_FERMANTE ;
 terminal String CSTE_ENT ;
    
 /* Non terminals used in the grammar section.  
@@ -71,11 +73,14 @@ terminal String CSTE_ENT ;
    integer value are listed.  An object value means that it can be any type , it isn't set to a 
    specific type.  So it could be an Integer or a String or whatever. */
 
-non terminal String EXP, OPER ;
+non terminal Expression EXP ;
+non terminal Binaire OPER ;
 
 /* truc bizare sur les priorités */
 
-precedence left PLUS, MOINS, MULT, GT, LT, DOUBLE_EQUAL, DIFF ;
+precedence left GT, LT, DOUBLE_EQUAL, DIFF ;
+precedence left PLUS, MOINS ;
+precedence left MULT ;
 
 /* ----------------------------Grammar Section-------------------- */
 /* GRAMMAIRE DE L'ANALYSEUR SYNTAXIQUE
@@ -88,28 +93,40 @@ OPER ::= + | - | * | > | < | == | !=
 start with EXP ;
 
 EXP	::= CSTE_ENT:i
-	 {: System.out.println("syn : "+i) ; :}
+	 {: System.out.println("syn : "+i) ; 
+            RESULT = new Nombre(Integer.parseInt(i.trim())) ; :}
          |  PARENTH_OUVRANTE EXP PARENTH_FERMANTE
          {: System.out.println("syn : (+expr+)") ; :}
          |  MOINS EXP
          {: System.out.println("syn : - expr") ; :}
-         |  EXP OPER EXP
-         {: System.out.println("syn : +expr1+ +op+ +expr2") ; :}
+         |  EXP:e1 OPER:expr EXP:e2
+         {: System.out.println("syn : +expr1+ +op+ +expr2") ;
+            System.out.println("test : e1 = "+e1+"   e2 = "+e2) ;
+            expr.setGauche(e1) ; expr.setDroite(e2) ;
+            System.out.println("test : expr total = "+expr.calcul()) ;
+            RESULT = expr ; :}
 	;
 		
 OPER    ::= PLUS
-	 {: System.out.println("syn : +") ; :}
+	 {: System.out.println("syn : +") ; 
+            RESULT = new Somme(null, null) ; :}
          | MOINS
-	 {: System.out.println("syn : -") ; :}
+	 {: System.out.println("syn : -") ; 
+            RESULT = new Soustraction(null, null) ; :}
          | MULT
-	 {: System.out.println("syn : *") ; :}
+	 {: System.out.println("syn : *") ; 
+            RESULT = new Multiplication(null, null) ; :}
          | GT
-	 {: System.out.println("syn : >") ; :}
+	 {: System.out.println("syn : >") ; 
+            RESULT = new GreaterThan(null, null) ; :}
          | LT
-	 {: System.out.println("syn : <") ; :}
+	 {: System.out.println("syn : <") ; 
+            RESULT = new LowerThan(null, null) ; :}
          | DOUBLE_EQUAL
-	 {: System.out.println("syn : ==") ; :}
+	 {: System.out.println("syn : ==") ; 
+            RESULT = new Equal(null, null) ; :}
          | DIFF
-         {: System.out.println("syn : !=") ; :}
+         {: System.out.println("syn : !=") ; 
+            RESULT = new NonEqual(null, null) ; :}
         ;
 

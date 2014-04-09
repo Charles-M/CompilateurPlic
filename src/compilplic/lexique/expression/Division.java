@@ -1,4 +1,4 @@
-package expression;
+package compilplic.lexique.expression;
 
 public class Division extends Binaire {
 

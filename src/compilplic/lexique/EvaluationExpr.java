@@ -4,7 +4,7 @@
  */
 package compilplic.lexique;
 
-import expression.Expression;
+import compilplic.lexique.expression.Expression;
 
 /**
  * Noeud de l'arbre qui devra ecrire le code mips d'une evalution d'expression, entre autre celle qu'il connait

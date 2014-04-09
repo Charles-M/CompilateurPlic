@@ -1,4 +1,4 @@
-package expression;
+package compilplic.lexique.expression;
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -14,5 +14,5 @@ public abstract class Expression implements Iterable<Nombre> , Serializable {
     public void ecrireMips() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-	
+    
 }
