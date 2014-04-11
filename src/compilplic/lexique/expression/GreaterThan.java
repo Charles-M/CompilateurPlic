@@ -4,6 +4,8 @@
  */
 package compilplic.lexique.expression;
 
+import compilplic.generateur.GenerateurMIPS;
+
 /**
  *
  * @author ASUS
@@ -16,6 +18,12 @@ public class GreaterThan extends Binaire {
 
     public Nombre calcul() {
         return new Nombre(null) ;
+    }
+    
+    public String ecrireMips(){
+        String str = GenerateurMIPS.getInstance().ecrireGreaterThan();
+        
+        return str;
     }
     
 }
