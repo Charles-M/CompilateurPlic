@@ -97,7 +97,7 @@ public final class GenerateurMIPS {
         
         //Chargement de l'opérande droite
         String str=ecrireChargeOperandes()
-                //Ajout des deux (dans v0)
+                //Soustraction des deux (dans v0)
                 + "sub $v0, $v0, $t8"
                 //Stockage dans la pile
                 + ecrireStocker();
@@ -113,7 +113,7 @@ public final class GenerateurMIPS {
         
         //Chargement de l'opérande droite
         String str=ecrireChargeOperandes()
-                //Ajout des deux (dans v0)
+                //Multiplication des deux (dans v0)
                 + "mul $v0, $v0, $t8"
                 //Stockage dans la pile
                 + ecrireStocker();
@@ -129,7 +129,7 @@ public final class GenerateurMIPS {
         
         //Chargement de l'opérande droite
         String str=ecrireChargeOperandes()
-                //Ajout des deux (dans v0)
+                //Division des deux (dans v0)
                 + "div $v0, $v0, $t8"
                 //Stockage dans la pile
                 + ecrireStocker();
@@ -145,6 +145,42 @@ public final class GenerateurMIPS {
         String str = 
                 ecrireChargeOperandes()
                 + "bgt $v0, $t8, greater";//Attention besoin de savoir le numéro de la branche
+        
+        return str;
+    }
+    
+    /**
+     * Permet d'ecrire une comparaison plus petit que de type "v0 < t8" (avec branchement)
+     * @return le code Mips associe
+     */
+    public String ecrireLowerThan(){
+        String str = 
+                ecrireChargeOperandes()
+                + "blt $v0, $t8, lower";//Attention besoin de savoir le numéro de la branche
+        
+        return str;
+    }
+    
+    /**
+     * Permet d'ecrire une comparaison egale de type "v0 == t8" (avec branchement)
+     * @return le code Mips associe
+     */
+    public String ecrireEqual(){
+        String str = 
+                ecrireChargeOperandes()
+                + "beq $v0, $t8, equal";//Attention besoin de savoir le numéro de la branche
+        
+        return str;
+    }
+
+    /**
+     * Permet d'ecrire une comparaison differente de type "v0 != t8" (avec branchement)
+     * @return le code Mips associe
+     */
+    public String ecrireNonEqual(){
+        String str = 
+                ecrireChargeOperandes()
+                + "bne $v0, $t8, non_equal";//Attention besoin de savoir le numéro de la branche
         
         return str;
     }

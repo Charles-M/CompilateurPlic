@@ -39,5 +39,5 @@ public class NonEqual extends Binaire {
     public boolean isBoolean(){
         return true;
     }
-    
+
 }
