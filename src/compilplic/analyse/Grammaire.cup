@@ -95,12 +95,14 @@ start with EXP ;
 EXP	::= CSTE_ENT:i
 	 {: System.out.println("syn : "+i) ; 
             RESULT = new Nombre(Integer.parseInt(i.trim())) ; :}
-         |  PARENTH_OUVRANTE EXP PARENTH_FERMANTE
-         {: System.out.println("syn : (+expr+)") ; :}
-         |  MOINS EXP
-         {: System.out.println("syn : - expr") ; :}
+         |  PARENTH_OUVRANTE EXP:e PARENTH_FERMANTE
+         {: System.out.println("syn : ("+e+")") ; 
+            RESULT = e ; :}
+         |  MOINS EXP:e
+         {: System.out.println("syn : - expr") ; 
+            RESULT = new Soustraction(new Nombre(0), e) ; :}
          |  EXP:e1 OPER:expr EXP:e2
-         {: System.out.println("syn : +expr1+ +op+ +expr2") ;
+         {: System.out.println("syn : expr1 op expr2") ;
             System.out.println("test : e1 = "+e1+"   e2 = "+e2) ;
             expr.setGauche(e1) ; expr.setDroite(e2) ;
             System.out.println("test : expr total = "+expr.calcul()) ;
