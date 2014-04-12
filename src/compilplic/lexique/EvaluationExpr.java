@@ -17,6 +17,11 @@ public class EvaluationExpr extends Instruction {
     public EvaluationExpr() {
     }
 
+    public boolean verifier(){
+        e.verifier();
+        return true;
+    }
+    
     @Override
     public String ecrire() {
         e.ecrireMips() ;

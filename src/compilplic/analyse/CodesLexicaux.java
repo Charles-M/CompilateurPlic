@@ -9,17 +9,18 @@ package compilplic.analyse;
 /** CUP generated class containing symbol constants. */
 public class CodesLexicaux {
   /* terminals */
-  public static final int CSTE_ENT = 11;
+  public static final int EOF = 0;
+  public static final int error = 1;
+  public static final int PLUS = 2;
+  public static final int MOINS = 3;
+  public static final int MULT = 4;
+  public static final int GT = 5;
+  public static final int LT = 6;
+  public static final int DOUBLE_EQUAL = 7;
+  public static final int DIFF = 8;
   public static final int PARENTH_OUVRANTE = 9;
   public static final int PARENTH_FERMANTE = 10;
-  public static final int MULT = 4;
-  public static final int DOUBLE_EQUAL = 7;
-  public static final int EOF = 0;
-  public static final int PLUS = 2;
-  public static final int GT = 5;
-  public static final int error = 1;
-  public static final int DIFF = 8;
-  public static final int MOINS = 3;
-  public static final int LT = 6;
+  public static final int CSTE_ENT = 11;
+  
 }
 

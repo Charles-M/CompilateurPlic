@@ -25,5 +25,17 @@ public class GreaterThan extends Binaire {
         
         return str;
     }
+
+    @Override
+    public boolean verifier() {
+        
+        return gauche.verifier() && droite.verifier();
+        
+    }
+    
+    @Override
+    public boolean isBoolean(){
+        return true;
+    }
     
 }

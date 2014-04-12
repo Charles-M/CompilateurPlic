@@ -10,9 +10,17 @@ public abstract class Expression implements Iterable<Nombre> , Serializable {
 	public abstract int nbrNombre() ;
 	public abstract Iterator<Nombre> iterator() ;
 	public abstract Nombre nbri(int compteur) ;
-
-    public String ecrireMips() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        
+        public abstract boolean verifier();
+        
+        public abstract String ecrireMips() ;
+        
+        public boolean isBoolean(){
+            return false;
+        }
+        
+        public boolean isZero(){
+            return false;
+        }
     
 }

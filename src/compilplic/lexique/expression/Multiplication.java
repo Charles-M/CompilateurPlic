@@ -23,4 +23,21 @@ public class Multiplication extends Binaire {
         
             return str;
         }
+
+    @Override
+    public boolean verifier() {
+        if(!gauche.verifier() || gauche.isBoolean())
+            return false;
+        /*
+        Si l'une des expressions est semantiquement fausse -> false
+        Si je dis pas de connerie, une expression Booleene est necessairemeent au dessus des expressions arithmetiques :
+        (1+1) > 3  mais pas (1>3) + 1
+        donc si booleen en dessous de arithmetique (ici somme) -> false
+        */
+        
+        if(!droite.verifier() || droite.isBoolean())
+            return false;
+        
+        return true;
+    }
 }
