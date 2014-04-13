@@ -52,11 +52,11 @@ public final class GenerateurMIPS {
      */
     public String ecrireChargeOperandes(){
         //Chargement de l'opérande droite
-        return "add $sp, $sp, 4"
-                + "lw $v0, $(sp)"
+        return "add $sp, $sp, 4\n"
+                + "lw $v0, $(sp)\n"
                 //Chargement de l'opérande gauche
-                + "add $sp, $sp, 4"
-                + "lw $t8, $(sp)"; 
+                + "add $sp, $sp, 4\n"
+                + "lw $t8, $(sp)\n"; 
     }
     
     /**
@@ -65,8 +65,8 @@ public final class GenerateurMIPS {
      */
     public String ecrireStocker(){
         //Stockage dans la pile
-        return "sw $v0, $sp"
-                + "add $sp, $sp, -4";
+        return "sw $v0, $sp\n"
+                + "add $sp, $sp, -4\n";
     }
     
     /**
@@ -76,15 +76,15 @@ public final class GenerateurMIPS {
     public String ecrireSomme(){
         //Exemple sans les méthodes ci-dessus
         //Chargement de l'opérande droite
-        String str="add $sp, $sp, 4"
-                + "lw $v0, $(sp)"
+        String str="add $sp, $sp, 4\n"
+                + "lw $v0, $(sp)\n"
                 //Chargement de l'opérande gauche
-                + "add $sp, $sp, 4"
-                + "lw $t8, $(sp)"
+                + "add $sp, $sp, 4\n"
+                + "lw $t8, $(sp)\n"
                 //Ajout des deux (dans v0)
-                + "add $v0, $v0, $t8"
-                +"sw $v0, $sp"
-                + "add $sp, $sp, -4";
+                + "add $v0, $v0, $t8\n"
+                +"sw $v0, $sp\n"
+                + "add $sp, $sp, -4\n";
         
         return str;
     }
@@ -98,7 +98,7 @@ public final class GenerateurMIPS {
         //Chargement de l'opérande droite
         String str=ecrireChargeOperandes()
                 //Soustraction des deux (dans v0)
-                + "sub $v0, $v0, $t8"
+                + "sub $v0, $v0, $t8\n"
                 //Stockage dans la pile
                 + ecrireStocker();
         
@@ -114,7 +114,7 @@ public final class GenerateurMIPS {
         //Chargement de l'opérande droite
         String str=ecrireChargeOperandes()
                 //Multiplication des deux (dans v0)
-                + "mul $v0, $v0, $t8"
+                + "mul $v0, $v0, $t8\n"
                 //Stockage dans la pile
                 + ecrireStocker();
         
@@ -130,7 +130,7 @@ public final class GenerateurMIPS {
         //Chargement de l'opérande droite
         String str=ecrireChargeOperandes()
                 //Division des deux (dans v0)
-                + "div $v0, $v0, $t8"
+                + "div $v0, $v0, $t8\n"
                 //Stockage dans la pile
                 + ecrireStocker();
         
@@ -144,7 +144,7 @@ public final class GenerateurMIPS {
     public String ecrireGreaterThan(){
         String str = 
                 ecrireChargeOperandes()
-                + "bgt $v0, $t8, greater";//Attention besoin de savoir le numéro de la branche
+                + "bgt $v0, $t8, greater\n";//Attention besoin de savoir le numéro de la branche
         
         return str;
     }
@@ -156,7 +156,7 @@ public final class GenerateurMIPS {
     public String ecrireLowerThan(){
         String str = 
                 ecrireChargeOperandes()
-                + "blt $v0, $t8, lower";//Attention besoin de savoir le numéro de la branche
+                + "blt $v0, $t8, lower\n";//Attention besoin de savoir le numéro de la branche
         
         return str;
     }
@@ -168,7 +168,7 @@ public final class GenerateurMIPS {
     public String ecrireEqual(){
         String str = 
                 ecrireChargeOperandes()
-                + "beq $v0, $t8, equal";//Attention besoin de savoir le numéro de la branche
+                + "beq $v0, $t8, equal\n";//Attention besoin de savoir le numéro de la branche
         
         return str;
     }
@@ -180,7 +180,7 @@ public final class GenerateurMIPS {
     public String ecrireNonEqual(){
         String str = 
                 ecrireChargeOperandes()
-                + "bne $v0, $t8, non_equal";//Attention besoin de savoir le numéro de la branche
+                + "bne $v0, $t8, non_equal\n";//Attention besoin de savoir le numéro de la branche
         
         return str;
     }
