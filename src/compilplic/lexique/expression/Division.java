@@ -16,7 +16,7 @@ public class Division extends Binaire {
         public String ecrireMips() {
             String str = gauche.ecrireMips();
 
-            str+=GenerateurMIPS.getInstance().ecrireDivision();
+            str+=GenerateurMIPS.getInstance().ecrireDivision()+"\n";
 
             str+=droite.ecrireMips();
 

@@ -17,7 +17,7 @@ public class Multiplication extends Binaire {
         public String ecrireMips() {
             String str = gauche.ecrireMips();
 
-            str+=GenerateurMIPS.getInstance().ecrireMultiplication();
+            str+=GenerateurMIPS.getInstance().ecrireMultiplication()+"\n";
 
             str+=droite.ecrireMips();
         

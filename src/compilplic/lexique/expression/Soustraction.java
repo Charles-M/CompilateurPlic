@@ -16,7 +16,7 @@ public class Soustraction extends Binaire {
         public String ecrireMips() {
             String str = gauche.ecrireMips();
 
-            str+=GenerateurMIPS.getInstance().ecrireSoustraction();
+            str+=GenerateurMIPS.getInstance().ecrireSoustraction()+"\n";
 
             str+=droite.ecrireMips();
 

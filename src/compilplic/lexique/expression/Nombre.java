@@ -1,7 +1,8 @@
 package compilplic.lexique.expression;
 
-import compilplic.generateur.GenerateurMIPS;
-import java.util.* ;
+import compilplic.generateur.GenerateurMIPS ;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class Nombre extends Expression {
 
@@ -66,7 +67,7 @@ public class Nombre extends Expression {
         @Override
         public String ecrireMips() {
         
-            String str=GenerateurMIPS.getInstance().ecrireNombre(this.toInt());
+            String str=GenerateurMIPS.getInstance().ecrireNombre(this.toInt())+"\n";
 
             return str;
         }

@@ -6,7 +6,6 @@
 
 package compilplic.analyse;
 
-import java_cup.runtime.*;
 import compilplic.lexique.*;
 import compilplic.lexique.expression.*;
 
@@ -161,7 +160,7 @@ public class AnalyseurSyntaxique extends java_cup.runtime.lr_parser {
 class CUP$AnalyseurSyntaxique$actions {
 
  public Lexique lexique = new Lexique() ;
-                private Instruction inst ;
+ private Instruction inst ;
 	    
   private final AnalyseurSyntaxique parser;
 

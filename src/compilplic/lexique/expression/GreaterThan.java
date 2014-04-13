@@ -21,7 +21,7 @@ public class GreaterThan extends Binaire {
     }
     
     public String ecrireMips(){
-        String str = GenerateurMIPS.getInstance().ecrireGreaterThan();
+        String str = GenerateurMIPS.getInstance().ecrireGreaterThan()+"\n";
         
         return str;
     }

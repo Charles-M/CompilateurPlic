@@ -6,6 +6,7 @@ package compilplic;
 
 import compilplic.analyse.AnalyseurLexical;
 import compilplic.analyse.AnalyseurSyntaxique;
+import compilplic.lexique.expression.Expression;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.logging.Level;
@@ -21,7 +22,8 @@ public class Test {
         String expression = "-25 + (3 - 1) * 3 +4" ; // aie faut corriger les priorités, ici il donne -11 au lieu de -15
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(expression)));
         try {
-            as.parse() ;
+            Expression e = (Expression)as.parse().value ;
+            System.out.println("coucou : "+e.ecrireMips());
         } catch (Exception ex) {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
         }
