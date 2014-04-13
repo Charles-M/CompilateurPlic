@@ -21,6 +21,14 @@ public abstract class Binaire extends Expression {
         this.droite = droite;
     }
 
+    public Expression getDroite() {
+        return droite;
+    }
+
+    public Expression getGauche() {
+        return gauche;
+    }
+    
     public Iterator<Nombre> iterator() {
             return new IteratorBinaire();
     }

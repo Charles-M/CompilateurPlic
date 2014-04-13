@@ -40,7 +40,7 @@ public final class GenerateurMIPS {
     public String ecrireNombre(int i){
         //Empile le nombre (Attention, pas de gestion du 32bit)
         String str="li $v0, "+i+"\n"
-                +  "sw $v0, $(sp)\n"
+                +  "sw $v0, ($sp)\n"
                 +  "add $sp, $sp, -4\n";
         
         return str;
@@ -53,10 +53,10 @@ public final class GenerateurMIPS {
     public String ecrireChargeOperandes(){
         //Chargement de l'opérande droite
         return "add $sp, $sp, 4\n"
-                + "lw $v0, $(sp)\n"
+                + "lw $v0, ($sp)\n"
                 //Chargement de l'opérande gauche
                 + "add $sp, $sp, 4\n"
-                + "lw $t8, $(sp)\n"; 
+                + "lw $t8, ($sp)\n"; 
     }
     
     /**
@@ -65,7 +65,7 @@ public final class GenerateurMIPS {
      */
     public String ecrireStocker(){
         //Stockage dans la pile
-        return "sw $v0, $sp\n"
+        return "sw $v0, ($sp)\n"
                 + "add $sp, $sp, -4\n";
     }
     
@@ -77,13 +77,13 @@ public final class GenerateurMIPS {
         //Exemple sans les méthodes ci-dessus
         //Chargement de l'opérande droite
         String str="add $sp, $sp, 4\n"
-                + "lw $v0, $(sp)\n"
+                + "lw $v0, ($sp)\n"
                 //Chargement de l'opérande gauche
                 + "add $sp, $sp, 4\n"
-                + "lw $t8, $(sp)\n"
+                + "lw $t8, ($sp)\n"
                 //Ajout des deux (dans v0)
                 + "add $v0, $t8, $v0\n"
-                + "sw $v0, $sp\n"
+                + "sw $v0, ($sp)\n"
                 + "add $sp, $sp, -4\n";
         
         return str;
