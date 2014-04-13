@@ -39,9 +39,9 @@ public final class GenerateurMIPS {
      */
     public String ecrireNombre(int i){
         //Empile le nombre (Attention, pas de gestion du 32bit)
-        String str="li $v0, "+i
-                +  "sw $v0, $(sp)"
-                +  "add $sp, $sp, -4";
+        String str="li $v0, "+i+"\n"
+                +  "sw $v0, $(sp)\n"
+                +  "add $sp, $sp, -4\n";
         
         return str;
     }
