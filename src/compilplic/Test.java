@@ -23,8 +23,7 @@ public class Test {
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(expression)));
         try {
             Expression e = (Expression)as.parse().value ;
-            System.out.println(e.ecrireMips());
-            System.out.println("res = "+e.calcul());
+            System.out.println("coucou : "+e.ecrireMips());
         } catch (Exception ex) {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
         }

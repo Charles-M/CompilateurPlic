@@ -1,7 +1,8 @@
 package compilplic.lexique.expression;
 
-import compilplic.generateur.GenerateurMIPS;
-import java.util.* ;
+import compilplic.generateur.GenerateurMIPS ;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class Nombre extends Expression {
 
