@@ -15,10 +15,8 @@ public class Somme extends Binaire {
     @Override
     public String ecrireMips() {
         String str = gauche.ecrireMips();
-
-        str+=GenerateurMIPS.getInstance().ecrireSomme();
-
         str+=droite.ecrireMips();
+        str+=GenerateurMIPS.getInstance().ecrireSomme();
 
         return str;
     }
