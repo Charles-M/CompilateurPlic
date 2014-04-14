@@ -24,6 +24,12 @@ public abstract class Expression implements Iterable<Nombre> , Serializable {
         public abstract String ecrireMips() ;
         
         /**
+         * Permet de generer le code Dot
+         * @return 
+         */
+        public abstract String ecrireDot() ;
+        
+        /**
         * Indique si l'expression est booleenne ou non
         * @return true si booleenne, false sinon
         */

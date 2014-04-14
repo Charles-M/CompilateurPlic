@@ -71,4 +71,18 @@ public abstract class Binaire extends Expression {
             }
 
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName()+hashCode() ;
+    }
+
+    @Override
+    public String ecrireDot() {
+        String s = gauche.ecrireDot() ;
+        s += droite.ecrireDot() ;
+        s += this + "->" + gauche + "\n" + this + "->" + droite +"\n"; 
+        return s ;
+    }
+    
 }

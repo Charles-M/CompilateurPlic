@@ -17,7 +17,7 @@ public class Nombre extends Expression {
     }
 
     public String toString() {
-            return "# "+nombre+ " ";
+            return nombre+"";
     }
 
     public Nombre calcul() {
@@ -79,6 +79,11 @@ public class Nombre extends Expression {
     
     public boolean isZero(){
         return nombre==0;
+    }
+
+    @Override
+    public String ecrireDot() {
+        return "";
     }
 }
 
