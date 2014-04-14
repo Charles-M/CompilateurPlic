@@ -21,13 +21,15 @@ public class GreaterThan extends Binaire {
     }
     
     public String ecrireMips(){
-        String str = GenerateurMIPS.getInstance().ecrireGreaterThan()+"\n";
+        String str = gauche.ecrireMips();
+        str+=droite.ecrireMips();
+        str+=GenerateurMIPS.getInstance().ecrireGreaterThan(this.hashCode())+"\n";
         
         return str;
     }
 
     @Override
-    public boolean verifier() {
+    public boolean verifier() throws Exception {
         
         return gauche.verifier() && droite.verifier();
         

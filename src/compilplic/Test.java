@@ -21,15 +21,18 @@ import java.util.logging.Logger;
 public class Test {
 
     public Test() throws IOException {
-        String expression = "((((17*3)*4)+2)-4)*(-78+(5-7*(2)))" ; // c'est pas encore bon...........
+        //String expression = "((((17*3)*4)+2)-4)*(-78+(5-7*(2)))" ; // C'EST BON !!!
+        String expression = "((4*5)<50)*((3<(25+6))*(58>(96-50)))";
+        //String expression = "(4*5)<50*3";
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(expression)));
         try {
             Expression e = (Expression)as.parse().value ;
+            e.verifier();
             System.out.println(e.ecrireMips());
             writeMips(e, "mips.asm");
             writeDot(e, "img.jpg");
             // Runtime.getRuntime().exec("gedit mips.asm") ;
-            Runtime.getRuntime().exec("eog img.jpg") ;
+            //Runtime.getRuntime().exec("eog img.jpg") ;
         } catch (Exception ex) {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
         }

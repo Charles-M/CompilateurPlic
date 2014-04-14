@@ -17,7 +17,7 @@ public class EvaluationExpr extends Instruction {
     public EvaluationExpr() {
     }
 
-    public boolean verifier(){
+    public boolean verifier() throws Exception {
         e.verifier();
         return true;
     }

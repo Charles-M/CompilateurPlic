@@ -22,7 +22,7 @@ public class Soustraction extends Binaire {
     }
 
     @Override
-    public boolean verifier() {
+    public boolean verifier() throws Exception {
         if(!gauche.verifier() || gauche.isBoolean())
             return false;
         /*

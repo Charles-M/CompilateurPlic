@@ -4,8 +4,11 @@ import compilplic.generateur.GenerateurMIPS;
 
 public class Multiplication extends Binaire {
 
+        public boolean isBoolean;
+    
 	public Multiplication(Expression g, Expression d) {
 		super(g, d) ;
+                isBoolean=false;
 	}
 	
 	public Nombre calcul() {
@@ -17,25 +20,32 @@ public class Multiplication extends Binaire {
         public String ecrireMips() {
             String str = gauche.ecrireMips();
             str+=droite.ecrireMips();
-            str+=GenerateurMIPS.getInstance().ecrireMultiplication();
-
+            System.out.println("Multiplication +"+hashCode()+" "+isBoolean());
+            if(!isBoolean())
+                str+=GenerateurMIPS.getInstance().ecrireMultiplication();
+            else
+                str+=GenerateurMIPS.getInstance().ecrireAND(this.hashCode());
             return str;
         }
 
     @Override
-    public boolean verifier() {
-        if(!gauche.verifier() || gauche.isBoolean())
-            return false;
-        /*
-        Si l'une des expressions est semantiquement fausse -> false
-        Si je dis pas de connerie, une expression Booleene est necessairemeent au dessus des expressions arithmetiques :
-        (1*1) > 3  mais pas (1>3) * 1
-        donc si booleen en dessous de arithmetique (ici somme) -> false
-        */
-        
-        if(!droite.verifier() || droite.isBoolean())
-            return false;
+    public boolean verifier() throws Exception {
+        System.out.println("Multiplication booléenne : "+hashCode()+" "+isBoolean());
+        if(gauche.isBoolean()){
+            setBoolean();
+            if(!droite.isBoolean()) throw new Exception("Expression droite arithmetique, booleenne attendue pour multiplication "+hashCode());
+        }else
+            if(droite.isBoolean()) throw new Exception("Expression droite booléenne, arithmetique attendue pour multiplication "+hashCode());
         
         return true;
+    }
+    
+    public void setBoolean(){
+        isBoolean = true;
+    }
+    
+    @Override
+    public boolean isBoolean(){
+        return isBoolean;
     }
 }

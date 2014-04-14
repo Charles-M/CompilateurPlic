@@ -46,6 +46,11 @@ public final class GenerateurMIPS {
         return str;
     }
     
+    public String ecrireChargeV0(){
+        return "add $sp, $sp, 4\n"
+               + "lw $v0, ($sp)\n";
+    }
+    
     /**
      * Permet de charger l'operande droite et l'operande gauche si ils sont dans la pile (et se suivent)
      * @return le code Mips associe
@@ -67,6 +72,18 @@ public final class GenerateurMIPS {
         //Stockage dans la pile
         return "sw $v0, ($sp)\n"
                 + "add $sp, $sp, -4\n";
+    }
+    
+    public String ecrireChargeEntier(int i){
+        return "li $v0,"+i+"\n";
+    }
+    
+    public String ecrireBranchContinue(int hash){
+        return "b continue"+hash+"\n";
+    }
+    
+    public String ecrireContinue(int hash){
+        return "\ncontinue"+hash+":\n";
     }
     
     /**
@@ -141,10 +158,16 @@ public final class GenerateurMIPS {
      * Permet d'ecrire une comparaison plus grand que de type "v0 > t8" (avec branchement)
      * @return le code Mips associe
      */
-    public String ecrireGreaterThan(){
+    public String ecrireGreaterThan(int hash){
         String str = 
                 ecrireChargeOperandes()
-                + "bgt $t8, $v0, greater\n";//Attention besoin de savoir le numéro de la branche
+                + "bgt $t8, $v0, greater"+hash+"\n"
+                + ecrireChargeEntier(0)
+                + ecrireBranchContinue(hash)
+                + "\ngreater"+hash+":\n"
+                + ecrireChargeEntier(1)
+                + ecrireContinue(hash)
+                + ecrireStocker();
         
         return str;
     }
@@ -153,34 +176,94 @@ public final class GenerateurMIPS {
      * Permet d'ecrire une comparaison plus petit que de type "v0 < t8" (avec branchement)
      * @return le code Mips associe
      */
-    public String ecrireLowerThan(){
+    public String ecrireLowerThan(int hash){
         String str = 
                 ecrireChargeOperandes()
-                + "blt $t8, $v0, lower\n";//Attention besoin de savoir le numéro de la branche
+                + "blt $t8, $v0, lower"+hash+"\n"
+                + ecrireChargeEntier(0)
+                + ecrireBranchContinue(hash)
+                + "\nlower"+hash+":\n"
+                + ecrireChargeEntier(1)
+                + ecrireContinue(hash)
+                + ecrireStocker();
         
         return str;
     }
     
     /**
      * Permet d'ecrire une comparaison egale de type "v0 == t8" (avec branchement)
+     * @param hash le hashcode de l'objet afin d'avoir un identifiant unique pour les branches
      * @return le code Mips associe
      */
-    public String ecrireEqual(){
+    public String ecrireEqual(int hash){
         String str = 
                 ecrireChargeOperandes()
-                + "beq $t8, $v0, equal\n";//Attention besoin de savoir le numéro de la branche
+                + "beq $t8, $v0, equal"+hash+"\n"
+                + ecrireChargeEntier(0)
+                + ecrireBranchContinue(hash)
+                + "\nequal"+hash+":\n"
+                + ecrireChargeEntier(1)
+                + ecrireContinue(hash)
+                + ecrireStocker();
         
         return str;
     }
 
     /**
      * Permet d'ecrire une comparaison differente de type "v0 != t8" (avec branchement)
+     * @param hash le hashcode de l'objet afin d'avoir un identifiant unique pour les branches
      * @return le code Mips associe
      */
-    public String ecrireNonEqual(){
+    public String ecrireNonEqual(int hash){
         String str = 
                 ecrireChargeOperandes()
-                + "bne $t8, $v0, non_equal\n";//Attention besoin de savoir le numéro de la branche
+                + "bne $t8, $v0, non_equal"+hash+"\n"
+                + ecrireChargeEntier(0)
+                + ecrireBranchContinue(hash)
+                + "\nnon_equal"+hash+":\n"
+                + ecrireChargeEntier(1)
+                + ecrireContinue(hash)
+                + ecrireStocker();
+        
+        return str;
+    }
+    
+    /**
+     * Permet d'ecrire un OU logique
+     * @param hash le hashcode de l'objet afin d'avoir un identifiant unique pour les branches
+     * @return 
+     */
+    public String ecrireOR(int hash){
+        String str =
+                ecrireSomme()
+                + ecrireChargeV0()
+                + "bgt $v0, 0, OR"+hash+"\n"
+                + ecrireChargeEntier(0)
+                + ecrireBranchContinue(hash)
+                + "\nOR"+hash+":\n"
+                + ecrireChargeEntier(1)
+                + ecrireContinue(hash)
+                + ecrireStocker();
+        
+        return str;
+    }
+    
+    /**
+     * Permet d'ecrire un et logique
+     * @param hash le hashcode de l'objet afin d'avoir un identifiant unique pour les branches
+     * @return 
+     */
+    public String ecrireAND(int hash){
+        String str =
+                ecrireMultiplication()
+                + ecrireChargeV0()
+                + "bgt $v0, 0, AND"+hash+"\n"
+                + ecrireChargeEntier(0)
+                + ecrireBranchContinue(hash)
+                + "\nAND"+hash+":\n"
+                + ecrireChargeEntier(1)
+                + ecrireContinue(hash)
+                + ecrireStocker();
         
         return str;
     }

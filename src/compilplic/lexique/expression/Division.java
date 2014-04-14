@@ -13,7 +13,7 @@ public class Division extends Binaire {
     }
 
     @Override
-    public boolean verifier() {
+    public boolean verifier() throws Exception {
         if(!gauche.verifier() || gauche.isBoolean())
             return false;
         /*

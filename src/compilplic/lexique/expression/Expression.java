@@ -15,7 +15,7 @@ public abstract class Expression implements Iterable<Nombre> , Serializable {
          * Execute l'analyse semantique
          * @return true si la semantique est bonne (j'aimerai bien savoir qui c'est :p), false sinon
          */
-        public abstract boolean verifier();
+        public abstract boolean verifier() throws Exception;
         
         /**
          * Permet de generer le code Mips

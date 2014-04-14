@@ -22,7 +22,7 @@ public class Equal extends Binaire {
     }
 
     @Override
-    public boolean verifier() {
+    public boolean verifier() throws Exception {
         
         return gauche.verifier() && droite.verifier();
         
@@ -30,7 +30,9 @@ public class Equal extends Binaire {
 
     @Override
     public String ecrireMips() {
-        String str = GenerateurMIPS.getInstance().ecrireEqual();
+        String str = gauche.ecrireMips();
+        str+=droite.ecrireMips();
+        str+= GenerateurMIPS.getInstance().ecrireEqual(this.hashCode());
         
         return str;
     }
