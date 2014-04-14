@@ -17,7 +17,7 @@ public class Nombre extends Expression {
     }
 
     public String toString() {
-            return nombre+"";
+            return "N"+nombre+"H"+hashCode();
     }
 
     public Nombre calcul() {

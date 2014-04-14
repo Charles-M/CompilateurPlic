@@ -25,14 +25,14 @@ import sun.corba.OutputStreamFactory;
 public class Test {
 
     public Test() throws IOException {
-        String expression = "5-3-1" ; // c'est pas encore bon...........
+        String expression = "5-(3+1)-1" ; // c'est pas encore bon...........
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(expression)));
         try {
             Expression e = (Expression)as.parse().value ;
             System.out.println(e.ecrireMips());
             writeMips(e, "mips.asm");
             writeDot(e, "img.jpg");
-            Runtime.getRuntime().exec("gedit mips.asm") ;
+             //Runtime.getRuntime().exec("gedit mips.asm") ;
             Runtime.getRuntime().exec("eog img.jpg") ;
         } catch (Exception ex) {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
