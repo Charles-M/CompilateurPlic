@@ -73,14 +73,13 @@ terminal String CSTE_ENT ;
    integer value are listed.  An object value means that it can be any type , it isn't set to a 
    specific type.  So it could be an Integer or a String or whatever. */
 
-non terminal Expression EXP ;
-non terminal Binaire OPER ;
+non terminal Expression EXP, START ;
 
 /* truc bizare sur les priorités */
 
-precedence left GT, LT, DOUBLE_EQUAL, DIFF ;
-precedence left PLUS, MOINS ;
+precedence left MOINS,PLUS ;
 precedence left MULT ;
+precedence left GT, LT, DOUBLE_EQUAL, DIFF ;
 
 /* ----------------------------Grammar Section-------------------- */
 /* GRAMMAIRE DE L'ANALYSEUR SYNTAXIQUE
@@ -90,45 +89,80 @@ OPER ::= + | - | * | > | < | == | !=
 
 */
 
-start with EXP ;
+start with START ;
+
+START   ::= EXP:e {: RESULT= e ; System.out.println("syn : start e = "+e) ; :} ;
 
 EXP	::= CSTE_ENT:i
 	 {: System.out.println("syn : "+i) ; 
             RESULT = new Nombre(Integer.parseInt(i.trim())) ; :}
+
          |  PARENTH_OUVRANTE EXP:e PARENTH_FERMANTE
-         {: System.out.println("syn : ("+e+")") ; 
+         {: System.out.println("syn : ("+e+")") ;
             RESULT = e ; :}
+
          |  MOINS EXP:e
-         {: System.out.println("syn : - expr") ; 
+         {: System.out.println("syn : - expr") ;
             RESULT = new Soustraction(new Nombre(0), e) ; :}
-         |  EXP:e1 OPER:expr EXP:e2
+
+         |  EXP:g PLUS EXP:d
+	 {: System.out.println("syn : +") ;
+            RESULT = new Somme(g, d) ; :}
+
+         |  EXP:g MOINS EXP:d
+	 {: System.out.println("syn : -") ;
+            RESULT = new Soustraction(g, d) ; :}
+
+         |  EXP:g MULT EXP:d
+	 {: System.out.println("syn : *") ;
+            RESULT = new Multiplication(g, d) ; :}
+
+         |  EXP:g GT EXP:d
+	 {: System.out.println("syn : >") ;
+            RESULT = new GreaterThan(g, d) ; :}
+
+         |  EXP:g LT EXP:d
+	 {: System.out.println("syn : <") ;
+            RESULT = new LowerThan(g, d) ; :}
+
+         |  EXP:g DOUBLE_EQUAL EXP:d
+	 {: System.out.println("syn : ==") ;
+            RESULT = new Equal(g, d) ; :}
+
+         |  EXP:g DIFF EXP:d
+         {: System.out.println("syn : !=") ;
+            RESULT = new NonEqual(g, d) ; :}
+        ;
+/*
+         |  EXP:e1 OPER:op EXP:e2
          {: System.out.println("syn : expr1 op expr2") ;
             System.out.println("test : e1 = "+e1+"   e2 = "+e2) ;
-            expr.setGauche(e1) ; expr.setDroite(e2) ;
-            System.out.println("test : expr total = "+expr.calcul()) ;
-            RESULT = expr ; :}
+            op.setGauche(e1) ;
+            op.setDroite(e2) ;
+            System.out.println("test : expr total = "+op.calcul()) ;
+            RESULT = op ; :}
 	;
 		
 OPER    ::= PLUS
-	 {: System.out.println("syn : +") ; 
+	 {: System.out.println("syn : +") ;
             RESULT = new Somme(null, null) ; :}
          | MOINS
-	 {: System.out.println("syn : -") ; 
+	 {: System.out.println("syn : -") ;
             RESULT = new Soustraction(null, null) ; :}
          | MULT
-	 {: System.out.println("syn : *") ; 
+	 {: System.out.println("syn : *") ;
             RESULT = new Multiplication(null, null) ; :}
          | GT
-	 {: System.out.println("syn : >") ; 
+	 {: System.out.println("syn : >") ;
             RESULT = new GreaterThan(null, null) ; :}
          | LT
-	 {: System.out.println("syn : <") ; 
+	 {: System.out.println("syn : <") ;
             RESULT = new LowerThan(null, null) ; :}
          | DOUBLE_EQUAL
-	 {: System.out.println("syn : ==") ; 
+	 {: System.out.println("syn : ==") ;
             RESULT = new Equal(null, null) ; :}
          | DIFF
-         {: System.out.println("syn : !=") ; 
+         {: System.out.println("syn : !=") ;
             RESULT = new NonEqual(null, null) ; :}
         ;
-
+*/

@@ -8,15 +8,11 @@ import compilplic.analyse.AnalyseurLexical;
 import compilplic.analyse.AnalyseurSyntaxique;
 import compilplic.lexique.expression.Expression;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sun.corba.OutputStreamFactory;
 
 /**
  *
@@ -25,14 +21,14 @@ import sun.corba.OutputStreamFactory;
 public class Test {
 
     public Test() throws IOException {
-        String expression = "5-(3+1)-1" ; // c'est pas encore bon...........
+        String expression = "((((17*3)*4)+2)-4)*(-78+(5-7*(2)))" ; // c'est pas encore bon...........
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(expression)));
         try {
             Expression e = (Expression)as.parse().value ;
             System.out.println(e.ecrireMips());
             writeMips(e, "mips.asm");
             writeDot(e, "img.jpg");
-             //Runtime.getRuntime().exec("gedit mips.asm") ;
+            // Runtime.getRuntime().exec("gedit mips.asm") ;
             Runtime.getRuntime().exec("eog img.jpg") ;
         } catch (Exception ex) {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);

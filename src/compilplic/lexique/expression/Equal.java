@@ -18,7 +18,7 @@ public class Equal extends Binaire {
 
     @Override
     public Nombre calcul() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Nombre(1) ;
     }
 
     @Override
