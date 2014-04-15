@@ -630,7 +630,7 @@ public class AnalyseurLexical implements java_cup.runtime.Scanner {
           }
         case 13: break;
         case 8: 
-          { System.out.println("com ligne " + yytext()) ; yybegin(commentaireLigne) ;
+          { yybegin(commentaireLigne) ;
           }
         case 14: break;
         case 3: 
@@ -638,12 +638,10 @@ public class AnalyseurLexical implements java_cup.runtime.Scanner {
           }
         case 15: break;
         case 7: 
-          { System.out.println("com bloc " + yytext()) ; yybegin(commentaireBloc) ;
+          { yybegin(commentaireBloc) ;
           }
         case 16: break;
         case 2: 
-          { System.out.println("autre " + yytext());
-          }
         case 17: break;
         case 1: 
           { 

@@ -10,10 +10,7 @@ public class TestExpression {
 		Expression s = new Somme(new Multiplication(n, new Nombre(2)), new Soustraction(new Nombre(12), new Nombre(6)));
 		System.out.println("Iteration type \"foreach\" des Nombres sur Expression s");
 		for(Nombre nn : s) {
-			System.out.println(nn);
 		}
-		
-		System.out.println("\nAvant serialisation :\n"+s.calcul()+"\n"+n);
 		try {
 			ObjectOutputStream flot = new ObjectOutputStream(new FileOutputStream(new File("serial_expression"))) ;
 			flot.writeObject(s) ;
@@ -28,7 +25,6 @@ public class TestExpression {
 			ObjectInputStream flot = new ObjectInputStream(new FileInputStream(new File("serial_expression")));
 			Expression s2 = (Expression)flot.readObject() ;
 			Nombre n2 = (Nombre)flot.readObject() ;
-			System.out.println("Apres \"dé-serialisation\" :\n"+s2.calcul()+"\n"+n);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

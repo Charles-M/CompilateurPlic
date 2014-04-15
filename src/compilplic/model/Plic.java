@@ -4,12 +4,16 @@
  */
 package compilplic.model;
 
+import compilplic.analyse.AnalyseurLexical;
+import compilplic.analyse.AnalyseurSyntaxique;
+import compilplic.lexique.expression.Expression;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.StringReader;
 
 /**
  * @author mick
@@ -17,15 +21,29 @@ import java.io.InputStreamReader;
 public class Plic {
     
     private StringBuilder contenu_fichier ;
+    private File f ;
 
-    public Plic(String chemin_ficher) throws IOException {
+    public Plic(String chemin_ficher) throws IOException, Exception {
+        lireFichier(chemin_ficher) ;
+        AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(contenu_fichier.toString())));
+        Expression e = (Expression)as.parse().value ;
+        e.verifier();
+        writeMips(e, f.getAbsolutePath());
+    }
+    
+    private void writeMips(Expression e, String filename) throws IOException {
+        String s = e.ecrireMips() ;
+        PrintWriter mips = new PrintWriter(new File(filename.replaceAll(".plic", ".asm"))) ;
+        mips.printf(s);
+        mips.close();
+    }
+
+    private void lireFichier(String chemin_ficher) throws FileNotFoundException, IOException {
         contenu_fichier = new StringBuilder() ;
-        //remplissage de la contenu_fichier avec le contenu du fichier pour eviter toute IO ulterieur.
-        BufferedReader b = new BufferedReader(new FileReader(new File(chemin_ficher))) ;
+        f = new File(chemin_ficher) ;
+        BufferedReader b = new BufferedReader(new FileReader(f)) ;
         String line = b.readLine() ;
         while(line != null)
             contenu_fichier.append(line) ;
-        System.out.println(contenu_fichier); // test
     }
-    
 }

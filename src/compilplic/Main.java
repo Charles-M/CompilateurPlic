@@ -6,19 +6,23 @@ package compilplic;
 
 import compilplic.model.Plic;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author mick
  */
 public class Main {
-
+    
     public static void main(String[] args) {
         try {
-            // j'voulais mettre simplement : new Plic() ; mais netbeans il dit c'est mieux de faire 2 lignes, pour utiliser plus de caractère, -_-"
-            Plic p ;
-            p = new Plic(args[0]);
+            Plic plic;
+            plic = new Plic(args[0]);
         } catch (IOException e) {
-            System.out.println("IOException dans Main : fichier introuvable ou corrompue ou je sais pas.");
+            System.err.println("IOException dans Main : fichier introuvable.");
+        } catch (Exception ex) {
+            System.err.println("exception de l'analyseur");
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

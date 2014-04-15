@@ -20,7 +20,6 @@ public class Somme extends Binaire {
     public String ecrireMips() {
         String str = gauche.ecrireMips();
         str+=droite.ecrireMips();
-        System.out.println("Somme +"+hashCode()+" "+isBoolean());
         if(!isBoolean())
             str+=GenerateurMIPS.getInstance().ecrireSomme();
         else
@@ -31,10 +30,11 @@ public class Somme extends Binaire {
 
     @Override
     public boolean verifier() throws Exception {
-        
+        gauche.verifier();
+        droite.verifier();
         if(gauche.isBoolean()){
             setBoolean();
-            if(!droite.isBoolean()) throw new Exception("Expression droite arithmetique, booleenne attendue pour multiplication "+hashCode());
+            if(!droite.isBoolean()) throw new Exception("Expression droite arithmetique, booleenne attendue pour somme "+hashCode());
         }else
             if(droite.isBoolean()) throw new Exception("Expression droite booléenne, arithmetique attendu pour somme "+hashCode());
         

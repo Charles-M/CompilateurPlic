@@ -20,7 +20,6 @@ public class Multiplication extends Binaire {
         public String ecrireMips() {
             String str = gauche.ecrireMips();
             str+=droite.ecrireMips();
-            System.out.println("Multiplication +"+hashCode()+" "+isBoolean());
             if(!isBoolean())
                 str+=GenerateurMIPS.getInstance().ecrireMultiplication();
             else
@@ -30,7 +29,8 @@ public class Multiplication extends Binaire {
 
     @Override
     public boolean verifier() throws Exception {
-        System.out.println("Multiplication booléenne : "+hashCode()+" "+isBoolean());
+        gauche.verifier();
+        droite.verifier();
         if(gauche.isBoolean()){
             setBoolean();
             if(!droite.isBoolean()) throw new Exception("Expression droite arithmetique, booleenne attendue pour multiplication "+hashCode());

@@ -56,9 +56,8 @@ public final class GenerateurMIPS {
      * @return le code Mips associe
      */
     public String ecrireChargeOperandes(){
-        //Chargement de l'opérande droite
-        return "add $sp, $sp, 4\n"
-                + "lw $v0, ($sp)\n"
+                //Chargement de l'opérande droite
+        return  ecrireChargeV0()
                 //Chargement de l'opérande gauche
                 + "add $sp, $sp, 4\n"
                 + "lw $t8, ($sp)\n"; 
@@ -242,6 +241,26 @@ public final class GenerateurMIPS {
                 + ecrireBranchContinue(hash)
                 + "\nOR"+hash+":\n"
                 + ecrireChargeEntier(1)
+                + ecrireContinue(hash)
+                + ecrireStocker();
+        
+        return str;
+    }
+    
+    /**
+     * Permet d'ecrire un OU logique
+     * @param hash le hashcode de l'objet afin d'avoir un identifiant unique pour les branches
+     * @return 
+     */
+    public String ecrireXOR(int hash){
+        String str =
+                ecrireSoustraction()
+                + ecrireChargeV0()
+                + "beq $v0, 0, XOR"+hash+"\n"
+                + ecrireChargeEntier(1)
+                + ecrireBranchContinue(hash)
+                + "\nXOR"+hash+":\n"
+                + ecrireChargeEntier(0)
                 + ecrireContinue(hash)
                 + ecrireStocker();
         

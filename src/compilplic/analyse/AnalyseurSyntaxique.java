@@ -6,7 +6,6 @@
 
 package compilplic.analyse;
 
-import java_cup.runtime.*;
 import compilplic.lexique.*;
 import compilplic.lexique.expression.*;
 
@@ -154,10 +153,6 @@ public class AnalyseurSyntaxique extends java_cup.runtime.lr_parser {
         /* Add to the end of the StringBuffer error message created in this method the message that
            was passed into this method. */
         m.append(" : "+message);
-   
-        /* Print the contents of the StringBuffer 'm' , which contains an error message , out on 
-           a line. */
-        System.err.println(m);
     }
    
     /* Change the method report_fatal_error so when it reports a fatal error it will display the 
@@ -207,7 +202,6 @@ class CUP$AnalyseurSyntaxique$actions {
 		int dleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		Expression d = (Expression)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("syn : !=") ;
             RESULT = new NonEqual(g, d) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("EXP",0, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-2)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
@@ -223,7 +217,6 @@ class CUP$AnalyseurSyntaxique$actions {
 		int dleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		Expression d = (Expression)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("syn : ==") ;
             RESULT = new Equal(g, d) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("EXP",0, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-2)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
@@ -239,7 +232,6 @@ class CUP$AnalyseurSyntaxique$actions {
 		int dleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		Expression d = (Expression)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("syn : <") ;
             RESULT = new LowerThan(g, d) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("EXP",0, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-2)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
@@ -255,7 +247,6 @@ class CUP$AnalyseurSyntaxique$actions {
 		int dleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		Expression d = (Expression)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("syn : >") ;
             RESULT = new GreaterThan(g, d) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("EXP",0, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-2)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
@@ -271,7 +262,6 @@ class CUP$AnalyseurSyntaxique$actions {
 		int dleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		Expression d = (Expression)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("syn : *") ;
             RESULT = new Multiplication(g, d) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("EXP",0, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-2)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
@@ -287,7 +277,6 @@ class CUP$AnalyseurSyntaxique$actions {
 		int dleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		Expression d = (Expression)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("syn : -") ;
             RESULT = new Soustraction(g, d) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("EXP",0, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-2)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
@@ -303,7 +292,6 @@ class CUP$AnalyseurSyntaxique$actions {
 		int dleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		Expression d = (Expression)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("syn : +") ;
             RESULT = new Somme(g, d) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("EXP",0, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-2)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
@@ -316,7 +304,6 @@ class CUP$AnalyseurSyntaxique$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		Expression e = (Expression)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("syn : - expr") ;
             RESULT = new Soustraction(new Nombre(0), e) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("EXP",0, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
@@ -329,7 +316,6 @@ class CUP$AnalyseurSyntaxique$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).right;
 		Expression e = (Expression)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).value;
-		 System.out.println("syn : ("+e+")") ;
             RESULT = e ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("EXP",0, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-2)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
@@ -342,7 +328,6 @@ class CUP$AnalyseurSyntaxique$actions {
 		int ileft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int iright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		String i = (String)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("syn : "+i) ; 
             RESULT = new Nombre(Integer.parseInt(i.trim())) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("EXP",0, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
@@ -355,8 +340,7 @@ class CUP$AnalyseurSyntaxique$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		Expression e = (Expression)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 RESULT= e ; System.out.println("syn : start e = "+e) ; 
-              CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("START",1, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
+		 RESULT= e ;              CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("START",1, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
 
