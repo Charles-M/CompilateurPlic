@@ -18,10 +18,12 @@ public class Main {
         try {
             Plic plic;
             plic = new Plic(args[0]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("Usage : plic chemin_fichier_plic");
         } catch (IOException e) {
             System.err.println("IOException dans Main : fichier introuvable.");
         } catch (Exception ex) {
-            System.err.println("exception de l'analyseur");
+            System.err.println("ERREUR SYNTAXIQUE : ");
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

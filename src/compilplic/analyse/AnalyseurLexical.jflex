@@ -74,11 +74,11 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
 <YYINITIAL> "("		{ return symbol(CodesLexicaux.PARENTH_OUVRANTE);}
 <YYINITIAL> ")"		{ return symbol(CodesLexicaux.PARENTH_FERMANTE);}
 
-<YYINITIAL> "//"		{System.out.println("com ligne " + yytext()) ; yybegin(commentaireLigne) ;}
-<YYINITIAL> "/*"		{System.out.println("com bloc " + yytext()) ; yybegin(commentaireBloc) ;}
+<YYINITIAL> "//"		{/*System.out.println("com ligne " + yytext()) ;*/ yybegin(commentaireLigne) ;}
+<YYINITIAL> "/*"		{/*System.out.println("com bloc " + yytext()) ;*/ yybegin(commentaireBloc) ;}
 						
 <commentaireBloc>	"*/"		{yybegin(YYINITIAL) ;}
 <commentaireLigne>	"\n"		{yybegin(YYINITIAL) ;}
 
-<YYINITIAL> \n			{System.out.println("retour ligne " + yytext());}
-<YYINITIAL> .			{System.out.println("autre " + yytext());}
+<YYINITIAL> \n			{/*System.out.println("retour ligne " + yytext());*/}
+<YYINITIAL> .			{ System.out.println("ERREUR LEXICAL ligne:"+yyline+" colonne:"+yycolumn+" caractere non lu : "+yytexte()) ; System.exit(0) ; }

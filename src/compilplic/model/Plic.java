@@ -33,7 +33,7 @@ public class Plic {
     
     private void writeMips(Expression e, String filename) throws IOException {
         String s = e.ecrireMips() ;
-        PrintWriter mips = new PrintWriter(new File(filename.replaceAll(".plic", ".asm"))) ;
+        PrintWriter mips = new PrintWriter(new File(filename.replaceAll("\\.plic", ".asm"))) ;
         mips.printf(s);
         mips.close();
     }
@@ -42,8 +42,8 @@ public class Plic {
         contenu_fichier = new StringBuilder() ;
         f = new File(chemin_ficher) ;
         BufferedReader b = new BufferedReader(new FileReader(f)) ;
-        String line = b.readLine() ;
-        while(line != null)
+        String line = null ;
+        while((line= b.readLine()) != null)
             contenu_fichier.append(line) ;
     }
 }
