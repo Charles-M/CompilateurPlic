@@ -81,4 +81,4 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
 <commentaireLigne>	"\n"		{yybegin(YYINITIAL) ;}
 
 <YYINITIAL> \n			{/*System.out.println("retour ligne " + yytext());*/}
-<YYINITIAL> .			{ System.out.println("ERREUR LEXICAL ligne:"+yyline+" colonne:"+yycolumn+" caractere non lu : "+yytexte()) ; System.exit(0) ; }
+<YYINITIAL> .			{ throw new Exception("ERREUR LEXICAL ligne:"+yyline+" colonne:"+yycolumn+" caractere non lu : "+yytexte()) ; }

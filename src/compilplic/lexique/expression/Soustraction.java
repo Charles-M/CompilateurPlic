@@ -5,9 +5,9 @@ import compilplic.generateur.GenerateurMIPS;
 public class Soustraction extends Binaire {
     private boolean isBoolean;
 
-    public Soustraction(Expression g, Expression d) {
-            super(g, d) ;
-            isBoolean = false ;
+    public Soustraction(Expression g, Expression d, int l, int c) {
+        super(g, d, l, c);
+        isBoolean = false;
     }
 
     public Nombre calcul() {
@@ -32,9 +32,9 @@ public class Soustraction extends Binaire {
         droite.verifier();
         if(gauche.isBoolean()){
             setBoolean();
-            if(!droite.isBoolean()) throw new Exception("Expression droite arithmetique, booleenne attendue pour Soustraction "+hashCode());
+            if(!droite.isBoolean()) throw new Exception("Expression droite arithmetique, booleenne attendue pour le XOR ");
         }else
-            if(droite.isBoolean()) throw new Exception("Expression droite booléenne, arithmetique attendu pour Soustraction "+hashCode());
+            if(droite.isBoolean()) throw new Exception("Expression droite booléenne, arithmetique attendu pour Soustraction ");
         
         return true;
     }

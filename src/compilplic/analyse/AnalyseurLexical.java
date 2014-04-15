@@ -2,7 +2,8 @@
 
 package compilplic.analyse ;
 
-import java_cup.runtime.*;
+import compilplic.exception.LexicalException;
+import java_cup.runtime.Symbol;
       
 
 /**
@@ -477,7 +478,7 @@ public class AnalyseurLexical implements java_cup.runtime.Scanner {
    * @return      the next token
    * @exception   java.io.IOException  if any I/O-Error occurs
    */
-  public java_cup.runtime.Symbol next_token() throws java.io.IOException {
+  public java_cup.runtime.Symbol next_token() throws java.io.IOException, Exception {
     int zzInput;
     int zzAction;
 
@@ -638,7 +639,7 @@ public class AnalyseurLexical implements java_cup.runtime.Scanner {
           }
         case 15: break;
         case 2: 
-          { System.out.println("ERREUR LEXICAL ligne:"+yyline+" colonne:"+yycolumn+" caractere non reconnu : "+yytext()) ; System.exit(0) ;
+          { throw new LexicalException("ERREUR LEXICAL ligne:"+(yyline+1)+" colonne:"+(yycolumn+1)+" caractere non reconnu : "+yytext()) ;
           }
         case 16: break;
         case 3: 

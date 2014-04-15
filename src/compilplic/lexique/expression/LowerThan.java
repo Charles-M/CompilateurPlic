@@ -12,8 +12,8 @@ import compilplic.generateur.GenerateurMIPS;
  */
 public class LowerThan extends Binaire {
 
-    public LowerThan(Expression g, Expression d) {
-        super(g, d);
+    public LowerThan(Expression g, Expression d, int l, int c) {
+        super(g, d, l, c);
     }
 
     @Override

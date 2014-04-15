@@ -12,8 +12,8 @@ import compilplic.generateur.GenerateurMIPS;
  */
 public class NonEqual extends Binaire {
 
-    public NonEqual(Expression g, Expression d) {
-        super(g, d);
+    public NonEqual(Expression g, Expression d, int l, int c) {
+        super(g, d, l, c);
     }
 
     @Override

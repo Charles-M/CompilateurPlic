@@ -4,8 +4,8 @@ import compilplic.generateur.GenerateurMIPS;
 
 public class Division extends Binaire {
 
-    public Division(Expression g, Expression d) {
-            super(g, d) ;
+    public Division(Expression g, Expression d, int l, int c) {
+        super(g, d, l, c);
     }
 
     public Nombre calcul() {

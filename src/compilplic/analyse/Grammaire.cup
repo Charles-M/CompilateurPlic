@@ -1,6 +1,7 @@
 package compilplic.analyse ;
 
 import java_cup.runtime.*;
+import compilplic.exception.SyntaxeException;
 import compilplic.lexique.* ;
 import compilplic.lexique.expression.* ;
 
@@ -18,7 +19,7 @@ parser code {:
     public void report_error(String message , Object info) {
    
         /* Create a StringBuffer called 'm' with the string 'Error' in it. */
-        StringBuffer m = new StringBuffer("Erreur de Syntaxe");
+        StringBuffer m = new StringBuffer("");
    
         /* Check if the information passed to the method is the same type as the type 
            java_cup.runtime.Symbol. */
@@ -42,11 +43,12 @@ parser code {:
    
         /* Add to the end of the StringBuffer error message created in this method the message that
            was passed into this method. */
-        m.append(" : "+message);
+        m.append(message);
    
         /* Print the contents of the StringBuffer 'm' , which contains an error message , out on 
            a line. */
-        System.err.println(m);
+        System.err.println("ERREUR SYNTAXIQUE : "+message);
+        System.exit(0);
     }
    
     /* Change the method report_fatal_error so when it reports a fatal error it will display the 
@@ -54,7 +56,6 @@ parser code {:
        for the fatal error which is passed into the method in the object 'message' and then exit.*/
     public void report_fatal_error(String message , Object info) {
         report_error(message , info);
-        System.exit(1);
     }
 :};
    
@@ -89,80 +90,59 @@ OPER ::= + | - | * | > | < | == | !=
 
 */
 
-start with START ;
-
-START   ::= EXP:e {: RESULT= e ; System.out.println("syn : start e = "+e) ; :} ;
+start with EXP ;
 
 EXP	::= CSTE_ENT:i
-	 {: System.out.println("syn : "+i) ; 
-            RESULT = new Nombre(Integer.parseInt(i.trim())) ; :}
+	 {: RESULT = new Nombre(Integer.parseInt(i.trim())) ; :}
 
          |  PARENTH_OUVRANTE EXP:e PARENTH_FERMANTE
-         {: System.out.println("syn : ("+e+")") ;
-            RESULT = e ; :}
+         {: RESULT = e ; :}
 
          |  MOINS EXP:e
-         {: System.out.println("syn : - expr") ;
-            RESULT = new Soustraction(new Nombre(0), e) ; :}
+         {: RESULT = new Soustraction(new Nombre(0), e, eleft, eright) ; :}
 
          |  EXP:g PLUS EXP:d
-	 {: System.out.println("syn : +") ;
-            RESULT = new Somme(g, d) ; :}
+	 {: RESULT = new Somme(g, d, gleft, gright) ; :}
 
          |  EXP:g MOINS EXP:d
-	 {: System.out.println("syn : -") ;
-            RESULT = new Soustraction(g, d) ; :}
+	 {: RESULT = new Soustraction(g, d, gleft, gright) ; :}
 
          |  EXP:g MULT EXP:d
-	 {: System.out.println("syn : *") ;
-            RESULT = new Multiplication(g, d) ; :}
+	 {: RESULT = new Multiplication(g, d, gleft, gright) ; :}
 
          |  EXP:g GT EXP:d
-	 {: System.out.println("syn : >") ;
-            RESULT = new GreaterThan(g, d) ; :}
+	 {: RESULT = new GreaterThan(g, d, gleft, gright) ; :}
 
          |  EXP:g LT EXP:d
-	 {: System.out.println("syn : <") ;
-            RESULT = new LowerThan(g, d) ; :}
+	 {: RESULT = new LowerThan(g, d, gleft, gright) ; :}
 
          |  EXP:g DOUBLE_EQUAL EXP:d
-	 {: System.out.println("syn : ==") ;
-            RESULT = new Equal(g, d) ; :}
+	 {: RESULT = new Equal(g, d, gleft, gright) ; :}
 
          |  EXP:g DIFF EXP:d
-         {: System.out.println("syn : !=") ;
-            RESULT = new NonEqual(g, d) ; :}
+         {: RESULT = new NonEqual(g, d, gleft, gright) ; :}
         ;
+
 /*
          |  EXP:e1 OPER:op EXP:e2
-         {: System.out.println("syn : expr1 op expr2") ;
-            System.out.println("test : e1 = "+e1+"   e2 = "+e2) ;
-            op.setGauche(e1) ;
+         {: op.setGauche(e1) ;
             op.setDroite(e2) ;
-            System.out.println("test : expr total = "+op.calcul()) ;
             RESULT = op ; :}
 	;
 		
 OPER    ::= PLUS
-	 {: System.out.println("syn : +") ;
-            RESULT = new Somme(null, null) ; :}
+	 {: RESULT = new Somme(null, null, gleft, gright) ; :}
          | MOINS
-	 {: System.out.println("syn : -") ;
-            RESULT = new Soustraction(null, null) ; :}
+	 {: RESULT = new Soustraction(null, null, gleft, gright) ; :}
          | MULT
-	 {: System.out.println("syn : *") ;
-            RESULT = new Multiplication(null, null) ; :}
+	 {: RESULT = new Multiplication(null, null, gleft, gright) ; :}
          | GT
-	 {: System.out.println("syn : >") ;
-            RESULT = new GreaterThan(null, null) ; :}
+	 {: RESULT = new GreaterThan(null, null, gleft, gright) ; :}
          | LT
-	 {: System.out.println("syn : <") ;
-            RESULT = new LowerThan(null, null) ; :}
+	 {: RESULT = new LowerThan(null, null, gleft, gright) ; :}
          | DOUBLE_EQUAL
-	 {: System.out.println("syn : ==") ;
-            RESULT = new Equal(null, null) ; :}
+	 {: RESULT = new Equal(null, null, gleft, gright) ; :}
          | DIFF
-         {: System.out.println("syn : !=") ;
-            RESULT = new NonEqual(null, null) ; :}
+         {: RESULT = new NonEqual(null, null, gleft, gright) ; :}
         ;
 */

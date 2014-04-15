@@ -7,10 +7,13 @@ public abstract class Binaire extends Expression {
 
     protected Expression gauche;
     protected Expression droite;
+    protected int line, col ;
 
-    public Binaire(Expression g, Expression d) {
+    public Binaire(Expression g, Expression d, int l, int c) {
             gauche = g ;
             droite = d ;
+            line = l ;
+            col = c ;
     }
 
     public void setGauche(Expression gauche) {

@@ -12,8 +12,8 @@ import compilplic.generateur.GenerateurMIPS;
  */
 public class GreaterThan extends Binaire {
 
-    public GreaterThan(Expression g, Expression d) {
-        super(g, d);
+    public GreaterThan(Expression g, Expression d, int l, int c) {
+        super(g, d, l, c);
     }
 
     public Nombre calcul() {

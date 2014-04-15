@@ -12,10 +12,10 @@ import compilplic.generateur.GenerateurMIPS;
  */
 public class Equal extends Binaire {
 
-    public Equal(Expression g, Expression d) {
-        super(g, d);
+    public Equal(Expression g, Expression d, int l, int c) {
+        super(g, d, l, c);
     }
-
+    
     @Override
     public Nombre calcul() {
         return new Nombre(1) ;
