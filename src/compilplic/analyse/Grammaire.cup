@@ -38,16 +38,17 @@ parser code {:
                     /* Add to the end of the StringBuffer error message the column number of the 
                        error in the input. */
                     m.append(" et colonne "+(s.right+1));
+                    m.append(" avec le token:"+s.value) ;
             }
         }
    
         /* Add to the end of the StringBuffer error message created in this method the message that
            was passed into this method. */
-        m.append(message);
+        // m.append(message);
    
         /* Print the contents of the StringBuffer 'm' , which contains an error message , out on 
            a line. */
-        System.err.println("ERREUR SYNTAXIQUE : "+message);
+        System.err.println("ERREUR SYNTAXIQUE : "+m);
         System.exit(0);
     }
    
@@ -65,7 +66,7 @@ parser code {:
    Terminals that have no value are listed first and then terminals that do have a value , in this 
    case a String value , are listed on the next line down. */
 
-terminal Binaire PLUS, MOINS, MULT, GT, LT, DOUBLE_EQUAL, DIFF ;
+terminal String PLUS, MOINS, MULT, DIV, GT, LT, DOUBLE_EQUAL, DIFF ;
 terminal Symbol PARENTH_OUVRANTE, PARENTH_FERMANTE ;
 terminal String CSTE_ENT ;
    
@@ -79,7 +80,7 @@ non terminal Expression EXP, START ;
 /* truc bizare sur les priorités */
 
 precedence left MOINS,PLUS ;
-precedence left MULT ;
+precedence left MULT, DIV ;
 precedence left GT, LT, DOUBLE_EQUAL, DIFF ;
 
 /* ----------------------------Grammar Section-------------------- */
@@ -98,29 +99,32 @@ EXP	::= CSTE_ENT:i
          |  PARENTH_OUVRANTE EXP:e PARENTH_FERMANTE
          {: RESULT = e ; :}
 
-         |  MOINS EXP:e
-         {: RESULT = new Soustraction(new Nombre(0), e, eleft, eright) ; :}
+         |  MOINS:s EXP:e
+         {: RESULT = new Soustraction(new Nombre(0), e, sleft+1, sright+1) ; :}
 
-         |  EXP:g PLUS EXP:d
-	 {: RESULT = new Somme(g, d, gleft, gright) ; :}
+         |  EXP:g PLUS:s EXP:d
+	 {: RESULT = new Somme(g, d, sleft+1, sright+1) ; :}
 
-         |  EXP:g MOINS EXP:d
-	 {: RESULT = new Soustraction(g, d, gleft, gright) ; :}
+         |  EXP:g MOINS:s EXP:d
+	 {: RESULT = new Soustraction(g, d, sleft+1, sright+1) ; :}
 
-         |  EXP:g MULT EXP:d
-	 {: RESULT = new Multiplication(g, d, gleft, gright) ; :}
+         |  EXP:g MULT:s EXP:d
+	 {: RESULT = new Multiplication(g, d, sleft+1, sright+1) ; :}
 
-         |  EXP:g GT EXP:d
-	 {: RESULT = new GreaterThan(g, d, gleft, gright) ; :}
+         |  EXP:g DIV:s EXP:d
+	 {: RESULT = new Division(g, d, sleft+1, sright+1) ; :}
 
-         |  EXP:g LT EXP:d
-	 {: RESULT = new LowerThan(g, d, gleft, gright) ; :}
+         |  EXP:g GT:s EXP:d
+	 {: RESULT = new GreaterThan(g, d, sleft+1, sright+1) ; :}
 
-         |  EXP:g DOUBLE_EQUAL EXP:d
-	 {: RESULT = new Equal(g, d, gleft, gright) ; :}
+         |  EXP:g LT:s EXP:d
+	 {: RESULT = new LowerThan(g, d, sleft+1, sright+1) ; :}
 
-         |  EXP:g DIFF EXP:d
-         {: RESULT = new NonEqual(g, d, gleft, gright) ; :}
+         |  EXP:g DOUBLE_EQUAL:s EXP:d
+	 {: RESULT = new Equal(g, d, sleft+1, sright+1) ; :}
+
+         |  EXP:g DIFF:s EXP:d
+         {: RESULT = new NonEqual(g, d, sleft+1, sright+1) ; :}
         ;
 
 /*
@@ -130,19 +134,19 @@ EXP	::= CSTE_ENT:i
             RESULT = op ; :}
 	;
 		
-OPER    ::= PLUS
-	 {: RESULT = new Somme(null, null, gleft, gright) ; :}
-         | MOINS
-	 {: RESULT = new Soustraction(null, null, gleft, gright) ; :}
-         | MULT
-	 {: RESULT = new Multiplication(null, null, gleft, gright) ; :}
-         | GT
-	 {: RESULT = new GreaterThan(null, null, gleft, gright) ; :}
-         | LT
-	 {: RESULT = new LowerThan(null, null, gleft, gright) ; :}
-         | DOUBLE_EQUAL
-	 {: RESULT = new Equal(null, null, gleft, gright) ; :}
-         | DIFF
-         {: RESULT = new NonEqual(null, null, gleft, gright) ; :}
+OPER    ::= PLUS:s
+	 {: RESULT = new Somme(null, null, sleft+1, sright+1) ; :}
+         | MOINS:s
+	 {: RESULT = new Soustraction(null, null, sleft+1, sright+1) ; :}
+         | MULT:s
+	 {: RESULT = new Multiplication(null, null, sleft+1, sright+1) ; :}
+         | GT:s
+	 {: RESULT = new GreaterThan(null, null, sleft+1, sright+1) ; :}
+         | LT:s
+	 {: RESULT = new LowerThan(null, null, sleft+1, sright+1) ; :}
+         | DOUBLE_EQUAL:s
+	 {: RESULT = new Equal(null, null, sleft+1, sright+1) ; :}
+         | DIFF:s
+         {: RESULT = new NonEqual(null, null, sleft+1, sright+1) ; :}
         ;
 */

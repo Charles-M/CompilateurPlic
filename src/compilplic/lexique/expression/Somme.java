@@ -35,9 +35,9 @@ public class Somme extends Binaire {
         droite.verifier();
         if(gauche.isBoolean()){
             setBoolean();
-            if(!droite.isBoolean()) throw new SemantiqueException("Expression droite arithmetique, booleenne attendue pour le OU ");
+            if(!droite.isBoolean()) throw new SemantiqueException("Expression droite arithmetique, booleenne attendue pour le OU ligne:"+line+" colonne:"+col);
         }else
-            if(droite.isBoolean()) throw new SemantiqueException("Expression droite booléenne, arithmetique attendu pour Somme ");
+            if(droite.isBoolean()) throw new SemantiqueException("Expression droite booléenne, arithmetique attendu pour Somme ligne:"+line+" colonne:"+col);
         
         return true;
     }

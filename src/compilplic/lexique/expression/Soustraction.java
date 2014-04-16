@@ -32,9 +32,9 @@ public class Soustraction extends Binaire {
         droite.verifier();
         if(gauche.isBoolean()){
             setBoolean();
-            if(!droite.isBoolean()) throw new Exception("Expression droite arithmetique, booleenne attendue pour le XOR ");
+            if(!droite.isBoolean()) throw new Exception("Expression droite arithmetique, booleenne attendue pour le XOR ligne:"+line+" colonne:"+col);
         }else
-            if(droite.isBoolean()) throw new Exception("Expression droite booléenne, arithmetique attendu pour Soustraction ");
+            if(droite.isBoolean()) throw new Exception("Expression droite booléenne, arithmetique attendu pour Soustraction ligne:"+line+" colonne:"+col);
         
         return true;
     }

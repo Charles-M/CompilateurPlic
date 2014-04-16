@@ -1,7 +1,8 @@
 package compilplic.analyse ;
 
 import java_cup.runtime.*;
-      
+import compilplic.exception.LexicalException;
+
 %%
    
 %class AnalyseurLexical
@@ -42,7 +43,7 @@ WhiteSpace = {LineTerminator} | [ \t\f]
 constEnt = {WhiteSpace}*[1-9][0-9]*{WhiteSpace}*
 typePrimitif = {WhiteSpace}*"entier"{WhiteSpace}*
 idf = [a-z_][a-zA-Z0-9_]*
-operateur = "+" | "-" | "*" | ">" | "<" | "==" | "!="
+operateur = "+" | "-" | "*" | ">" | "<" | "==" | "!=" | "/"
 commentaireLigne = \/\/[^\n]*\n
 commentaireBloc = \/\*([^*]|\*+[^*/])*\*+\/
 
@@ -60,6 +61,8 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
             return symbol(CodesLexicaux.MOINS, yytext());
         case "*" :
             return symbol(CodesLexicaux.MULT, yytext());
+        case "/" :
+            return symbol(CodesLexicaux.DIV, yytext());
         case "<" :
             return symbol(CodesLexicaux.LT, yytext());
         case ">" :
@@ -81,4 +84,4 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
 <commentaireLigne>	"\n"		{yybegin(YYINITIAL) ;}
 
 <YYINITIAL> \n			{/*System.out.println("retour ligne " + yytext());*/}
-<YYINITIAL> .			{ throw new Exception("ERREUR LEXICAL ligne:"+yyline+" colonne:"+yycolumn+" caractere non lu : "+yytexte()) ; }
+<YYINITIAL> .			{ throw new LexicalException("ERREUR LEXICAL ligne:"+yyline+" colonne:"+yycolumn+" caractere non lu : "+yytext()) ; }

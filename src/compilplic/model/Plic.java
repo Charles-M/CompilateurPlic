@@ -29,6 +29,7 @@ public class Plic {
         Expression e = (Expression)as.parse().value ;
         e.verifier();
         writeMips(e, f.getAbsolutePath());
+        System.out.println("COMPILATION OK");
     }
     
     private void writeMips(Expression e, String filename) throws IOException {
