@@ -12,6 +12,10 @@ public class Nombre extends Expression {
             nombre = i ;
     }
 
+    public int getNombre() {
+        return nombre;
+    }
+
     public Nombre(Nombre n) {
             nombre = n.toInt() ;
     }
@@ -36,6 +40,10 @@ public class Nombre extends Expression {
             return new IteratorNombre();
     }
 
+    public void setNombre(int nombre) {
+        this.nombre = nombre;
+    }
+ 
     class IteratorNombre implements Iterator<Nombre> {
 
             private boolean b = true ;

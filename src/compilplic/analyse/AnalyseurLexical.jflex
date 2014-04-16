@@ -40,10 +40,11 @@ LineTerminator = \r|\n|\r\n
 /* White space is a line terminator, space, tab, or line feed. */
 WhiteSpace = {LineTerminator} | [ \t\f]
 
-constEnt = {WhiteSpace}*[1-9][0-9]*{WhiteSpace}*
+div = \/[^\/\*]
+constEnt = {WhiteSpace}*[0-9]+{WhiteSpace}*
 typePrimitif = {WhiteSpace}*"entier"{WhiteSpace}*
 idf = [a-z_][a-zA-Z0-9_]*
-operateur = "+" | "-" | "*" | ">" | "<" | "==" | "!=" | "/"
+operateur = "+" | "-" | "*" | ">" | "<" | "==" | "!="
 commentaireLigne = \/\/[^\n]*\n
 commentaireBloc = \/\*([^*]|\*+[^*/])*\*+\/
 
@@ -61,8 +62,6 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
             return symbol(CodesLexicaux.MOINS, yytext());
         case "*" :
             return symbol(CodesLexicaux.MULT, yytext());
-        case "/" :
-            return symbol(CodesLexicaux.DIV, yytext());
         case "<" :
             return symbol(CodesLexicaux.LT, yytext());
         case ">" :
@@ -73,13 +72,15 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
             return symbol(CodesLexicaux.DIFF, yytext());
     }
 }
+
 <YYINITIAL> {constEnt}	{ return symbol(CodesLexicaux.CSTE_ENT, yytext());}
 <YYINITIAL> "("		{ return symbol(CodesLexicaux.PARENTH_OUVRANTE);}
 <YYINITIAL> ")"		{ return symbol(CodesLexicaux.PARENTH_FERMANTE);}
 
+<YYINITIAL> {div}		{return symbol(CodesLexicaux.DIV, yytext());}
 <YYINITIAL> "//"		{/*System.out.println("com ligne " + yytext()) ;*/ yybegin(commentaireLigne) ;}
 <YYINITIAL> "/*"		{/*System.out.println("com bloc " + yytext()) ;*/ yybegin(commentaireBloc) ;}
-						
+			
 <commentaireBloc>	"*/"		{yybegin(YYINITIAL) ;}
 <commentaireLigne>	"\n"		{yybegin(YYINITIAL) ;}
 

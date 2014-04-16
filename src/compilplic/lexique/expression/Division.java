@@ -1,5 +1,6 @@
 package compilplic.lexique.expression;
 
+import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
 
 public class Division extends Binaire {
@@ -14,21 +15,17 @@ public class Division extends Binaire {
 
     @Override
     public boolean verifier() throws Exception {
-        if(!gauche.verifier() || gauche.isBoolean())
-            return false;
-        /*
-        Si l'une des expressions est semantiquement fausse -> false
-        Si je dis pas de connerie, une expression Booleene est necessairemeent au dessus des expressions arithmetiques :
-        (1+1) > 3  mais pas (1>3) + 1
-        donc si booleen en dessous de arithmetique (ici somme) -> false
-        */
+        gauche.verifier();
+        droite.verifier();
+        if(gauche.isBoolean())
+            throw new SemantiqueException("Expression gauche de la division est booléenne, arithmétique attendue ligne:"+line+" colonne:"+col);
         
-        if(!droite.verifier() || droite.isBoolean())
-            return false;
+        if(droite.isBoolean())
+            throw new SemantiqueException("Expression droite de la division est booléenne, arithmétique attendue ligne:"+line+" colonne:"+col);
         
         //Pas de division par 0
         if(droite.isZero())
-            return false;
+            throw new SemantiqueException("Division par 0 ligne:"+line+" colonne:"+col);
         
         return true;
     }

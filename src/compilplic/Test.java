@@ -19,10 +19,7 @@ import java.io.StringReader;
 public class Test {
 
     public Test() throws IOException, Exception {
-        AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader("17-1 +3 -2*4")));
-        Expression e = (Expression)as.parse().value ;
-        e.verifier();
-        writeMips(e, "mips.asm");
+        System.out.println(Integer.parseInt("000054"));
     }
     
     private void writeMips(Expression e, String filename) throws IOException {
