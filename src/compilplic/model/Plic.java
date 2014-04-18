@@ -22,19 +22,48 @@ public class Plic {
     
     private StringBuilder contenu_fichier ;
     private File f ;
+    private File f_dest;
 
-    public Plic(String chemin_ficher) throws IOException, Exception {
-        lireFichier(chemin_ficher) ;
+    public Plic(String chemin_fichier) throws IOException, Exception {
+        lireFichier(chemin_fichier) ;
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(contenu_fichier.toString())));
         Expression e = (Expression)as.parse().value ;
         e.verifier();
-        writeMips(e, f.getAbsolutePath());
+        f_dest = new File(f.getAbsolutePath().replaceAll("\\.plic", ".asm"));
+        writeMips(e);
+        System.out.println("COMPILATION OK");
+    }
+
+    public Plic(String chemin_fichier, String chemin_dest) throws IOException, Exception {
+        lireFichier(chemin_fichier) ;
+        AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(contenu_fichier.toString())));
+        Expression e = (Expression)as.parse().value ;
+        e.verifier();
+        //Initialisation pour savoir s'il s'agit d'un fichier ou d'un dossier
+        f_dest=new File(chemin_dest);
+        
+        //Si le nom du fichier fini par .plic, c'est un fichier plic
+        if(f_dest.getAbsolutePath().endsWith(".plic"))
+            f_dest = new File(chemin_dest.replaceAll("\\.plic", ".asm"));
+        
+        //Si le nom du fichier fini par / ou \ (Windows), il s'agit d'un repertoire
+        if(f_dest.getAbsolutePath().endsWith("[/\\]")){
+            f_dest = new File(chemin_dest+f.getName().replaceAll("\\.plic", ".asm"));
+            writeMips(e);
+        }else{
+            //S'il s'agit d'un repertoire
+            if(f_dest.isDirectory()){
+                f_dest = new File(chemin_dest+"/"+f.getName().replaceAll("\\.plic", ".asm"));
+                writeMips(e);
+            }else
+                writeMips(e);
+        }
         System.out.println("COMPILATION OK");
     }
     
-    private void writeMips(Expression e, String filename) throws IOException {
+    private void writeMips(Expression e) throws IOException {
         String s = e.ecrireMips() ;
-        PrintWriter mips = new PrintWriter(new File(filename.replaceAll("\\.plic", ".asm"))) ;
+        PrintWriter mips = new PrintWriter(f_dest) ;
         mips.printf(s);
         mips.close();
     }
