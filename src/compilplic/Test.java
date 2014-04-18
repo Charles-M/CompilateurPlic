@@ -5,7 +5,6 @@
 package compilplic;
 
 import compilplic.analyse.AnalyseurLexical;
-import compilplic.analyse.AnalyseurSyntaxique;
 import compilplic.lexique.expression.Expression;
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +18,12 @@ import java.io.StringReader;
 public class Test {
 
     public Test() throws IOException, Exception {
-        System.out.println(Integer.parseInt("000054"));
+        String texte = "classe Test \"test_chaine\" \"test_chaine_guill\"\"emets\" publique privee entier lire et ecrire 31 / 45 - 78 fin/*coucou*/\n // yoyoyo\n4 /9" ;
+        AnalyseurLexical a = new AnalyseurLexical(new StringReader(texte)) ;
+        String token ;
+        while(!(token=a.next_token().toString()).equals("#0"))
+             System.out.println(token) ;
+        
     }
     
     private void writeMips(Expression e, String filename) throws IOException {

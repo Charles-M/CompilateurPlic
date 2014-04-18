@@ -76,6 +76,8 @@ terminal String CSTE_ENT ;
    specific type.  So it could be an Integer or a String or whatever. */
 
 non terminal Expression EXP, START ;
+non terminal Symbol SYSTEM ;
+non terminal String CLASSE ;
 
 /* truc bizare sur les priorités */
 
@@ -86,6 +88,8 @@ precedence left GT, LT, DOUBLE_EQUAL, DIFF ;
 /* ----------------------------Grammar Section-------------------- */
 /* GRAMMAIRE DE L'ANALYSEUR SYNTAXIQUE
 
+SYSTEME ::= CLASSE
+CLASSE ::= 
 EXP ::= cste_ent | ( EXP ) | - EXP | EXP OPER EXP
 OPER ::= + | - | * | > | < | == | !=
 

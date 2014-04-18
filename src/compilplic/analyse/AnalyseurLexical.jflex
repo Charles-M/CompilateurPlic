@@ -41,9 +41,11 @@ LineTerminator = \r|\n|\r\n
 WhiteSpace = {LineTerminator} | [ \t\f]
 
 div = \/[^\/\*]
-constEnt = {WhiteSpace}*[0-9]+{WhiteSpace}*
-typePrimitif = {WhiteSpace}*"entier"{WhiteSpace}*
-idf = [a-z_][a-zA-Z0-9_]*
+constEnt = [0-9]+
+constChaine = \"(\"\"|[^\"])*\"
+typePrimitif = "entier"
+statut = "publique" | "privee"
+idf = [a-zA-Z][a-zA-Z0-9]*
 operateur = "+" | "-" | "*" | ">" | "<" | "==" | "!=" | "/"
 commentaireLigne = \/\/[^\n]*\n
 commentaireBloc = \/\*([^*]|\*+[^*/])*\*+\/
@@ -52,7 +54,18 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
 
 %%
 
-{WhiteSpace}*   {}
+<YYINITIAL> {WhiteSpace}*   {}
+
+<YYINITIAL> "classe"    {System.out.println("token : " + yytext()) ;}
+<YYINITIAL> "fin"    {System.out.println("token : " + yytext()) ;}
+<YYINITIAL> "lire"    {System.out.println("token : " + yytext()) ;}
+<YYINITIAL> "ecrire"    {System.out.println("token : " + yytext()) ;}
+<YYINITIAL> {statut}    {System.out.println("token : " + yytext()) ;}
+<YYINITIAL> {typePrimitif}    {System.out.println("token : " + yytext()) ;}
+<YYINITIAL> {idf}    {System.out.println("idf : " + yytext()) ;}
+
+<YYINITIAL> "//"		{System.out.println("com ligne " + yytext()) ; yybegin(commentaireLigne) ;}
+<YYINITIAL> "/*"		{System.out.println("com bloc " + yytext()) ; yybegin(commentaireBloc) ;}
 
 <YYINITIAL> {operateur}   { 
     switch(yytext()) {
@@ -76,14 +89,13 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
 }
 
 <YYINITIAL> {constEnt}	{ return symbol(CodesLexicaux.CSTE_ENT, yytext());}
+<YYINITIAL> {constChaine}	{ System.out.println("string "+yytext()) ; /* return symbol(CodesLexicaux.CSTE_ENT, yytext());*/}
 <YYINITIAL> "("		{ return symbol(CodesLexicaux.PARENTH_OUVRANTE);}
 <YYINITIAL> ")"		{ return symbol(CodesLexicaux.PARENTH_FERMANTE);}
-
-<YYINITIAL> "//"		{/*System.out.println("com ligne " + yytext()) ;*/ yybegin(commentaireLigne) ;}
-<YYINITIAL> "/*"		{/*System.out.println("com bloc " + yytext()) ;*/ yybegin(commentaireBloc) ;}
 			
-<commentaireBloc>	"*/"		{yybegin(YYINITIAL) ;}
-<commentaireLigne>	"\n"		{yybegin(YYINITIAL) ;}
+<commentaireBloc>	"*/"		{System.out.println("fin com bloc ") ; yybegin(YYINITIAL) ;}
+<commentaireBloc>	.		{System.out.println("com bloc carac "+yytext()) ;}
+<commentaireLigne>	"\n"		{System.out.println("fin com ligne ") ; yybegin(YYINITIAL) ;}
+<commentaireLigne>	.		{System.out.println("com ligne carac "+yytext()) ;}
 
-<YYINITIAL> \n			{/*System.out.println("retour ligne " + yytext());*/}
-<YYINITIAL> .			{ throw new LexicalException("ERREUR LEXICAL ligne:"+yyline+" colonne:"+yycolumn+" caractere non lu : "+yytext()) ; }
+<YYINITIAL> .			{ System.err.println("ERREUR LEXICAL ligne:"+yyline+" colonne:"+yycolumn+" caractere non lu : "+yytext()) ; }
