@@ -1,1 +1,23 @@
-1 +1 sd*1 <5
+classe Essai
+// La seule et unique classe de Plic1
+b = a + 25 ;
+publique entier a, b ;
+a = 0 ;
+privee entier c1, d2, de ;
+privee entier A, unNomDidentificateurTresLongPourEmbeterLesCompilateursDuLangagePlic1 ;
+ecrire "programme de testnn" ;
+ecrire "nnnn" ;
+ecrire a ; ecrire "nn" ;
+// je calcule des // "expressions"
+A = 0012 ; A = + 0000012 + A ;
+c1 = (a+10) * 12 * (-1) ; f = 5 ;
+d2 = (a*3 - 3 + c1*f) ;
+unNomDidentificateurTresLongPourEmbeterLesCompilateursDuLangagePlic = c1 ;
+ecrire unNomDidentificateurTresLongPourEmbeterLesCompilateursDuLangagePlic ; ecrire "nn" ;
+ecrire "ecriture d’un mot entre guillemets ""bonjour""" ;
+ecrire "nn" ;
+lire f ; lire Essai ;
+publique entier f ;
+Essai = 1 ;
+publique entier Essai, essai ;
+essai = 2*Essai ; fin

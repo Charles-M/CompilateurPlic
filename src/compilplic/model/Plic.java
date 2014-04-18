@@ -76,6 +76,6 @@ public class Plic {
         BufferedReader b = new BufferedReader(new FileReader(f)) ;
         String line = null ;
         while((line= b.readLine()) != null)
-            contenu_fichier.append(line) ;
+            contenu_fichier.append(line+"\n") ;
     }
 }
