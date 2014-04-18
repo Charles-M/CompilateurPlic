@@ -19,7 +19,7 @@ public class Main {
             Plic plic;
             plic = new Plic(args[0]);
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("Usage : plic chemin_fichier_plic");
+            System.err.println("Usage : plic chemin_fichier.plic");
         } catch (IOException e2) {
             System.err.println("IOException dans Main : fichier introuvable.");
         } catch (SemantiqueException e3) {

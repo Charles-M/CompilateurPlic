@@ -42,6 +42,8 @@ public class Plic {
     private void lireFichier(String chemin_ficher) throws FileNotFoundException, IOException {
         contenu_fichier = new StringBuilder() ;
         f = new File(chemin_ficher) ;
+        if(!f.getName().endsWith(".plic"))
+            throw new ArrayIndexOutOfBoundsException() ;
         BufferedReader b = new BufferedReader(new FileReader(f)) ;
         String line = null ;
         while((line= b.readLine()) != null)
