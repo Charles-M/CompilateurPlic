@@ -154,6 +154,18 @@ public final class GenerateurMIPS {
     }
     
     /**
+     * Permet d'ecrire le modulo
+     * @return le code Mips associe
+     */
+    public String ecrireModulo(){
+        String str=ecrireDivision()
+                + "mfhi $v0"
+                + ecrireStocker();
+        
+        return str;
+    }
+    
+    /**
      * Permet d'ecrire une comparaison plus grand que de type "v0 > t8" (avec branchement)
      * @return le code Mips associe
      */
