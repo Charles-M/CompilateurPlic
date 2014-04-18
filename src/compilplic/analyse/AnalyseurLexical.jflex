@@ -98,8 +98,8 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
 <YYINITIAL> ")"		{ return symbol(CodesLexicaux.PARENTH_FERMANTE);}
 			
 <commentaireBloc>	"*/"		{System.out.println("fin com bloc ") ; yybegin(YYINITIAL) ;}
-<commentaireBloc>	.		{System.out.println("com bloc carac "+yytext()) ;}
+<commentaireBloc>	.*		{System.out.println("com bloc contenu : "+yytext()) ;}
 <commentaireLigne>	"\n"		{System.out.println("fin com ligne ") ; yybegin(YYINITIAL) ;}
-<commentaireLigne>	.		{System.out.println("com ligne carac "+yytext()) ;}
+<commentaireLigne>	.*		{System.out.println("com ligne contenu : "+yytext()) ;}
 
 <YYINITIAL> .			{ System.err.println("ERREUR LEXICAL ligne:"+yyline+" colonne:"+yycolumn+" caractere non lu : "+yytext()) ; }
