@@ -46,7 +46,7 @@ constChaine = \"(\"\"|[^\"])*\"
 typePrimitif = "entier"
 statut = "publique" | "privee"
 idf = [a-zA-Z][a-zA-Z0-9]*
-operateur = "+" | "-" | "*" | ">" | "<" | "==" | "!=" | "/"
+operateur = "+" | "-" | "*" | ">" | "<" | "==" | "!=" | "/" | "%"
 commentaireLigne = \/\/[^\n]*\n
 commentaireBloc = \/\*([^*]|\*+[^*/])*\*+\/
 
@@ -79,6 +79,8 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
             return symbol(CodesLexicaux.DIV, yytext());
         case "<" :
             return symbol(CodesLexicaux.LT, yytext());
+        case "%" :
+            return symbol(CodesLexicaux.MOD, yytext());
         case ">" :
             return symbol(CodesLexicaux.GT, yytext());
         case "==" :

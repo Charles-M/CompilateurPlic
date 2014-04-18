@@ -66,7 +66,7 @@ parser code {:
    Terminals that have no value are listed first and then terminals that do have a value , in this 
    case a String value , are listed on the next line down. */
 
-terminal String PLUS, MOINS, MULT, DIV, GT, LT, DOUBLE_EQUAL, DIFF ;
+terminal String PLUS, MOINS, MULT, DIV, MOD, GT, LT, DOUBLE_EQUAL, DIFF ;
 terminal Symbol PARENTH_OUVRANTE, PARENTH_FERMANTE ;
 terminal String CSTE_ENT ;
    
@@ -82,7 +82,7 @@ non terminal String CLASSE ;
 /* truc bizare sur les priorités */
 
 precedence left MOINS,PLUS ;
-precedence left MULT, DIV ;
+precedence left MULT, DIV, MOD ;
 precedence left GT, LT, DOUBLE_EQUAL, DIFF ;
 
 /* ----------------------------Grammar Section-------------------- */
@@ -91,7 +91,7 @@ precedence left GT, LT, DOUBLE_EQUAL, DIFF ;
 SYSTEME ::= CLASSE
 CLASSE ::= 
 EXP ::= cste_ent | ( EXP ) | - EXP | EXP OPER EXP
-OPER ::= + | - | * | > | < | == | !=
+OPER ::= + | - | * | > | < | == | != | / | %
 
 */
 
@@ -129,6 +129,9 @@ EXP	::= CSTE_ENT:i
 
          |  EXP:g DIFF:s EXP:d
          {: RESULT = new NonEqual(g, d, sleft+1, sright+1) ; :}
+
+         |  EXP:g MOD:s EXP:d
+         {: RESULT = new Modulo(g, d, sleft+1, sright+1) ; :}
         ;
 
 /*
