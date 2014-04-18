@@ -66,36 +66,115 @@ parser code {:
    Terminals that have no value are listed first and then terminals that do have a value , in this 
    case a String value , are listed on the next line down. */
 
-terminal String PLUS, MOINS, MULT, DIV, MOD, GT, LT, DOUBLE_EQUAL, DIFF ;
-terminal Symbol PARENTH_OUVRANTE, PARENTH_FERMANTE ;
-terminal String CSTE_ENT ;
+terminal Symbol VIRGULE, PARENTH_OUVRANTE, PARENTH_FERMANTE, POINT_VIRGULE, EQUAL, PLUS, MOINS, MULT, DIV, MOD, GT, LT, DOUBLE_EQUAL, DIFF ;
+terminal String CSTE_ENT, CSTE_CHAINE, IDF, S_FIN, S_CLASSE, S_LIRE, S_ECRIRE, STATUT, TYPE ;
    
 /* Non terminals used in the grammar section.  
    Non terminals that have an object value are listed first and then non terminals that have an 
    integer value are listed.  An object value means that it can be any type , it isn't set to a 
    specific type.  So it could be an Integer or a String or whatever. */
 
-non terminal Expression EXP, START ;
-non terminal Symbol SYSTEM ;
-non terminal String CLASSE ;
+non terminal Expression EXP ;
+non terminal Lexique SYSTEME ;
+non terminal Symbol CLASSE, L_IDF, L_DECLARATION, DECLARATION, DECL_CHAMP, DECL_CONST, L_INSTRUCTION, INSTRUCTION, AFFECT, LIRE, ECRIRE, ACCES ; 
 
 /* truc bizare sur les priorités */
 
 precedence left MOINS,PLUS ;
 precedence left MULT, DIV, MOD ;
 precedence left GT, LT, DOUBLE_EQUAL, DIFF ;
+precedence left S_LIRE, S_ECRIRE, IDF ;
 
 /* ----------------------------Grammar Section-------------------- */
 /* GRAMMAIRE DE L'ANALYSEUR SYNTAXIQUE
 
-SYSTEME ::= CLASSE
-CLASSE ::= 
+    PLIC 1
+SYSTEME         ::= CLASSE
+CLASSE          ::= S_CLASSE IDF L_DECLARATION S_FIN
+L_DECLARATION   ::= DECLARATION L_DECLARATION | DECLARATION
+DECLARATION     ::= DECL_CHAMP | DECL_CONST
+DECL_CHAMP      ::= STATUT TYPE IDF L_IDF POINT_VIRGULE
+DECL_CONST      ::= L_INSTRUCTION
+L_INSTRUCTION   ::= INSTRUCTION L_INSTRUCTION | INSTRUCTION
+INSTRUCTION     ::= AFFECT | LIRE | ECRIRE
+AFFECT          ::= ACCES EQUAL EXP POINT_VIRGULE
+ACCES           ::= IDF
+LIRE            ::= S_LIRE IDF POINT_VIRGULE
+ECRIRE          ::= S_ECRIRE EXP POINT_VIRGULE | S_ECRIRE CSTE_CHAINE POINT_VIRGULE
+
+    PLIC 0
 EXP ::= cste_ent | ( EXP ) | - EXP | EXP OPER EXP
 OPER ::= + | - | * | > | < | == | != | / | %
 
 */
 
-start with EXP ;
+start with SYSTEME ;
+
+SYSTEME         ::= CLASSE
+                {: System.out.println("fin systeme") ; RESULT = lexique ; :}
+                ;
+
+CLASSE          ::= S_CLASSE IDF:i L_DECLARATION S_FIN
+                    {: System.out.println("fin classe de nom "+i) ; :}
+                ;
+
+L_DECLARATION   ::= L_DECLARATION DECLARATION
+                    {: System.out.println("fin l_decl -> l_decl decl") ; :}
+                |
+                    {: System.out.println("fin l_decl -> vide") ; :}
+                ;
+
+DECLARATION     ::= DECL_CHAMP
+                    {: System.out.println("fin decl_champ") ; :}
+                | DECL_CONST
+                    {: System.out.println("fin decl_const") ; :}
+                ;
+
+DECL_CHAMP      ::= STATUT TYPE IDF:i L_IDF POINT_VIRGULE
+                    {: System.out.println("fin decl_champ de premier nom "+i) ; :}
+                ;
+
+L_IDF           ::= VIRGULE IDF:i L_IDF
+                    {: System.out.println("fin l_idf : "+i) ; :}
+                |
+                    {: System.out.println("fin l_idf vide") ; :}
+                ;
+
+DECL_CONST      ::= L_INSTRUCTION
+                    {: System.out.println("fin decl_const") ; :}
+                ;
+
+L_INSTRUCTION   ::= L_INSTRUCTION INSTRUCTION
+                    {: System.out.println("fin l_inst -> l_inst inst") ; :}
+                | INSTRUCTION
+                    {: System.out.println("fin l_inst -> inst") ; :}
+                ;
+
+INSTRUCTION     ::= AFFECT
+                    {: System.out.println("fin inst -> affect") ; :}
+                | LIRE
+                    {: System.out.println("fin inst -> lire") ; :}
+                | ECRIRE
+                    {: System.out.println("fin inst -> ecrire") ; :}
+                ;
+
+AFFECT          ::= ACCES EQUAL EXP:e POINT_VIRGULE
+                    {: System.out.println("fin affect avec expressio "+e) ; :}
+                ;
+
+ACCES           ::= IDF:i
+                    {: System.out.println("fin acces a "+i) ; :}
+                ;
+
+LIRE            ::= S_LIRE IDF:i POINT_VIRGULE
+                    {: System.out.println("lire idf "+i) ; :}
+                ;
+
+ECRIRE          ::= S_ECRIRE EXP:e POINT_VIRGULE
+                    {: System.out.println("fin ecrire exp "+e) ; :}
+                | S_ECRIRE CSTE_CHAINE:c POINT_VIRGULE
+                    {: System.out.println("fin ecrire chaine "+c) ; :}
+                ;
 
 EXP	::= CSTE_ENT:i
 	 {: RESULT = new Nombre(Integer.parseInt(i.trim())) ; :}

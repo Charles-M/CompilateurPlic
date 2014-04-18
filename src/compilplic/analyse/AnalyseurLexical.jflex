@@ -40,7 +40,6 @@ LineTerminator = \r|\n|\r\n
 /* White space is a line terminator, space, tab, or line feed. */
 WhiteSpace = {LineTerminator} | [ \t\f]
 
-div = \/[^\/\*]
 constEnt = [0-9]+
 constChaine = \"(\"\"|[^\"])*\"
 typePrimitif = "entier"
@@ -56,13 +55,16 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
 
 <YYINITIAL> {WhiteSpace}*   {}
 
-<YYINITIAL> "classe"    {System.out.println("token : " + yytext()) ;}
-<YYINITIAL> "fin"    {System.out.println("token : " + yytext()) ;}
-<YYINITIAL> "lire"    {System.out.println("token : " + yytext()) ;}
-<YYINITIAL> "ecrire"    {System.out.println("token : " + yytext()) ;}
-<YYINITIAL> {statut}    {System.out.println("token : " + yytext()) ;}
-<YYINITIAL> {typePrimitif}    {System.out.println("token : " + yytext()) ;}
-<YYINITIAL> {idf}    {System.out.println("idf : " + yytext()) ;}
+<YYINITIAL> "classe"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_CLASSE,yytext()) ;}
+<YYINITIAL> "="    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.EQUAL,yytext()) ;}
+<YYINITIAL> ";"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.POINT_VIRGULE,yytext()) ;}
+<YYINITIAL> ","    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.VIRGULE,yytext()) ;}
+<YYINITIAL> "fin"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_FIN,yytext()) ;}
+<YYINITIAL> "lire"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_LIRE,yytext()) ;}
+<YYINITIAL> "ecrire"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_ECRIRE,yytext()) ;}
+<YYINITIAL> {statut}    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.STATUT,yytext()) ;}
+<YYINITIAL> {typePrimitif}    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.TYPE,yytext()) ;}
+<YYINITIAL> {idf}    {/*System.out.println("idf : " + yytext()) ;*/ return symbol(CodesLexicaux.IDF,yytext()) ;}
 
 <YYINITIAL> "//"		{System.out.println("com ligne " + yytext()) ; yybegin(commentaireLigne) ;}
 <YYINITIAL> "/*"		{System.out.println("com bloc " + yytext()) ; yybegin(commentaireBloc) ;}
@@ -91,7 +93,7 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
 }
 
 <YYINITIAL> {constEnt}	{ return symbol(CodesLexicaux.CSTE_ENT, yytext());}
-<YYINITIAL> {constChaine}	{ System.out.println("string "+yytext()) ; /* return symbol(CodesLexicaux.CSTE_ENT, yytext());*/}
+<YYINITIAL> {constChaine}	{ System.out.println("string "+yytext()) ; return symbol(CodesLexicaux.CSTE_CHAINE, yytext());}
 <YYINITIAL> "("		{ return symbol(CodesLexicaux.PARENTH_OUVRANTE);}
 <YYINITIAL> ")"		{ return symbol(CodesLexicaux.PARENTH_FERMANTE);}
 			
