@@ -2,5 +2,5 @@
 /build/
 /dist/
 /test/
-/test_plic/
 /test_asm/
+/test_plic/

@@ -17,9 +17,13 @@ public class Main {
     public static void main(String[] args) {
         try {
             Plic plic;
-            plic = new Plic(args[0]);
+            System.out.println("args : "+args.length);
+            if(args.length==1)
+                plic = new Plic(args[0]);
+            else
+                plic = new Plic(args[0],args[1]);
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("Usage : plic chemin_fichier.plic");
+            System.err.println("Usage : L'extension du fichier source doit etre .plic");
         } catch (IOException e2) {
             System.err.println("IOException dans Main : fichier introuvable.");
         } catch (SemantiqueException e3) {
@@ -27,6 +31,7 @@ public class Main {
         } catch (LexicalException e4) {
             System.err.println(e4.getMessage()) ;
         } catch (Exception e5) {
+            e5.printStackTrace();
             System.err.println("ERREUR SYNTAXIQUE : "+e5.getMessage()) ;
         }
     }
