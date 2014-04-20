@@ -1,4 +1,5 @@
 package compilplic.lexique;
+import compilplic.lexique.expression.Expression;
 
 
 /**
@@ -7,7 +8,7 @@ package compilplic.lexique;
  * @generated
  */
 
-public abstract class Instruction
+public class Ecrire extends Instruction
 {
 	/**
 	 * <!-- begin-user-doc -->
@@ -16,28 +17,16 @@ public abstract class Instruction
 	 * @ordered
 	 */
 	
-	public D_Const d_Const;
+	public Expression expression;
 	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
 	 */
-	public Instruction(){
+	public Ecrire(){
 		super();
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public String ecrireMips() {
-		// TODO : to implement
-		return "";	
-	}
-	
 }
 

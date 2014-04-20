@@ -1,7 +1,5 @@
 package compilplic.lexique;
 
-import java.util.Set;
-
 
 /**
  * <!-- begin-user-doc -->
@@ -9,7 +7,7 @@ import java.util.Set;
  * @generated
  */
 
-public class Lexique
+public class D_Champ extends Declaration
 {
 	/**
 	 * <!-- begin-user-doc -->
@@ -18,7 +16,7 @@ public class Lexique
 	 * @ordered
 	 */
 	
-	protected Set<Bloc> liste_bloc;
+	private boolean statut;
 	
 	/**
 	 * <!-- begin-user-doc -->
@@ -27,28 +25,16 @@ public class Lexique
 	 * @ordered
 	 */
 	
-	public Set<Bloc> bloc;
+	private String type;
 	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
 	 */
-	public Lexique(){
+	public D_Champ(){
 		super();
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public String ecrireMips() {
-		// TODO : to implement
-		return "";	
-	}
-	
 }
 

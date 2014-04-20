@@ -1,4 +1,5 @@
 package compilplic.lexique;
+import java.util.Set;
 
 
 /**
@@ -7,7 +8,7 @@ package compilplic.lexique;
  * @generated
  */
 
-public abstract class Instruction
+public class D_Const extends Declaration
 {
 	/**
 	 * <!-- begin-user-doc -->
@@ -16,28 +17,16 @@ public abstract class Instruction
 	 * @ordered
 	 */
 	
-	public D_Const d_Const;
+	public Set<Instruction> instruction;
 	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
 	 */
-	public Instruction(){
+	public D_Const(){
 		super();
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public String ecrireMips() {
-		// TODO : to implement
-		return "";	
-	}
-	
 }
 

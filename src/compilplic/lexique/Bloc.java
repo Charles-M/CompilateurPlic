@@ -1,5 +1,4 @@
 package compilplic.lexique;
-
 import java.util.Set;
 
 
@@ -9,7 +8,7 @@ import java.util.Set;
  * @generated
  */
 
-public class Lexique
+public class Bloc
 {
 	/**
 	 * <!-- begin-user-doc -->
@@ -18,7 +17,7 @@ public class Lexique
 	 * @ordered
 	 */
 	
-	protected Set<Bloc> liste_bloc;
+	protected String idf;
 	
 	/**
 	 * <!-- begin-user-doc -->
@@ -27,14 +26,23 @@ public class Lexique
 	 * @ordered
 	 */
 	
-	public Set<Bloc> bloc;
+	public Lexique lexique;
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!--  end-user-doc  -->
+	 * @generated
+	 * @ordered
+	 */
+	
+	public Set<Declaration> declaration;
 	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->
 	 * @generated
 	 */
-	public Lexique(){
+	public Bloc(){
 		super();
 	}
 

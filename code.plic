@@ -9,7 +9,7 @@ ecrire "programme de testnn" ;
 ecrire "nnnn" ;
 ecrire a ; ecrire "nn" ;
 // je calcule des // "expressions"
-A = 0012 ; A = + 0000012 + A ;
+A = 0012 ; // A = + 0000012 + A ;
 c1 = (a+10) * 12 * (-1) ; f = 5 ;
 d2 = (a*3 - 3 + c1*f) ;
 unNomDidentificateurTresLongPourEmbeterLesCompilateursDuLangagePlic = c1 ;
