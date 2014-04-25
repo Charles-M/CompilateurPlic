@@ -10,23 +10,16 @@ import compilplic.lexique.expression.Expression;
 
 public class Affectation extends Instruction
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
 	
 	public Expression expression;
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public Affectation(){
-		super();
-	}
+        
 
+    @Override
+    public String toString() {
+        return super.toString()+" expr="+expression ; //To change body of generated methods, choose Tools | Templates.
+    }
+
+        
 }
 

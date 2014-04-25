@@ -28,5 +28,12 @@ public class Ecrire extends Instruction
 		super();
 	}
 
+    @Override
+    public String toString() {
+        return super.toString()+" expr="+expression; //To change body of generated methods, choose Tools | Templates.
+    }
+        
+        
+
 }
 

@@ -1,6 +1,6 @@
 package compilplic.lexique;
 
-import java.util.Set;
+import java.util.ArrayList;
 
 
 /**
@@ -9,46 +9,36 @@ import java.util.Set;
  * @generated
  */
 
-public class Lexique
-{
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
+public class Lexique {
 	
-	protected Set<Bloc> liste_bloc;
+	protected ArrayList<Bloc> liste_bloc ;
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public Set<Bloc> bloc;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
 	public Lexique(){
-		super();
+		liste_bloc = new ArrayList<>() ;
 	}
+        
+        public void ajouterBloc(Bloc b) {
+            liste_bloc.add(b) ;
+        }
+    
+        
+        public void ajouterDecl(int i, Declaration d) {
+            liste_bloc.get(i).ajouterDecl(d) ;
+        }
+    
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
 	public String ecrireMips() {
 		// TODO : to implement
 		return "";	
 	}
+
+    @Override
+    public String toString() {
+        return "Lexique{" + "liste_bloc=" + liste_bloc + '}';
+    }
+
+        
+        
 	
 }
 

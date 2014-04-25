@@ -9,14 +9,17 @@ package compilplic.lexique;
 
 public class Classe extends Bloc
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public Classe(){
-		super();
-	}
+
+    public Classe(String idf) {
+        super(idf);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString(); //To change body of generated methods, choose Tools | Templates.
+    }
+        
+        
 
 }
 

@@ -1,5 +1,6 @@
 package compilplic.lexique;
-import java.util.Set;
+
+import java.util.ArrayList;
 
 
 /**
@@ -10,23 +11,20 @@ import java.util.Set;
 
 public class D_Const extends Declaration
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
 	
-	public Set<Instruction> instruction;
+	public ArrayList<Instruction> instruction;
+
+    public D_Const(String idf, int line) {
+        super(idf, line);
+        instruction = new ArrayList<>() ;
+    }
+
+    @Override
+    public String toString() {
+        return "D_Const{" + "instruction=" + instruction + '}';
+    }
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public D_Const(){
-		super();
-	}
+        
 
 }
 

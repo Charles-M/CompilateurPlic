@@ -35,15 +35,13 @@ public abstract class Declaration
 	 */
 	
 	public Bloc bloc;
+
+    public Declaration(String idf, int line) {
+        this.idf = idf;
+        this.line = line;
+    }
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public Declaration(){
-		super();
-	}
+	
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -56,6 +54,13 @@ public abstract class Declaration
 		// TODO : to implement
 		return "";	
 	}
+
+    @Override
+    public String toString() {
+        return "Declaration{" + "idf=" + idf + ", line=" + line + '}';
+    }
+        
+        
 	
 }
 

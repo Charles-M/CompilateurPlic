@@ -9,35 +9,22 @@ package compilplic.lexique;
 
 public abstract class Instruction
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public D_Const d_Const;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
 	public Instruction(){
 		super();
 	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
 	
 	public String ecrireMips() {
 		// TODO : to implement
 		return "";	
 	}
+
+    @Override
+    public String toString() {
+        return "Instruction{" + '}';
+    }
+
+        
+        
 	
 }
 

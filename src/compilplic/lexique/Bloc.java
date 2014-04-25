@@ -1,62 +1,36 @@
 package compilplic.lexique;
-import java.util.Set;
+
+import java.util.ArrayList;
 
 
-/**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
- */
 
-public class Bloc
-{
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	protected String idf;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public Lexique lexique;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public Set<Declaration> declaration;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public Bloc(){
-		super();
-	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public String ecrireMips() {
-		// TODO : to implement
-		return "";	
-	}
-	
+public class Bloc {
+    
+    protected String idf;
+    public Lexique lexique;
+    public ArrayList<Declaration> declaration;
+
+    public Bloc(String idf) {
+        this.idf = idf;
+        declaration = new ArrayList<>() ;
+    }
+
+    
+    public String ecrireMips() {
+            // TODO : to implement
+            return "";	
+    }
+
+    void ajouterDecl(Declaration d) {
+        declaration.add(d) ;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString()+" idf="+idf+" l_decl="+declaration; //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }
 
