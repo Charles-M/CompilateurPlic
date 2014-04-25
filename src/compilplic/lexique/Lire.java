@@ -9,19 +9,17 @@ package compilplic.lexique;
 
 public class Lire extends Instruction
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public Lire(){
-		super();
-	}
+	private String value ;
 
-        @Override
-        public String toString() {
-            return super.toString() ; //To change body of generated methods, choose Tools | Templates.
-        }
+    public Lire(String value, int line) {
+        super(line);
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "Lire{" + "value=" + value + '}';
+    }
         
         
 

@@ -10,10 +10,15 @@ import compilplic.lexique.expression.Expression;
 
 public class Affectation extends Instruction
 {
-	
-	public Expression expression;
-	
-        
+    private String var ;
+    private Expression expression;
+
+    public Affectation(String var, Expression expression, int line) {
+        super(line);
+        this.var = var;
+        this.expression = expression;
+    }
+
 
     @Override
     public String toString() {

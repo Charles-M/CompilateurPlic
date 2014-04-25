@@ -9,9 +9,13 @@ package compilplic.lexique;
 
 public abstract class Instruction
 {
-	public Instruction(){
-		super();
-	}
+    
+    protected int line ;
+
+    public Instruction(int line) {
+        this.line = line;
+    }
+    
 	
 	public String ecrireMips() {
 		// TODO : to implement

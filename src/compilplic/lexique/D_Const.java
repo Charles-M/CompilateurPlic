@@ -14,9 +14,9 @@ public class D_Const extends Declaration
 	
 	public ArrayList<Instruction> instruction;
 
-    public D_Const(String idf, int line) {
+    public D_Const(String idf, int line, ArrayList<Instruction> l) {
         super(idf, line);
-        instruction = new ArrayList<>() ;
+        instruction = l ;
     }
 
     @Override

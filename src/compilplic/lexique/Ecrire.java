@@ -1,5 +1,4 @@
 package compilplic.lexique;
-import compilplic.lexique.expression.Expression;
 
 
 /**
@@ -17,20 +16,16 @@ public class Ecrire extends Instruction
 	 * @ordered
 	 */
 	
-	public Expression expression;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public Ecrire(){
-		super();
-	}
+	public Object value;
+
+    public Ecrire(Object value, int line) {
+        super(line);
+        this.value = value;
+    }
 
     @Override
     public String toString() {
-        return super.toString()+" expr="+expression; //To change body of generated methods, choose Tools | Templates.
+        return super.toString()+" expr="+value; //To change body of generated methods, choose Tools | Templates.
     }
         
         
