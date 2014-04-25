@@ -31,7 +31,6 @@ public class Test {
         Lexique l = (Lexique) s.parse().value ;
         System.out.println("lexique = \n"+l);
         System.out.println("FINI !");
-                
     }
     
     private void writeMips(Expression e, String filename) throws IOException {

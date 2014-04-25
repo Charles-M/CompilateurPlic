@@ -185,7 +185,7 @@ LIRE            ::= S_LIRE IDF:i POINT_VIRGULE
 ECRIRE          ::= S_ECRIRE EXP:e POINT_VIRGULE
                     {: System.out.println("fin ecrire exp "+e) ; RESULT = new Ecrire(e, eleft+1) ; :}
                 | S_ECRIRE CSTE_CHAINE:c POINT_VIRGULE
-                    {: System.out.println("fin ecrire chaine "+c) ; RESULT = new Ecrire(c, cleft+1) ; :}
+                    {: System.out.println("fin ecrire chaine "+c.replaceAll("\\\\n","\n").replaceAll("\"\"", "\"")) ; RESULT = new Ecrire(c, cleft+1) ; :}
                 ;
 
 EXP	::= CSTE_ENT:i
