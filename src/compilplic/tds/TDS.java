@@ -12,6 +12,13 @@ import java.util.HashMap;
  */
 public class TDS {
     
+    private static TDS instance ;
+    public static TDS getInstance() {
+        if(instance == null)
+            instance = new TDS() ;
+        return instance ;
+    }
+    
     private HashMap<Region,HashMap<Entree,String>> listeBloc ;
     private int num_bloc, num_imbrication ;
     
@@ -20,7 +27,7 @@ public class TDS {
      */
     private Region actuelle;
 
-    public TDS() {
+    private TDS() {
         num_bloc = num_imbrication = 0 ;
         listeBloc = new HashMap<>() ;
     }
@@ -115,7 +122,10 @@ public class TDS {
     public void setNum_imbrication(int num_imbrication) {
         this.num_imbrication = num_imbrication;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "TDS{" + "listeBloc=" + listeBloc + ", num_bloc=" + num_bloc + ", num_imbrication=" + num_imbrication + ", actuelle=" + actuelle + '}';
+    }
     
 }

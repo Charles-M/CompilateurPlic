@@ -2,12 +2,15 @@ package compilplic.analyse ;
 
 import java_cup.runtime.*;
 import compilplic.lexique.* ;
+import compilplic.tds.* ;
 import compilplic.lexique.expression.* ;
 import java.util.* ;
 
-action code {: private Lexique lexique = new Lexique() ;
+action code {:  private Lexique lexique = new Lexique() ;
                 private Instruction inst ;
                 private int bloc_courant = 0 ;
+                private TDS tds = TDS.getInstance() ;
+
 	    :} ;
    
 /* Parser code to change the way the parser reports errors (include
@@ -17,6 +20,7 @@ parser code {:
     /* Change the method report_error so it will display the line and column of where the error
        occurred in the input as well as the reason for the error which is passed into the method
        in the String 'message'. */
+
     public void report_error(String message , Object info) {
    
         /* Create a StringBuffer called 'm' with the string 'Error' in it. */
@@ -120,7 +124,7 @@ SYSTEME         ::= CLASSE
                 {: System.out.println("fin systeme") ; RESULT = lexique ; :}
                 ;
 
-CLASSE          ::= S_CLASSE IDF:i {: lexique.ajouterBloc(new Classe(i)) ; :} L_DECLARATION S_FIN
+CLASSE          ::= S_CLASSE IDF:i {: lexique.ajouterBloc(new Classe(i)) ; tds.entreeBloc() ; :} L_DECLARATION S_FIN
                     {: System.out.println("fin classe de nom "+i) ; :}
                 ;
 
@@ -139,7 +143,11 @@ DECLARATION     ::= DECL_CHAMP
 DECL_CHAMP      ::= STATUT:s TYPE:t IDF:i L_IDF:l POINT_VIRGULE
                     {: System.out.println("fin decl_champ de premier nom "+i) ;
                        lexique.ajouterDecl(bloc_courant, new D_Champ(i,ileft+1,s,t)) ;
-                       for(String idf : l) lexique.ajouterDecl(bloc_courant, new D_Champ(idf,ileft+1,s,t)) ; :}
+                       tds.ajouter(new Entree(t), i) ;
+                       for(String idf : l) {
+                        lexique.ajouterDecl(bloc_courant, new D_Champ(idf,ileft+1,s,t)) ;
+                        tds.ajouter(new Entree(t), idf) ;
+                       }:}
                 ;
 
 L_IDF           ::= VIRGULE IDF:i L_IDF:l

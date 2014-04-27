@@ -8,6 +8,7 @@ import compilplic.analyse.AnalyseurLexical;
 import compilplic.analyse.AnalyseurSyntaxique;
 import compilplic.lexique.Lexique;
 import compilplic.lexique.expression.Expression;
+import compilplic.tds.TDS;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,7 +30,9 @@ public class Test {
         String texte = lireFichier(args[0]) ;
         AnalyseurSyntaxique s = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(texte))) ;
         Lexique l = (Lexique) s.parse().value ;
+        TDS tds = TDS.getInstance() ;
         System.out.println("lexique = \n"+l);
+        System.out.println("tds = \n"+tds);
         System.out.println("FINI !");
     }
     

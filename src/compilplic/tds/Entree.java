@@ -8,7 +8,7 @@ package compilplic.tds;
  * Represente une entree de la TDS
  * @author ASUS
  */
-class Entree {
+public class Entree {
     
     private String nom ;
 
