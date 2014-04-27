@@ -46,6 +46,10 @@ public final class GenerateurMIPS {
         return str;
     }
     
+    /**
+     * Permet de charger le dernier element de la pile dans le registre v0
+     * @return le code Mips associé
+     */
     public String ecrireChargeV0(){
         return "add $sp, $sp, 4\n"
                + "lw $v0, ($sp)\n";
@@ -73,8 +77,13 @@ public final class GenerateurMIPS {
                 + "add $sp, $sp, -4\n";
     }
     
-    public String ecrireChargeEntier(int i){
-        return "li $v0,"+i+"\n";
+    /**
+     * Permet de charger un entier dans le registre v0
+     * @param i l'entier à charger
+     * @return le code Mips associe
+     */
+    public String ecrireChargeEntier(int type){
+        return "li $v0,"+type+"\n";
     }
     
     public String ecrireBranchContinue(int hash){
@@ -83,6 +92,17 @@ public final class GenerateurMIPS {
     
     public String ecrireContinue(int hash){
         return "\ncontinue"+hash+":\n";
+    }
+    
+    /**
+     * Permet d'ecrire le Syscall
+     * @param type le type de fonction a appeler
+     * @return le Mips associe 
+     */
+    public String ecrireSysCall(int type){
+        return ecrireChargeEntier(type)
+              + "lw $a0,($sp)\n" //A verifier ça depend comment on le pense
+              +"syscall\n\n";
     }
     
     /**
@@ -298,4 +318,37 @@ public final class GenerateurMIPS {
         
         return str;
     }
+    
+    /**
+     * Permet d'afficher un entier
+     * @return le code Mips associe
+     */
+    public String ecrireEntier(){
+        return ecrireSysCall(1);
+    }
+    
+    /**
+     * Permet d'afficher une chaine de caractere
+     * @return le code Mips associe
+     */
+    public String ecrireString(){
+        return ecrireSysCall(4);
+    }
+
+    /**
+     * Permet de lire un entier
+     * @return le code Mips associe
+     */
+    public String lireEntier(){
+        return ecrireSysCall(5);
+    }
+    
+    /**
+     * Permet de lire une chaine de caracteres
+     * @return le code Mips associe
+     */
+    public String lireString(){
+        return ecrireSysCall(6);
+    }
+    
 }

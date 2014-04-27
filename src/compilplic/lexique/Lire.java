@@ -1,5 +1,7 @@
 package compilplic.lexique;
 
+import compilplic.generateur.GenerateurMIPS;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -17,6 +19,18 @@ public class Lire extends Instruction
 	public Lire(){
 		super();
 	}
+
+    @Override
+    public String ecrireMips() {
+        String str = GenerateurMIPS.getInstance().lireEntier();
+        
+        return str;
+    }
+
+    @Override
+    public boolean verifier() {
+        return true;
+    }
 
 }
 

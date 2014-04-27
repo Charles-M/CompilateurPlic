@@ -33,11 +33,8 @@ public abstract class Instruction
 	 * @generated
 	 * @ordered
 	 */
+	public abstract String ecrireMips() ;
 	
-	public String ecrireMips() {
-		// TODO : to implement
-		return "";	
-	}
-	
+        public abstract boolean verifier() throws Exception ;
 }
 

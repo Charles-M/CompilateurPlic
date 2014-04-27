@@ -1,4 +1,5 @@
 package compilplic.lexique;
+import compilplic.generateur.GenerateurMIPS;
 import compilplic.lexique.expression.Expression;
 
 
@@ -27,6 +28,19 @@ public class Ecrire extends Instruction
 	public Ecrire(){
 		super();
 	}
+
+    @Override
+    public String ecrireMips() {
+        String str = GenerateurMIPS.getInstance().ecrireEntier();
+        
+        return str;
+    }
+
+    @Override
+    public boolean verifier() throws Exception {
+        expression.verifier();
+        return true;
+    }
 
 }
 

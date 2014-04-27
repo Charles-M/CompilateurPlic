@@ -54,7 +54,7 @@ public abstract class Declaration
 	
 	public String ecrireMips() {
 		// TODO : to implement
-		return "";	
+		return "";
 	}
 	
 }
