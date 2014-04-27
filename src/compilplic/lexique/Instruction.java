@@ -9,24 +9,27 @@ package compilplic.lexique;
 
 public abstract class Instruction
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
+    
+    protected int line ;
+
+    public Instruction(int line) {
+        this.line = line;
+    }
+    
 	
-	public D_Const d_Const;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public Instruction(){
-		super();
+	public String ecrireMips() {
+		// TODO : to implement
+		return "";	
 	}
 
+    @Override
+    public String toString() {
+        return "Instruction{" + '}';
+    }
+
+        
+        
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!--  end-user-doc  -->

@@ -11,14 +11,19 @@ import compilplic.generateur.GenerateurMIPS;
 
 public class Lire extends Instruction
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public Lire(){
-		super();
-	}
+	private String value ;
+
+    public Lire(String value, int line) {
+        super(line);
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "Lire{" + "value=" + value + '}';
+    }
+        
+        
 
     @Override
     public String ecrireMips() {

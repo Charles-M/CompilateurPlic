@@ -6,6 +6,7 @@ package compilplic;
 
 import compilplic.analyse.AnalyseurLexical;
 import compilplic.analyse.AnalyseurSyntaxique;
+import compilplic.lexique.Lexique;
 import compilplic.lexique.expression.Expression;
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,7 +28,8 @@ public class Test {
     public Test(String [] args) throws IOException, Exception {
         String texte = lireFichier(args[0]) ;
         AnalyseurSyntaxique s = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(texte))) ;
-        s.parse() ;
+        Lexique l = (Lexique) s.parse().value ;
+        System.out.println("lexique = \n"+l);
         System.out.println("FINI !");
     }
     
