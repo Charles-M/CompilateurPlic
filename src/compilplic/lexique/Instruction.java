@@ -15,29 +15,20 @@ public abstract class Instruction
     public Instruction(int line) {
         this.line = line;
     }
-    
-	
-	public String ecrireMips() {
-		// TODO : to implement
-		return "";	
-	}
 
     @Override
     public String toString() {
         return "Instruction{" + '}';
     }
 
-        
-        
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	public abstract String ecrireMips() ;
-	
-        public abstract boolean verifier() throws Exception ;
+    /**
+     * <!-- begin-user-doc -->
+     * <!--  end-user-doc  -->
+     * @generated
+     * @ordered
+     */
+    public abstract String ecrireMips() ;
+
+    public abstract boolean verifier() throws Exception ;
 }
 

@@ -1,5 +1,8 @@
 package compilplic.lexique;
 
+import compilplic.generateur.GenerateurMIPS;
+import compilplic.lexique.expression.Expression;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -39,7 +42,7 @@ public class Ecrire extends Instruction
 
     @Override
     public boolean verifier() throws Exception {
-        expression.verifier();
+        ((Expression) value).verifier();
         return true;
     }
 
