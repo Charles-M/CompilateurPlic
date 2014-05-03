@@ -13,23 +13,11 @@ import java.io.PrintStream;
 public final class GenerateurMIPS {
     
     private static GenerateurMIPS instance ;
-    private static PrintStream f; // peut etre pas utile, a discuter
-     // j'ai mis n'imp, a reflechir, %s est parametrable avec un printf ;)
-    private String affectation = "lw $v0, (%s)$sp\n ... " ;
-    private String bloc_if = "if%s evaluation expression, banchement etc..." ;
     
     public static GenerateurMIPS getInstance(){
         if(instance == null)
             instance = new GenerateurMIPS() ;
         return instance ;
-    }
-    
-    public String ecrireAffectation(String deplacementVariable){
-        // si on demande au generateur d'ecrire le .mips
-        f.printf(affectation, deplacementVariable);
-        // si on fait ecrire le fichier par une classe qui appel ces string
-        String format = String.format(affectation, deplacementVariable);
-        return format ;
     }
     
     /**
@@ -39,11 +27,10 @@ public final class GenerateurMIPS {
      */
     public String ecrireNombre(int i){
         //Empile le nombre (Attention, pas de gestion du 32bit)
-        String str="li $v0, "+i+"\n"
+        return 
+                "li $v0, "+i+"\n"
                 +  "sw $v0, ($sp)\n"
                 +  "add $sp, $sp, -4\n";
-        
-        return str;
     }
     
     /**
@@ -94,6 +81,10 @@ public final class GenerateurMIPS {
         return "\ncontinue"+hash+":\n";
     }
     
+    public String ecrireBloc(String s){
+        return "\n"+s+":\n";
+    }
+    
     /**
      * Permet d'ecrire le Syscall
      * @param type le type de fonction a appeler
@@ -111,8 +102,9 @@ public final class GenerateurMIPS {
      */
     public String ecrireSomme(){
         //Exemple sans les méthodes ci-dessus
-        //Chargement de l'opérande droite
-        String str="add $sp, $sp, 4\n"
+        return 
+                //Chargement de l'opérande droite
+                "add $sp, $sp, 4\n"
                 + "lw $v0, ($sp)\n"
                 //Chargement de l'opérande gauche
                 + "add $sp, $sp, 4\n"
@@ -121,8 +113,6 @@ public final class GenerateurMIPS {
                 + "add $v0, $t8, $v0\n"
                 + "sw $v0, ($sp)\n"
                 + "add $sp, $sp, -4\n";
-        
-        return str;
     }
     
     /**
@@ -130,15 +120,12 @@ public final class GenerateurMIPS {
      * @return le code Mips associe
      */
     public String ecrireSoustraction(){
-        
-        //Chargement de l'opérande droite
-        String str=ecrireChargeOperandes()
+        return 
+                ecrireChargeOperandes()
                 //Soustraction des deux (dans v0)
                 + "sub $v0, $t8, $v0\n"
                 //Stockage dans la pile
                 + ecrireStocker();
-        
-        return str;
     }
     
     /**
@@ -146,15 +133,12 @@ public final class GenerateurMIPS {
      * @return le code Mips associe
      */
     public String ecrireMultiplication(){
-        
-        //Chargement de l'opérande droite
-        String str=ecrireChargeOperandes()
+        return 
+                ecrireChargeOperandes()
                 //Multiplication des deux (dans v0)
                 + "mul $v0, $t8, $v0\n"
                 //Stockage dans la pile
                 + ecrireStocker();
-        
-        return str;
     }
     
     /**
@@ -162,15 +146,12 @@ public final class GenerateurMIPS {
      * @return le code Mips associe
      */
     public String ecrireDivision(){
-        
-        //Chargement de l'opérande droite
-        String str=ecrireChargeOperandes()
+        return 
+                ecrireChargeOperandes()
                 //Division des deux (dans v0)
                 + "div $v0, $t8, $v0\n"
                 //Stockage dans la pile
                 + ecrireStocker();
-        
-        return str;
     }
     
     /**
@@ -178,11 +159,11 @@ public final class GenerateurMIPS {
      * @return le code Mips associe
      */
     public String ecrireModulo(){
-        String str=ecrireDivision()
+        return  
+                ecrireDivision()
                 + "mfhi $v0"
                 + ecrireStocker();
-        
-        return str;
+
     }
     
     /**
@@ -190,7 +171,7 @@ public final class GenerateurMIPS {
      * @return le code Mips associe
      */
     public String ecrireGreaterThan(int hash){
-        String str = 
+        return  
                 ecrireChargeOperandes()
                 + "bgt $t8, $v0, greater"+hash+"\n"
                 + ecrireChargeEntier(0)
@@ -199,8 +180,7 @@ public final class GenerateurMIPS {
                 + ecrireChargeEntier(1)
                 + ecrireContinue(hash)
                 + ecrireStocker();
-        
-        return str;
+
     }
     
     /**
@@ -208,7 +188,7 @@ public final class GenerateurMIPS {
      * @return le code Mips associe
      */
     public String ecrireLowerThan(int hash){
-        String str = 
+        return 
                 ecrireChargeOperandes()
                 + "blt $t8, $v0, lower"+hash+"\n"
                 + ecrireChargeEntier(0)
@@ -217,8 +197,6 @@ public final class GenerateurMIPS {
                 + ecrireChargeEntier(1)
                 + ecrireContinue(hash)
                 + ecrireStocker();
-        
-        return str;
     }
     
     /**
@@ -227,7 +205,7 @@ public final class GenerateurMIPS {
      * @return le code Mips associe
      */
     public String ecrireEqual(int hash){
-        String str = 
+        return 
                 ecrireChargeOperandes()
                 + "beq $t8, $v0, equal"+hash+"\n"
                 + ecrireChargeEntier(0)
@@ -236,8 +214,7 @@ public final class GenerateurMIPS {
                 + ecrireChargeEntier(1)
                 + ecrireContinue(hash)
                 + ecrireStocker();
-        
-        return str;
+
     }
 
     /**
@@ -246,7 +223,7 @@ public final class GenerateurMIPS {
      * @return le code Mips associe
      */
     public String ecrireNonEqual(int hash){
-        String str = 
+        return 
                 ecrireChargeOperandes()
                 + "bne $t8, $v0, non_equal"+hash+"\n"
                 + ecrireChargeEntier(0)
@@ -255,8 +232,7 @@ public final class GenerateurMIPS {
                 + ecrireChargeEntier(1)
                 + ecrireContinue(hash)
                 + ecrireStocker();
-        
-        return str;
+ 
     }
     
     /**
@@ -265,7 +241,7 @@ public final class GenerateurMIPS {
      * @return 
      */
     public String ecrireOR(int hash){
-        String str =
+        return 
                 ecrireSomme()
                 + ecrireChargeV0()
                 + "bgt $v0, 0, OR"+hash+"\n"
@@ -275,8 +251,7 @@ public final class GenerateurMIPS {
                 + ecrireChargeEntier(1)
                 + ecrireContinue(hash)
                 + ecrireStocker();
-        
-        return str;
+
     }
     
     /**
@@ -285,7 +260,7 @@ public final class GenerateurMIPS {
      * @return 
      */
     public String ecrireXOR(int hash){
-        String str =
+        return 
                 ecrireSoustraction()
                 + ecrireChargeV0()
                 + "beq $v0, 0, XOR"+hash+"\n"
@@ -296,7 +271,6 @@ public final class GenerateurMIPS {
                 + ecrireContinue(hash)
                 + ecrireStocker();
         
-        return str;
     }
     
     /**
@@ -305,7 +279,7 @@ public final class GenerateurMIPS {
      * @return 
      */
     public String ecrireAND(int hash){
-        String str =
+        return 
                 ecrireMultiplication()
                 + ecrireChargeV0()
                 + "bgt $v0, 0, AND"+hash+"\n"
@@ -315,8 +289,7 @@ public final class GenerateurMIPS {
                 + ecrireChargeEntier(1)
                 + ecrireContinue(hash)
                 + ecrireStocker();
-        
-        return str;
+
     }
     
     /**
@@ -351,4 +324,44 @@ public final class GenerateurMIPS {
         return ecrireSysCall(6);
     }
     
+    public String ecrireAjouterChamp(){
+        return 
+                ecrireChargeEntier(0)
+                + ecrireStocker();
+    }
+    
+    /**
+     * Permet de transferer la reference des variables de la pile dans $t7
+     * @return le code Mips associe
+     */
+    public String ecrireTransfertPileRegistre(){
+        return "lw $t7,$sp";
+    }
+    
+    /**
+     * Permet d'ecrire une affectation
+     * @return le code Mips associe
+     */
+    public String ecrireAffectation(int deplacement){
+        return 
+                "lw $v0,($sp)"
+                + "sw $v0,"+deplacement+"($t7)";
+    }
+    
+    public String ecrireIdentificateur(int deplacement) {
+        return
+                "lw $v0,"+deplacement+"($t7)\n"
+                + "sw $v0, ($sp)\n"
+                + "add $sp, $sp, -4\n";
+    }
+    
+    public String ecrireBloc(int adr, int chainage_dyn, int region){
+        return 
+                ecrireChargeEntier(adr)
+                + ecrireStocker()
+                + ecrireChargeEntier(chainage_dyn)
+                + ecrireStocker()
+                + ecrireChargeEntier(region)
+                + ecrireStocker();
+    }
 }

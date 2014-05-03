@@ -1,7 +1,12 @@
 package compilplic.lexique;
 
+import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
 import compilplic.lexique.expression.Expression;
+import compilplic.lexique.expression.Identificateur;
+import compilplic.lexique.expression.Nombre;
+import compilplic.tds.Entree;
+import compilplic.tds.TDS;
 
 
 /**
@@ -42,7 +47,18 @@ public class Ecrire extends Instruction
 
     @Override
     public boolean verifier() throws Exception {
-        ((Expression) value).verifier();
+        System.out.println("Verif Ecrire\n");
+        //Dans le cas où il y aurait d'autres methodes verifier pouvant retourner false
+        /*if(value instanceof Identificateur){
+            if(!((Identificateur) value).verifier())
+                throw new SemantiqueException("La declaration de la variable "+((Identificateur) value).getNom()+" a la ligne "+line+" est manquante");
+        }els
+            ((Expression) value).verifier();*/
+        
+        //Pour le moment seule la methode verifier d'un identificateur peut retourner false
+        if(!((Expression) value).verifier())
+            throw new SemantiqueException("La declaration de la variable "+((Identificateur) value).getNom()+" a la ligne "+line+" est manquante");
+        
         return true;
     }
 

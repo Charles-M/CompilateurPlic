@@ -6,6 +6,11 @@
 
 package compilplic.lexique.expression;
 
+import compilplic.exception.SemantiqueException;
+import compilplic.generateur.GenerateurMIPS;
+import compilplic.tds.Entree;
+import compilplic.tds.Symbole;
+import compilplic.tds.TDS;
 import java.util.Iterator;
 
 /**
@@ -51,12 +56,19 @@ public class Identificateur extends Expression{
 
     @Override
     public boolean verifier() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TDS tds = TDS.getInstance();
+        Symbole decl = tds.identifier(new Entree(getNom()));
+        if(decl==null)
+            return false;
+        
+        return true;
     }
 
     @Override
     public String ecrireMips() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TDS tds = TDS.getInstance();
+        Symbole decl = tds.identifier(new Entree(getNom()));
+        return GenerateurMIPS.getInstance().ecrireIdentificateur(/*tds.getDeplacement()+*/decl.getDeplacement());
     }
 
     @Override

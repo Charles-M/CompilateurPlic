@@ -1,5 +1,6 @@
 package compilplic.lexique.expression;
 
+import compilplic.exception.SemantiqueException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -86,6 +87,23 @@ public abstract class Binaire extends Expression {
         s += droite.ecrireDot() ;
         s += this + "->" + gauche + "\n" + this + "->" + droite +"\n"; 
         return s ;
+    }
+    
+    @Override
+    public boolean verifier() throws Exception {
+        if(gauche instanceof Identificateur){
+            if(!gauche.verifier())
+                throw new SemantiqueException("La declaration de la variable "+((Identificateur) gauche).getNom()+" a la ligne "+line+" est manquante");
+        }else
+            gauche.verifier();
+        
+        if(droite instanceof Identificateur){
+           if(!droite.verifier())
+               throw new SemantiqueException("La declaration de la variable "+((Identificateur) droite).getNom()+" a la ligne "+line+" est manquante");
+        }else
+            droite.verifier();
+        
+        return true;
     }
     
 }

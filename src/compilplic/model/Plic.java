@@ -6,6 +6,7 @@ package compilplic.model;
 
 import compilplic.analyse.AnalyseurLexical;
 import compilplic.analyse.AnalyseurSyntaxique;
+import compilplic.lexique.Lexique;
 import compilplic.lexique.expression.Expression;
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,18 +28,18 @@ public class Plic {
     public Plic(String chemin_fichier) throws IOException, Exception {
         lireFichier(chemin_fichier) ;
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(contenu_fichier.toString())));
-        Expression e = (Expression)as.parse().value ;
-        e.verifier();
+        Lexique l = (Lexique)as.parse().value ;
+        l.verifier();
         f_dest = new File(f.getAbsolutePath().replaceAll("\\.plic", ".asm"));
-        writeMips(e);
+        writeMips(l);
         System.out.println("COMPILATION OK");
     }
 
     public Plic(String chemin_fichier, String chemin_dest) throws IOException, Exception {
         lireFichier(chemin_fichier) ;
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(contenu_fichier.toString())));
-        Expression e = (Expression)as.parse().value ;
-        e.verifier();
+        Lexique l = (Lexique)as.parse().value ;
+        l.verifier();
         //Initialisation pour savoir s'il s'agit d'un fichier ou d'un dossier
         f_dest=new File(chemin_dest);
         
@@ -49,20 +50,20 @@ public class Plic {
         //Si le nom du fichier fini par / ou \ (Windows), il s'agit d'un repertoire
         if(f_dest.getAbsolutePath().endsWith("[/\\]")){
             f_dest = new File(chemin_dest+f.getName().replaceAll("\\.plic", ".asm"));
-            writeMips(e);
+            writeMips(l);
         }else{
             //S'il s'agit d'un repertoire
             if(f_dest.isDirectory()){
                 f_dest = new File(chemin_dest+"/"+f.getName().replaceAll("\\.plic", ".asm"));
-                writeMips(e);
+                writeMips(l);
             }else
-                writeMips(e);
+                writeMips(l);
         }
         System.out.println("COMPILATION OK");
     }
     
-    private void writeMips(Expression e) throws IOException {
-        String s = e.ecrireMips() ;
+    private void writeMips(Lexique l) throws IOException {
+        String s = l.ecrireMips() ;
         PrintWriter mips = new PrintWriter(f_dest) ;
         mips.printf(s);
         mips.close();

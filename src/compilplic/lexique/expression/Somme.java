@@ -31,8 +31,7 @@ public class Somme extends Binaire {
 
     @Override
     public boolean verifier() throws Exception {
-        gauche.verifier();
-        droite.verifier();
+        super.verifier();
         if(gauche.isBoolean()){
             setBoolean();
             if(!droite.isBoolean()) throw new SemantiqueException("Expression droite arithmetique, booleenne attendue pour le OU ligne:"+line+" colonne:"+col);

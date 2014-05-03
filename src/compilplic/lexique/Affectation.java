@@ -1,5 +1,11 @@
 package compilplic.lexique;
+import compilplic.exception.SemantiqueException;
+import compilplic.generateur.GenerateurMIPS;
 import compilplic.lexique.expression.Expression;
+import compilplic.lexique.expression.Identificateur;
+import compilplic.tds.Entree;
+import compilplic.tds.Symbole;
+import compilplic.tds.TDS;
 
 
 /**
@@ -12,7 +18,7 @@ public class Affectation extends Instruction
 {
     private String var ;
     private Expression expression;
-
+    
     public Affectation(String var, Expression expression, int line) {
         super(line);
         this.var = var;
@@ -27,14 +33,24 @@ public class Affectation extends Instruction
 
     @Override
     public boolean verifier() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Verif Affectation\n");
+         TDS tds = TDS.getInstance();
+        Symbole s = tds.identifier(new Entree(var));
+        if(s==null)
+            throw new SemantiqueException("La declaration de la variable "+var+" a la ligne "+line+" est manquante");
+        
+        if(!expression.verifier())
+            throw new SemantiqueException("La declaration de la variable "+((Identificateur) expression).getNom()+" a la ligne "+line+" est manquante");
+        return true;
     }
 
     @Override
     public String ecrireMips() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TDS tds = TDS.getInstance();
+        Symbole s = tds.identifier(new Entree(var));
+        return expression.ecrireMips()+
+                GenerateurMIPS.getInstance().ecrireAffectation(s.getDeplacement());
     }
 
-        
 }
 

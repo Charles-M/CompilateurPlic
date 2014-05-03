@@ -28,8 +28,7 @@ public class Soustraction extends Binaire {
 
     @Override
     public boolean verifier() throws Exception {
-        gauche.verifier();
-        droite.verifier();
+        super.verifier();
         if(gauche.isBoolean()){
             setBoolean();
             if(!droite.isBoolean()) throw new Exception("Expression droite arithmetique, booleenne attendue pour le XOR ligne:"+line+" colonne:"+col);

@@ -1,5 +1,7 @@
 package compilplic.lexique;
 
+import compilplic.exception.SemantiqueException;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -34,33 +36,21 @@ public abstract class Declaration
 	 * @ordered
 	 */
 	
-	public Bloc bloc;
+	public Bloc_IDF bloc;
 
     public Declaration(String idf, int line) {
         this.idf = idf;
         this.line = line;
     }
-	
-	
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public String ecrireMips() {
-		// TODO : to implement
-		return "";
-	}
 
     @Override
     public String toString() {
         return "Declaration{" + "idf=" + idf + ", line=" + line + '}';
     }
         
-        
+    public abstract boolean verifier() throws SemantiqueException;
+    
+    public abstract String ecrireMips();
 	
 }
 

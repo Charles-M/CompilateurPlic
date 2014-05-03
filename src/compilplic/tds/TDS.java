@@ -19,24 +19,26 @@ public class TDS {
         return instance ;
     }
     
-    private HashMap<Region,HashMap<Entree,String>> listeBloc ;
+    private HashMap<Region,HashMap<Entree,Symbole>> listeBloc ;
     private int num_bloc, num_imbrication ;
-    
+    private int deplacement;
+
     /**
-     * Region actuelle (actuelle des regions qu'elle peut contenir)
+     * Region region_actuelle (region_actuelle des regions qu'elle peut contenir)
      */
-    private Region actuelle;
+    private Region region_actuelle;
 
     private TDS() {
         num_bloc = num_imbrication = 0 ;
         listeBloc = new HashMap<>() ;
+        deplacement=0;
     }
     
     public void ajouter(Entree e,String s) throws DoubleDeclarationException {
-        if(listeBloc.get(actuelle).containsKey(e))
+        if(listeBloc.get(region_actuelle).containsKey(e))
             throw new DoubleDeclarationException(e,s);
         else
-            listeBloc.get(actuelle).put(e, s);
+            listeBloc.get(region_actuelle).put(e, new Symbole(s,deplacement=deplacement+4));
     }
     
     /**
@@ -44,10 +46,10 @@ public class TDS {
      * @param e l'entree que l'on veut identifier
      * @return le symbole de l'entrée si elle existe, null sinon
      */
-    public String identifier(Entree e){
+    public Symbole identifier(Entree e){
         
         //Recherche de l'entrée
-        Region r = new Region(num_bloc, num_imbrication, actuelle.getParent());
+        Region r = new Region(num_bloc, num_imbrication, region_actuelle.getParent());
         r=parcoursRegion(r, e);
         if(r!=null)
             return listeBloc.get(r).get(e);
@@ -75,7 +77,7 @@ public class TDS {
         /*
         On a un prob, il faut mémoriser le bloc et la profondeur pour savoir où on en est dans la liste des blocs
         le numero de bloc ferait parcourir toute la liste avec une arraylist
-        Autre hic, et là je sais pas trop comment le représenter, j'ai mis une region actuelle qui correspond à la region 
+        Autre hic, et là je sais pas trop comment le représenter, j'ai mis une region region_actuelle qui correspond à la region 
         au dessus dans la profondeur. A voir s'il y a pas mieux.
         On verra si ça va comme ça ou si y a plus simple
         */
@@ -86,24 +88,24 @@ public class TDS {
     public void entreeBloc(){
         num_bloc++ ;
         num_imbrication++ ;
-        Region r = new Region(num_bloc,num_imbrication,actuelle);
-        listeBloc.put(r,new HashMap<Entree, String>());
-        //La region actuelle est la nouvelle region dans laquelle on vient d'entrer
-        this.actuelle=r;
+        Region r = new Region(num_bloc,num_imbrication,region_actuelle);
+        listeBloc.put(r,new HashMap<Entree, Symbole>());
+        //La region region_actuelle est la nouvelle region dans laquelle on vient d'entrer
+        this.region_actuelle=r;
         
     }
     
     public void sortieBloc() {
         num_imbrication-- ;
-        //on sort du bloc donc la region actuelle redevient la region parent (au dessus dans la profondeur)
-        actuelle=actuelle.getParent();
+        //on sort du bloc donc la region region_actuelle redevient la region parent (au dessus dans la profondeur)
+        region_actuelle=region_actuelle.getParent();
     }
 
-    public HashMap<Region, HashMap<Entree, String>> getListeBloc() {
+    public HashMap<Region, HashMap<Entree, Symbole>> getListeBloc() {
         return listeBloc;
     }
 
-    public void setListeBloc(HashMap<Region, HashMap<Entree, String>> listeBloc) {
+    public void setListeBloc(HashMap<Region, HashMap<Entree, Symbole>> listeBloc) {
         this.listeBloc = listeBloc;
     }
 
@@ -125,7 +127,10 @@ public class TDS {
 
     @Override
     public String toString() {
-        return "TDS{" + "listeBloc=" + listeBloc + ", num_bloc=" + num_bloc + ", num_imbrication=" + num_imbrication + ", actuelle=" + actuelle + '}';
+        return "TDS{" + "listeBloc=" + listeBloc + ", num_bloc=" + num_bloc + ", num_imbrication=" + num_imbrication + ", actuelle=" + region_actuelle + '}';
     }
-    
+
+    public int getDeplacement() {
+        return deplacement;
+    }
 }

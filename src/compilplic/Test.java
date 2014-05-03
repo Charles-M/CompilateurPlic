@@ -33,6 +33,7 @@ public class Test {
         TDS tds = TDS.getInstance() ;
         System.out.println("lexique = \n"+l);
         System.out.println("tds = \n"+tds);
+        boolean b = l.verifier();
         System.out.println("FINI !");
     }
     

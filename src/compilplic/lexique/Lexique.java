@@ -17,7 +17,7 @@ public class Lexique {
 		liste_bloc = new ArrayList<>() ;
 	}
         
-        public void ajouterBloc(Bloc b) {
+        public void ajouterBloc(Bloc_IDF b) {
             liste_bloc.add(b) ;
         }
     
@@ -25,11 +25,21 @@ public class Lexique {
         public void ajouterDecl(int i, Declaration d) {
             liste_bloc.get(i).ajouterDecl(d) ;
         }
-    
+
+        public boolean verifier() throws Exception {
+            System.out.println("Verif Lexique\n");
+            for(Bloc b : liste_bloc)
+                b.verifier();
+            
+            return true;
+        }
 
 	public String ecrireMips() {
-		// TODO : to implement
-		return "";	
+            String str = "";
+            for(Bloc b : liste_bloc)
+                str+=b.ecrireMips();
+            
+            return str;
 	}
 
     @Override

@@ -24,7 +24,7 @@ public class LowerThan extends Binaire {
     @Override
     public boolean verifier() throws Exception {
         
-        return gauche.verifier() && droite.verifier();
+        return super.verifier();
         
     }
 

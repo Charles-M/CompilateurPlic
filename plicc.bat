@@ -21,11 +21,20 @@ goto usage
 echo Error destination file or directory was not found
 goto usage
 
+:error_param
+echo Error need at least one argument
+goto usage
+
 :usage
+echo.
 echo Script usage : plicc sourcefile [destinationfile]
+echo.
+echo destinationfile : if not given, source filename is used with ".asm" extension
+echo.
 goto end
 
 :debut
+if "%1"=="" goto error_param
 set chemin_src=%~dp0%1
 echo.
 echo Source File :
@@ -38,7 +47,7 @@ set chemin_dest=%~dp0%2
 echo.
 echo Destination File :
 echo %chemin_dest%
-rem if not exist %chemin_dest% goto error_dest
+if not exist %chemin_dest% goto error_dest
 
 :launch
 echo.

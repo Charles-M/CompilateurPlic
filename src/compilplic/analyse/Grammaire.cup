@@ -143,10 +143,10 @@ DECLARATION     ::= DECL_CHAMP
 DECL_CHAMP      ::= STATUT:s TYPE:t IDF:i L_IDF:l POINT_VIRGULE
                     {: System.out.println("fin decl_champ de premier nom "+i) ;
                        lexique.ajouterDecl(bloc_courant, new D_Champ(i,ileft+1,s,t)) ;
-                       tds.ajouter(new Entree(t), i) ;
+                       tds.ajouter(new Entree(i), t) ;
                        for(String idf : l) {
                         lexique.ajouterDecl(bloc_courant, new D_Champ(idf,ileft+1,s,t)) ;
-                        tds.ajouter(new Entree(t), idf) ;
+                        tds.ajouter(new Entree(idf), t) ;
                        }:}
                 ;
 
