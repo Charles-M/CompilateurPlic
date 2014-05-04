@@ -4,9 +4,6 @@ import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
 import compilplic.lexique.expression.Expression;
 import compilplic.lexique.expression.Identificateur;
-import compilplic.lexique.expression.Nombre;
-import compilplic.tds.Entree;
-import compilplic.tds.TDS;
 
 
 /**

@@ -2,7 +2,6 @@ package compilplic.lexique;
 
 import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
-import compilplic.lexique.expression.Identificateur;
 import compilplic.tds.Entree;
 import compilplic.tds.Symbole;
 import compilplic.tds.TDS;
@@ -40,7 +39,7 @@ public class Lire extends Instruction
     public boolean verifier() throws SemantiqueException {
         System.out.println("Verif Lire\n");
         TDS tds = TDS.getInstance();
-        Symbole s = tds.identifier(new Entree(value));
+        Symbole s = tds.identifier(new Entree(value, line));
         if(s==null){
             throw new SemantiqueException("La declaration de la variable "+value+" a la ligne "+/*line+*/" est manquante");
         }
