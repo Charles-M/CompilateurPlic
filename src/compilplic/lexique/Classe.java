@@ -35,6 +35,7 @@ public class Classe extends Bloc_IDF
     @Override
     public String ecrireMips(){
         String str=GenerateurMIPS.getInstance().ecrireBloc("Class_"+idf);
+        str+=super.ecrireMips();
         return str;
     }
 

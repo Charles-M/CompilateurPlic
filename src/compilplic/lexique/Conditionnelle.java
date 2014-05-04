@@ -32,7 +32,9 @@ public class Conditionnelle extends Bloc
         super.verifier();
         if(!expression.verifier())
             throw new SemantiqueException("La declaration de la variable "+((Identificateur) expression).getNom()+" a la ligne "+/*line+*/" est manquante");
-                
+        if(!expression.isBoolean())
+            throw new SemantiqueException("Expression entiere trouvee a la ligne "/*+line*/+", expression booleenne attendue");
+        
         for(Instruction i : instructions){
             i.verifier();
         }

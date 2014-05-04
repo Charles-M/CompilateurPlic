@@ -70,7 +70,7 @@ public class TDS {
         //Si on est là, l'entrée n'existe PAS dans cette region
         
         //Si la region est la dernière region (variables globales) l'entrée n'existe pas dans la TDS
-        if(region.getProfondeur()==0 || region.getBloc()==0)
+        if(region.getProfondeur()==0 || region.getBloc()==0 || region.getParent()==null)
             return null;
         
         //On cherche par récurence dans les régions supérieures

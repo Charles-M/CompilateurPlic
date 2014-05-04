@@ -59,6 +59,8 @@ public class Identificateur extends Expression{
         TDS tds = TDS.getInstance();
         Symbole decl = tds.identifier(new Entree(getNom()));
         if(decl==null)
+            System.err.println("VERIF Declaration de "+this.nom+" introuvable");
+        if(decl==null)
             return false;
         
         return true;
@@ -68,6 +70,8 @@ public class Identificateur extends Expression{
     public String ecrireMips() {
         TDS tds = TDS.getInstance();
         Symbole decl = tds.identifier(new Entree(getNom()));
+        if(decl==null)
+            System.err.println("MIPS Declaration de "+this.nom+" introuvable");
         return GenerateurMIPS.getInstance().ecrireIdentificateur(/*tds.getDeplacement()+*/decl.getDeplacement());
     }
 

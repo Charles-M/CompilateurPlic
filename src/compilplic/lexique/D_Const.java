@@ -39,7 +39,7 @@ public class D_Const extends Declaration
 
     @Override
     public String ecrireMips() {
-        String str = GenerateurMIPS.getInstance().ecrireBloc(idf);
+        String str = GenerateurMIPS.getInstance().ecrireBloc("Constructeur_"+idf);
         for(Instruction i : instruction){
             str += i.ecrireMips();
         }

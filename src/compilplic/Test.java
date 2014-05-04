@@ -34,6 +34,8 @@ public class Test {
         System.out.println("lexique = \n"+l);
         System.out.println("tds = \n"+tds);
         boolean b = l.verifier();
+        String mips = l.ecrireMips();
+        System.out.println(mips);
         System.out.println("FINI !");
     }
     

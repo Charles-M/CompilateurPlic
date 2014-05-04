@@ -14,7 +14,7 @@ public class Lexique {
 	protected ArrayList<Bloc> liste_bloc ;
 	
 	public Lexique(){
-		liste_bloc = new ArrayList<>() ;
+            liste_bloc = new ArrayList<>() ;
 	}
         
         public void ajouterBloc(Bloc_IDF b) {
