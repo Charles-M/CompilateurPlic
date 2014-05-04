@@ -2,8 +2,6 @@ package compilplic.lexique;
 
 import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
-import compilplic.tds.Entree;
-import compilplic.tds.TDS;
 import java.util.ArrayList;
 
 

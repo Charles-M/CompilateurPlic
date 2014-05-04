@@ -6,7 +6,6 @@
 
 package compilplic.lexique.expression;
 
-import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
 import compilplic.tds.Entree;
 import compilplic.tds.Symbole;
@@ -57,7 +56,7 @@ public class Identificateur extends Expression{
     @Override
     public boolean verifier() throws Exception {
         TDS tds = TDS.getInstance();
-        Symbole decl = tds.identifier(new Entree(getNom()));
+        Symbole decl = tds.identifier(new Entree(getNom(), 0));
         if(decl==null)
             return false;
         
@@ -67,7 +66,7 @@ public class Identificateur extends Expression{
     @Override
     public String ecrireMips() {
         TDS tds = TDS.getInstance();
-        Symbole decl = tds.identifier(new Entree(getNom()));
+        Symbole decl = tds.identifier(new Entree(getNom(), 0));
         return GenerateurMIPS.getInstance().ecrireIdentificateur(/*tds.getDeplacement()+*/decl.getDeplacement());
     }
 
