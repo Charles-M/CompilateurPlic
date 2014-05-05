@@ -27,7 +27,6 @@ public class Classe extends Bloc_IDF
     
     @Override
     public boolean verifier() throws Exception{
-        System.out.println("Verif Classe\n");
         super.verifier();
         return true;
     }

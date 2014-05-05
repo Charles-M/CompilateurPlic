@@ -32,7 +32,6 @@ public class D_Champ extends Declaration
 
     @Override
     public boolean verifier() throws SemantiqueException {
-        System.out.println("Verif champ\n");
         /*TDS tds = TDS.getInstance();
         String type = tds.identifier(idf);
         if(type==null)

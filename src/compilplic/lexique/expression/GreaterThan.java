@@ -4,6 +4,7 @@
  */
 package compilplic.lexique.expression;
 
+import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
 
 /**
@@ -29,7 +30,7 @@ public class GreaterThan extends Binaire {
     }
 
     @Override
-    public boolean verifier() throws Exception {
+    public boolean verifier() throws SemantiqueException {
         
         return super.verifier();
         

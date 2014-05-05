@@ -30,7 +30,7 @@ public class Somme extends Binaire {
     }
 
     @Override
-    public boolean verifier() throws Exception {
+    public boolean verifier() throws SemantiqueException {
         super.verifier();
         if(gauche.isBoolean()){
             setBoolean();

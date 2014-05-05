@@ -26,7 +26,7 @@ public class Modulo extends Binaire {
     }
 
     @Override
-    public boolean verifier() throws Exception {
+    public boolean verifier() throws SemantiqueException {
         super.verifier();
         if(gauche.isBoolean())
             throw new SemantiqueException("Expression gauche du modulo est booléenne, arithmétique attendue ligne:"+line+" colonne:"+col);

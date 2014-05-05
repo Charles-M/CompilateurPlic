@@ -6,6 +6,7 @@
 
 package compilplic.lexique.expression;
 
+import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
 import compilplic.tds.Entree;
 import compilplic.tds.Symbole;
@@ -53,10 +54,14 @@ public class Identificateur extends Expression{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public String toString(){
+        return nom;
+    }
+
     @Override
-    public boolean verifier() throws Exception {
+    public boolean verifier() throws SemantiqueException {
         TDS tds = TDS.getInstance();
-        Symbole decl = tds.identifier(new Entree(getNom(), 0));
+        Symbole decl = tds.identifier(new Entree(getNom()));
         if(decl==null)
             System.err.println("VERIF Declaration de "+this.nom+" introuvable");
         if(decl==null)
@@ -68,11 +73,9 @@ public class Identificateur extends Expression{
     @Override
     public String ecrireMips() {
         TDS tds = TDS.getInstance();
-        Symbole decl = tds.identifier(new Entree(getNom(), 0));
-        if(decl==null)
-            System.err.println("MIPS Declaration de "+this.nom+" introuvable");
-
-        return GenerateurMIPS.getInstance().ecrireIdentificateur(/*tds.getDeplacement()+*/decl.getDeplacement());
+        Symbole decl = tds.identifier(new Entree(getNom()));
+        
+        return GenerateurMIPS.getInstance().ecrireIdentificateur(/*tds.getDeplacement()+*/decl.getDeplacement(),decl.isGlobal());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package compilplic.lexique;
 
+import compilplic.generateur.GenerateurMIPS;
 import java.util.ArrayList;
 
 
@@ -27,7 +28,6 @@ public class Lexique {
         }
 
         public boolean verifier() throws Exception {
-            System.out.println("Verif Lexique\n");
             for(Bloc b : liste_bloc)
                 b.verifier();
             
@@ -36,6 +36,7 @@ public class Lexique {
 
 	public String ecrireMips() {
             String str = "";
+            str+=GenerateurMIPS.getInstance().ecrireInitialisation();
             for(Bloc b : liste_bloc)
                 str+=b.ecrireMips();
             

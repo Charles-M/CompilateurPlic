@@ -31,15 +31,17 @@ public class Lire extends Instruction
 
     @Override
     public String ecrireMips() {
-        String str = GenerateurMIPS.getInstance().lireEntier();
+        TDS tds = TDS.getInstance();
+        Symbole s = tds.identifier(new Entree(value));
+
+        String str = GenerateurMIPS.getInstance().lireEntier(s.getDeplacement(),s.isGlobal());
         return str;
     }
 
     @Override
     public boolean verifier() throws SemantiqueException {
-        System.out.println("Verif Lire\n");
         TDS tds = TDS.getInstance();
-        Symbole s = tds.identifier(new Entree(value, line));
+        Symbole s = tds.identifier(new Entree(value));
         if(s==null){
             throw new SemantiqueException("La declaration de la variable "+value+" a la ligne "+/*line+*/" est manquante");
         }

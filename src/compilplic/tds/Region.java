@@ -72,7 +72,7 @@ public class Region {
         Region r = (Region) o;
         
         //Pas besoin de verifier le parent, en théorie tout ça suffit
-        return (this.bloc==r.bloc && this.profondeur==r.profondeur);
+        return (this.bloc==r.bloc /*&& this.profondeur==r.profondeur*/);
     }
 
     @Override

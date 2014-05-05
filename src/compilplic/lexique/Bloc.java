@@ -40,7 +40,6 @@ public class Bloc {
     }
     
     public String ecrireMips() {
-        System.out.println("Verif Bloc\n");
         String str = "";   
         for(Declaration d : declaration){
             str += d.ecrireMips();

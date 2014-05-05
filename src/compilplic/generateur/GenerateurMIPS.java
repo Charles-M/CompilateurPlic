@@ -13,6 +13,7 @@ import java.io.PrintStream;
 public final class GenerateurMIPS {
     
     private static GenerateurMIPS instance ;
+    private static int nbstr=0;
     
     public static GenerateurMIPS getInstance(){
         if(instance == null)
@@ -60,8 +61,27 @@ public final class GenerateurMIPS {
      */
     public String ecrireStocker(){
         //Stockage dans la pile
-        return "sw $v0, ($sp)\n"
+        return  "sw $v0, ($sp)\n"
                 + "add $sp, $sp, -4\n";
+    }
+    
+    public String ecrireStockerT8(){
+        return  "sw $t8, ($sp)\n"
+                + "add $sp, $sp, -4\n";
+    }
+    
+    public String ecrireStockerGlobal(int deplacement){
+        return "sw $v0,"+deplacement+"($s7)\n";
+    }
+    
+    /**
+     * Permet de transferer la reference des variables de la pile dans $t7
+     * @return le code Mips associe
+     */
+    public String ecrireInitialisation(){
+        return 
+                "la $t7,($sp)\n"
+                + "la $s7,($gp)\n";
     }
     
     /**
@@ -83,17 +103,6 @@ public final class GenerateurMIPS {
     
     public String ecrireBloc(String s){
         return "\n"+s+":\n";
-    }
-    
-    /**
-     * Permet d'ecrire le Syscall
-     * @param type le type de fonction a appeler
-     * @return le Mips associe 
-     */
-    public String ecrireSysCall(int type){
-        return ecrireChargeEntier(type)
-              + "lw $a0,($sp)\n" //A verifier ça depend comment on le pense
-              +"syscall\n\n";
     }
     
     /**
@@ -297,64 +306,125 @@ public final class GenerateurMIPS {
      * @return le code Mips associe
      */
     public String ecrireEntier(){
-        return ecrireSysCall(1);
+        return 
+                "lw $t8,($sp)\n"
+                + ecrireChargeEntier(1)
+                + "add $a0,$t8,$zero\n"
+                + "syscall\n\n";
     }
     
     /**
      * Permet d'afficher une chaine de caractere
+     * @param value la chaine de caracteres a afficher
      * @return le code Mips associe
      */
-    public String ecrireString(){
-        return ecrireSysCall(4);
+    public String ecrireString(String value){
+        nbstr++;
+        return 
+                ".data\n"
+                + "str"+nbstr+": .asciiz \""+value+"\"\n"
+                + ".text\n"
+                + ecrireChargeEntier(4)
+                + "la $a0,str"+nbstr+"\n"
+                + "syscall\n\n";
     }
 
     /**
      * Permet de lire un entier
      * @return le code Mips associe
      */
-    public String lireEntier(){
-        return ecrireSysCall(5);
+    public String lireEntier(int deplacement, boolean global){
+        return 
+                ecrireChargeEntier(5)
+                //+ "la $a0,($t8)\n"
+                + "syscall\n\n"
+                + "sw $a0,($sp)\n"
+                + "add $sp,$sp,-4\n"
+                + ecrireStockerIdentificateur(deplacement, global);
     }
     
     /**
-     * Permet de lire une chaine de caracteres
+     * Permet de lire une chaine de caracteres (pas encore a implementer
      * @return le code Mips associe
      */
-    public String lireString(){
-        return ecrireSysCall(6);
+    public String lireString(String value){
+        return  
+                ecrireChargeEntier(8)
+                + "la $a0,str"+value.hashCode()+"\n" //A verifier ça depend comment on le pense
+                + "syscall\n\n";
     }
     
+    /**
+     * Permet d'ajouter une variable global
+     * @return le code Mips associe
+     */
+    public String ecrireAjouterVarGlobale(){
+        return  "sw $v0, ($gp)\n"
+                + "add $gp, $gp, -4\n";
+    }
+    
+    /**
+     * Permet d'ajouter un champ
+     * @return le code Mips associe
+     */
     public String ecrireAjouterChamp(){
         return 
                 ecrireChargeEntier(0)
-                + ecrireStocker();
-    }
-    
-    /**
-     * Permet de transferer la reference des variables de la pile dans $t7
-     * @return le code Mips associe
-     */
-    public String ecrireTransfertPileRegistre(){
-        return "lw $t7,$sp";
+                + ecrireAjouterVarGlobale();
     }
     
     /**
      * Permet d'ecrire une affectation
+     * @param deplacement deplacement de la variable affectee
+     * @param global true si la variable est global false sinon
      * @return le code Mips associe
      */
-    public String ecrireAffectation(int deplacement){
+    public String ecrireAffectation(int deplacement, boolean global){
+        if(global)
+            return 
+                "lw $v0,($sp)\n"
+                + "sw $v0,"+deplacement+"($s7)\n";
+        
         return 
-                "lw $v0,($sp)"
-                + "sw $v0,"+deplacement+"($t7)";
+                "lw $v0,($sp)\n"
+                + "sw $v0,"+deplacement+"($t7)\n";
     }
     
-    public String ecrireIdentificateur(int deplacement) {
+    /**
+     * Permet de recuperer la valeur d'une variable
+     * @param deplacement deplacement de la variable
+     * @param global true si la variable est global false sinon
+     * @return le code Mips associe
+     */
+    public String ecrireIdentificateur(int deplacement, boolean global) {
+        if(global)
+            return
+                "lw $v0,"+deplacement+"($s7)\n"
+                + ecrireStocker();
+        
         return
                 "lw $v0,"+deplacement+"($t7)\n"
-                + "sw $v0, ($sp)\n"
-                + "add $sp, $sp, -4\n";
+                + ecrireStocker();
     }
     
+    public String ecrireStockerIdentificateur(int deplacement, boolean global){
+        if(global)
+            return
+                ecrireChargeV0()
+                + "sw $v0,"+deplacement+"($s7)\n";
+        
+        return
+                ecrireChargeV0()
+                + "sw $v0,"+deplacement+"($t7)\n";
+    }
+    
+    /**
+     * Permet d'ajouter un bloc a la pile
+     * @param adr l'adresse de retour
+     * @param chainage_dyn le chainage dynamique
+     * @param region la region (entier) du bloc (numero de bloc)
+     * @return le code Mips associe
+     */
     public String ecrireBloc(int adr, int chainage_dyn, int region){
         return 
                 ecrireChargeEntier(adr)

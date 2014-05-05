@@ -5,6 +5,7 @@
 package compilplic.tds;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 /**
  * La fameuse table des symboles, a faire avec le cours
@@ -37,8 +38,12 @@ public class TDS {
     public void ajouter(Entree e,String s) throws DoubleDeclarationException {
         if(listeBloc.get(region_actuelle).containsKey(e))
             throw new DoubleDeclarationException(e,s);
-        else
-            listeBloc.get(region_actuelle).put(e, new Symbole(s,deplacement=deplacement+4));
+        else{
+            Symbole sym = new Symbole(s,deplacement=deplacement+4);
+            if(region_actuelle.getBloc()==1)
+                sym.setGlobal(true);
+            listeBloc.get(region_actuelle).put(e, sym);
+        }
     }
     
     /**
@@ -47,9 +52,12 @@ public class TDS {
      * @return le symbole de l'entrée si elle existe, null sinon
      */
     public Symbole identifier(Entree e){
-        
+        Region r = new Region(1,1,null);
         //Recherche de l'entrée
-        Region r = new Region(num_bloc, num_imbrication, region_actuelle.getParent());
+        if(listeBloc.get(r).containsKey(e))
+            return listeBloc.get(r).get(e);
+        
+        r = region_actuelle; /*new Region(num_bloc, num_imbrication, region_actuelle.getParent());*/
         r=parcoursRegion(r, e);
         if(r!=null)
             return listeBloc.get(r).get(e);
@@ -70,7 +78,8 @@ public class TDS {
         //Si on est là, l'entrée n'existe PAS dans cette region
         
         //Si la region est la dernière region (variables globales) l'entrée n'existe pas dans la TDS
-        if(region.getProfondeur()==0 || region.getBloc()==0 || region.getParent()==null)
+        //Normalement une seule de ces conditions suffit
+        if(region.getProfondeur()==2)
             return null;
         
         //On cherche par récurence dans les régions supérieures
@@ -127,7 +136,22 @@ public class TDS {
 
     @Override
     public String toString() {
-        return "TDS{" + "listeBloc=" + listeBloc + ", num_bloc=" + num_bloc + ", num_imbrication=" + num_imbrication + ", actuelle=" + region_actuelle + '}';
+        //return "TDS{" + "listeBloc=" + listeBloc + ", num_bloc=" + num_bloc + ", num_imbrication=" + num_imbrication + ", actuelle=" + region_actuelle + '}';
+        String str="";
+        Region r;
+        Entree e;
+        Symbole s;
+        for(Entry ent : listeBloc.entrySet()){
+            r=(Region) ent.getKey();
+            str+="Region "+r.getBloc()+" "+r.getProfondeur()+"\n";
+            for(Entry entry : listeBloc.get((Region) r).entrySet()){
+                e = (Entree) entry.getKey();
+                s = (Symbole) entry.getValue();
+                str+="\t"+e.getNom()+"->"+s.toString()+"\n";
+            }
+            str+="\n";
+        }
+        return str;
     }
 
     public int getDeplacement() {

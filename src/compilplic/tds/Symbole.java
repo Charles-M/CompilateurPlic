@@ -14,10 +14,12 @@ public class Symbole {
     
     private String type;
     private int deplacement;
+    private boolean global;
     
     public Symbole(String t,int d){
         type=t;
         deplacement=d;
+        global=false;
     }
 
     public String getType() {
@@ -34,6 +36,18 @@ public class Symbole {
 
     public void setDeplacement(int deplacement) {
         this.deplacement = deplacement;
+    }
+    
+    public String toString(){
+        return "("+type+";"+deplacement+")";
+    }
+
+    public boolean isGlobal() {
+        return global;
+    }
+
+    public void setGlobal(boolean global) {
+        this.global = global;
     }
     
 }

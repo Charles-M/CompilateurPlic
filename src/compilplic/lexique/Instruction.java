@@ -1,5 +1,7 @@
 package compilplic.lexique;
 
+import compilplic.exception.SemantiqueException;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -29,6 +31,6 @@ public abstract class Instruction
      */
     public abstract String ecrireMips() ;
 
-    public abstract boolean verifier() throws Exception ;
+    public abstract boolean verifier() throws SemantiqueException ;
 }
 

@@ -23,7 +23,7 @@ if not exist %java_path% goto error_java
 goto debut
 
 :error_jdk
-echo Error java.exe location not found, please fill it :
+echo Error javac.exe location not found, please fill it :
 set /P jdk_path=JDK Path ?
 goto test_jdk
 

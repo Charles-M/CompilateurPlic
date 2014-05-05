@@ -1,5 +1,6 @@
 package compilplic.lexique.expression;
 
+import compilplic.exception.SemantiqueException;
 import java.io.Serializable;
 import java.util.Iterator;
 
@@ -15,7 +16,7 @@ public abstract class Expression implements Iterable<Nombre> , Serializable {
          * Execute l'analyse semantique
          * @return true si la semantique est bonne (j'aimerai bien savoir qui c'est :p), false sinon
          */
-        public abstract boolean verifier() throws Exception;
+        public abstract boolean verifier() throws SemantiqueException;
         
         /**
          * Permet de generer le code Mips

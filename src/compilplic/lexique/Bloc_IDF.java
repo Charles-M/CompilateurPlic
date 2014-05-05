@@ -24,7 +24,6 @@ public class Bloc_IDF extends Bloc {
     
     @Override
     public boolean verifier() throws Exception {
-        System.out.println("Verif Bloc_IDF\n");
         super.verifier();
         
         return true;
@@ -32,7 +31,7 @@ public class Bloc_IDF extends Bloc {
     
     @Override
     public String ecrireMips() {
-        String str = GenerateurMIPS.getInstance().ecrireBloc(idf+this.hashCode());
+        String str =""/*= GenerateurMIPS.getInstance().ecrireBloc(idf+this.hashCode())*/;
         str+=super.ecrireMips();
         return str;
     }

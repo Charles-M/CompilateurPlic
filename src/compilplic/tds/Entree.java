@@ -13,11 +13,9 @@ import java.util.Objects;
 public class Entree {
     
     private String nom ;
-    private int ligne ;
 
-    public Entree(String nom, int l) {
+    public Entree(String nom) {
         this.nom = nom;
-        ligne = l ;
     }
 
     public String getNom() {
@@ -35,7 +33,7 @@ public class Entree {
             return true;
         
         Entree e = (Entree) o;
-        return this.nom.equals(e);
+        return this.nom.equals(e.getNom());
     }
 
     @Override

@@ -31,18 +31,19 @@ public class D_Const extends Declaration
 
     @Override
     public boolean verifier() throws SemantiqueException {
-        System.out.println("Verif Const\n");
+        for(Instruction i : instruction){
+            i.verifier();
+        }
         return true;
     }
 
     @Override
     public String ecrireMips() {
-        String str = GenerateurMIPS.getInstance().ecrireBloc("Constructeur_"+idf);
+        String str = GenerateurMIPS.getInstance().ecrireBloc("Constructeur_"+idf+hashCode());
         for(Instruction i : instruction){
             str += i.ecrireMips();
         }
         return str;
     }
-
 }
 
