@@ -1,0 +1,17 @@
+classe test
+
+publique entier a, b;
+
+a = b + 5;
+
+ecrire a;
+
+a = 4;
+
+ecrire a;
+
+lire a;
+
+ecrire a;
+
+fin

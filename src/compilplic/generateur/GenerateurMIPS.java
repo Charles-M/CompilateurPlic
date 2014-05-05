@@ -172,7 +172,6 @@ public final class GenerateurMIPS {
                 ecrireDivision()
                 + "mfhi $v0"
                 + ecrireStocker();
-
     }
     
     /**
@@ -189,7 +188,6 @@ public final class GenerateurMIPS {
                 + ecrireChargeEntier(1)
                 + ecrireContinue(hash)
                 + ecrireStocker();
-
     }
     
     /**
@@ -223,7 +221,6 @@ public final class GenerateurMIPS {
                 + ecrireChargeEntier(1)
                 + ecrireContinue(hash)
                 + ecrireStocker();
-
     }
 
     /**
@@ -241,7 +238,6 @@ public final class GenerateurMIPS {
                 + ecrireChargeEntier(1)
                 + ecrireContinue(hash)
                 + ecrireStocker();
- 
     }
     
     /**
@@ -260,7 +256,6 @@ public final class GenerateurMIPS {
                 + ecrireChargeEntier(1)
                 + ecrireContinue(hash)
                 + ecrireStocker();
-
     }
     
     /**
@@ -279,7 +274,6 @@ public final class GenerateurMIPS {
                 + ecrireChargeEntier(0)
                 + ecrireContinue(hash)
                 + ecrireStocker();
-        
     }
     
     /**
@@ -298,7 +292,6 @@ public final class GenerateurMIPS {
                 + ecrireChargeEntier(1)
                 + ecrireContinue(hash)
                 + ecrireStocker();
-
     }
     
     /**
@@ -307,7 +300,8 @@ public final class GenerateurMIPS {
      */
     public String ecrireEntier(){
         return 
-                "lw $t8,($sp)\n"
+                "add $sp,$sp,4\n"
+                + "lw $t8,($sp)\n"
                 + ecrireChargeEntier(1)
                 + "add $a0,$t8,$zero\n"
                 + "syscall\n\n";
@@ -336,15 +330,15 @@ public final class GenerateurMIPS {
     public String lireEntier(int deplacement, boolean global){
         return 
                 ecrireChargeEntier(5)
-                //+ "la $a0,($t8)\n"
                 + "syscall\n\n"
-                + "sw $a0,($sp)\n"
+                + "sw $v0,($sp)\n"
                 + "add $sp,$sp,-4\n"
                 + ecrireStockerIdentificateur(deplacement, global);
     }
     
     /**
      * Permet de lire une chaine de caracteres (pas encore a implementer
+     * @param value le string a lire
      * @return le code Mips associe
      */
     public String lireString(String value){
@@ -380,14 +374,7 @@ public final class GenerateurMIPS {
      * @return le code Mips associe
      */
     public String ecrireAffectation(int deplacement, boolean global){
-        if(global)
-            return 
-                "lw $v0,($sp)\n"
-                + "sw $v0,"+deplacement+"($s7)\n";
-        
-        return 
-                "lw $v0,($sp)\n"
-                + "sw $v0,"+deplacement+"($t7)\n";
+        return ecrireStockerIdentificateur(deplacement, global);
     }
     
     /**
