@@ -1,13 +1,10 @@
 la $t7,($sp)
 la $s7,($gp)
+.data
+newline: .asciiz "\n"
+.text
 
 Class_Essai:
-li $v0,0
-sw $v0, ($gp)
-add $gp, $gp, -4
-li $v0,0
-sw $v0, ($gp)
-add $gp, $gp, -4
 
 Constructeur_idf356611321:
 lw $v0,4($s7)
@@ -23,12 +20,22 @@ lw $t8, ($sp)
 add $v0, $t8, $v0
 sw $v0, ($sp)
 add $sp, $sp, -4
-lw $v0,($sp)
+add $sp, $sp, 4
+lw $v0, ($sp)
 sw $v0,8($s7)
+li $v0,0
+sw $v0, ($gp)
+add $gp, $gp, -4
+li $v0,0
+sw $v0, ($gp)
+add $gp, $gp, -4
+
+Constructeur_idf2087096917:
 li $v0, 0
 sw $v0, ($sp)
 add $sp, $sp, -4
-lw $v0,($sp)
+add $sp, $sp, 4
+lw $v0, ($sp)
 sw $v0,4($s7)
 li $v0,0
 sw $v0, ($gp)
@@ -46,7 +53,7 @@ li $v0,0
 sw $v0, ($gp)
 add $gp, $gp, -4
 
-Constructeur_idf2087096917:
+Constructeur_idf839993921:
 .data
 str1: .asciiz "programme de test\n"
 .text
@@ -64,9 +71,14 @@ syscall
 lw $v0,4($s7)
 sw $v0, ($sp)
 add $sp, $sp, -4
+add $sp,$sp,4
 lw $t8,($sp)
 li $v0,1
 add $a0,$t8,$zero
+syscall
+
+li $v0,4
+la $a0,newline
 syscall
 
 .data
@@ -79,7 +91,8 @@ syscall
 li $v0, 12
 sw $v0, ($sp)
 add $sp, $sp, -4
-lw $v0,($sp)
+add $sp, $sp, 4
+lw $v0, ($sp)
 sw $v0,24($s7)
 li $v0, 12
 sw $v0, ($sp)
@@ -94,7 +107,8 @@ lw $t8, ($sp)
 add $v0, $t8, $v0
 sw $v0, ($sp)
 add $sp, $sp, -4
-lw $v0,($sp)
+add $sp, $sp, 4
+lw $v0, ($sp)
 sw $v0,24($s7)
 lw $v0,4($s7)
 sw $v0, ($sp)
@@ -139,12 +153,14 @@ lw $t8, ($sp)
 mul $v0, $t8, $v0
 sw $v0, ($sp)
 add $sp, $sp, -4
-lw $v0,($sp)
+add $sp, $sp, 4
+lw $v0, ($sp)
 sw $v0,12($s7)
 li $v0, 5
 sw $v0, ($sp)
 add $sp, $sp, -4
-lw $v0,($sp)
+add $sp, $sp, 4
+lw $v0, ($sp)
 sw $v0,32($s7)
 lw $v0,4($s7)
 sw $v0, ($sp)
@@ -189,19 +205,26 @@ lw $t8, ($sp)
 add $v0, $t8, $v0
 sw $v0, ($sp)
 add $sp, $sp, -4
-lw $v0,($sp)
+add $sp, $sp, 4
+lw $v0, ($sp)
 sw $v0,20($s7)
 lw $v0,12($s7)
 sw $v0, ($sp)
 add $sp, $sp, -4
-lw $v0,($sp)
+add $sp, $sp, 4
+lw $v0, ($sp)
 sw $v0,28($s7)
 lw $v0,28($s7)
 sw $v0, ($sp)
 add $sp, $sp, -4
+add $sp,$sp,4
 lw $t8,($sp)
 li $v0,1
 add $a0,$t8,$zero
+syscall
+
+li $v0,4
+la $a0,newline
 syscall
 
 .data
@@ -228,7 +251,7 @@ syscall
 li $v0,5
 syscall
 
-sw $a0,($sp)
+sw $v0,($sp)
 add $sp,$sp,-4
 add $sp, $sp, 4
 lw $v0, ($sp)
@@ -236,15 +259,20 @@ sw $v0,32($s7)
 lw $v0,32($s7)
 sw $v0, ($sp)
 add $sp, $sp, -4
+add $sp,$sp,4
 lw $t8,($sp)
 li $v0,1
 add $a0,$t8,$zero
 syscall
 
+li $v0,4
+la $a0,newline
+syscall
+
 li $v0,5
 syscall
 
-sw $a0,($sp)
+sw $v0,($sp)
 add $sp,$sp,-4
 add $sp, $sp, 4
 lw $v0, ($sp)
@@ -252,20 +280,26 @@ sw $v0,36($s7)
 lw $v0,36($s7)
 sw $v0, ($sp)
 add $sp, $sp, -4
+add $sp,$sp,4
 lw $t8,($sp)
 li $v0,1
 add $a0,$t8,$zero
+syscall
+
+li $v0,4
+la $a0,newline
 syscall
 
 li $v0,0
 sw $v0, ($gp)
 add $gp, $gp, -4
 
-Constructeur_idf1463607684:
+Constructeur_idf1576652250:
 li $v0, 1
 sw $v0, ($sp)
 add $sp, $sp, -4
-lw $v0,($sp)
+add $sp, $sp, 4
+lw $v0, ($sp)
 sw $v0,36($s7)
 li $v0,0
 sw $v0, ($gp)
@@ -274,7 +308,7 @@ li $v0,0
 sw $v0, ($gp)
 add $gp, $gp, -4
 
-Constructeur_idf1576652250:
+Constructeur_idf993645417:
 li $v0, 2
 sw $v0, ($sp)
 add $sp, $sp, -4
@@ -288,5 +322,6 @@ lw $t8, ($sp)
 mul $v0, $t8, $v0
 sw $v0, ($sp)
 add $sp, $sp, -4
-lw $v0,($sp)
+add $sp, $sp, 4
+lw $v0, ($sp)
 sw $v0,40($s7)
