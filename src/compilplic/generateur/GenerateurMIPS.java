@@ -81,7 +81,10 @@ public final class GenerateurMIPS {
     public String ecrireInitialisation(){
         return 
                 "la $t7,($sp)\n"
-                + "la $s7,($gp)\n";
+                + "la $s7,($gp)\n"
+                + ".data\n"
+                + "newline: .asciiz \"\\n\"\n"
+                + ".text\n";
     }
     
     /**
@@ -304,6 +307,19 @@ public final class GenerateurMIPS {
                 + "lw $t8,($sp)\n"
                 + ecrireChargeEntier(1)
                 + "add $a0,$t8,$zero\n"
+                + "syscall\n\n"
+                + ecrireNewLine();
+        
+    }
+    
+    /**
+     * Permet d'ecrire une nouvelle ligne
+     * @return le code Mips associe
+     */
+    public String ecrireNewLine(){
+        return 
+                ecrireChargeEntier(4)
+                + "la $a0,newline\n"
                 + "syscall\n\n";
     }
     

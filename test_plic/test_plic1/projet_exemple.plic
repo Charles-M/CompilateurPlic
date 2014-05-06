@@ -2,9 +2,9 @@ classe Essai
 
 // La seule et unique classe de Plic1
 
-publique entier a, b;
-
 b = a + 25;
+
+publique entier a, b;
 
 a = 0;
 
