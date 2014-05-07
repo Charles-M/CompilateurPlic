@@ -6,11 +6,30 @@
 
 package compilplic.analyse;
 
-import java_cup.runtime.*;
-import compilplic.lexique.*;
-import compilplic.tds.*;
-import compilplic.lexique.expression.*;
-import java.util.*;
+import compilplic.lexique.Affectation;
+import compilplic.lexique.Classe;
+import compilplic.lexique.D_Champ;
+import compilplic.lexique.D_Const;
+import compilplic.lexique.Ecrire;
+import compilplic.lexique.Instruction;
+import compilplic.lexique.Lexique;
+import compilplic.lexique.Lire;
+import compilplic.lexique.expression.Division;
+import compilplic.lexique.expression.Equal;
+import compilplic.lexique.expression.Expression;
+import compilplic.lexique.expression.GreaterThan;
+import compilplic.lexique.expression.Identificateur;
+import compilplic.lexique.expression.LowerThan;
+import compilplic.lexique.expression.Modulo;
+import compilplic.lexique.expression.Multiplication;
+import compilplic.lexique.expression.Nombre;
+import compilplic.lexique.expression.NonEqual;
+import compilplic.lexique.expression.Somme;
+import compilplic.lexique.expression.Soustraction;
+import compilplic.tds.Entree;
+import compilplic.tds.TDS;
+import java.util.ArrayList;
+import java_cup.runtime.Symbol;
 
 /** CUP v0.11a beta 20060608 generated parser.
   * @version Sun May 04 13:08:15 CEST 2014
@@ -488,7 +507,7 @@ class CUP$AnalyseurSyntaxique$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).right;
 		String c = (String)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).value;
- RESULT = new Ecrire(c, cleft+1) ; 
+                RESULT = new Ecrire(c.replaceAll("\"\"", "\""), cleft+1) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("ECRIRE",8, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-2)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
@@ -500,7 +519,7 @@ class CUP$AnalyseurSyntaxique$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).right;
 		Expression e = (Expression)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).value;
- RESULT = new Ecrire(e, eleft+1) ; 
+                RESULT = new Ecrire(e, eleft+1) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("ECRIRE",8, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-2)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
