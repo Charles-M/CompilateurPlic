@@ -4,13 +4,15 @@
  * and open the template in the editor.
  */
 
-package compilplic.tds;
+package compilplic.exception;
+import compilplic.tds.Entree;
+
 
 /**
  *
  * @author Yan
  */
-class DoubleDeclarationException extends Exception {
+public class DoubleDeclarationException extends SemantiqueException {
 
     public DoubleDeclarationException(Entree e, String s) {
         super(""+e.toString());

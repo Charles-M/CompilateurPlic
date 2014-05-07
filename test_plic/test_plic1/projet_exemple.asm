@@ -3,7 +3,7 @@ la $s7,($gp)
 
 Class_Essai:
 
-Constructeur_idf1981655292:
+Constructeur_idf166942675:
 lw $v0,4($s7)
 sw $v0, ($sp)
 add $sp, $sp, -4
@@ -27,7 +27,7 @@ li $v0,0
 sw $v0, ($gp)
 add $gp, $gp, -4
 
-Constructeur_idf356611321:
+Constructeur_idf1191895743:
 li $v0, 0
 sw $v0, ($sp)
 add $sp, $sp, -4
@@ -50,7 +50,7 @@ li $v0,0
 sw $v0, ($gp)
 add $gp, $gp, -4
 
-Constructeur_idf2087096917:
+Constructeur_idf464293385:
 .data
 str1: .asciiz "programme de test\n"
 .text
@@ -275,7 +275,7 @@ li $v0,0
 sw $v0, ($gp)
 add $gp, $gp, -4
 
-Constructeur_idf1463607684:
+Constructeur_idf161479362:
 li $v0, 1
 sw $v0, ($sp)
 add $sp, $sp, -4
@@ -289,7 +289,7 @@ li $v0,0
 sw $v0, ($gp)
 add $gp, $gp, -4
 
-Constructeur_idf1576652250:
+Constructeur_idf1711790973:
 li $v0, 2
 sw $v0, ($sp)
 add $sp, $sp, -4
