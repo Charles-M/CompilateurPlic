@@ -673,7 +673,7 @@ public class AnalyseurLexical implements java_cup.runtime.Scanner {
           }
         case 24: break;
         case 16: 
-          { System.out.println("com ligne " + yytext()) ; yybegin(commentaireLigne) ;
+          { yybegin(commentaireLigne) ;
           }
         case 25: break;
         case 18: 
@@ -689,11 +689,11 @@ public class AnalyseurLexical implements java_cup.runtime.Scanner {
           }
         case 28: break;
         case 17: 
-          { System.out.println("fin com bloc ") ; yybegin(YYINITIAL) ;
+          { yybegin(YYINITIAL) ;
           }
         case 29: break;
         case 14: 
-          { System.out.println("string "+yytext()) ; return symbol(CodesLexicaux.CSTE_CHAINE, yytext());
+          { return symbol(CodesLexicaux.CSTE_CHAINE, yytext());
           }
         case 30: break;
         case 12: 
@@ -713,16 +713,12 @@ public class AnalyseurLexical implements java_cup.runtime.Scanner {
           }
         case 34: break;
         case 3: 
-          { System.out.println("com bloc contenu : "+yytext()) ;
-          }
         case 35: break;
         case 15: 
-          { System.out.println("com bloc " + yytext()) ; yybegin(commentaireBloc) ;
+          { yybegin(commentaireBloc) ;
           }
         case 36: break;
         case 2: 
-          { System.out.println("com ligne contenu : "+yytext()) ;
-          }
         case 37: break;
         case 6: 
           { /*System.out.println("idf : " + yytext()) ;*/ return symbol(CodesLexicaux.IDF,yytext()) ;
@@ -737,7 +733,7 @@ public class AnalyseurLexical implements java_cup.runtime.Scanner {
           }
         case 40: break;
         case 13: 
-          { System.out.println("fin com ligne ") ; yybegin(YYINITIAL) ;
+          { yybegin(YYINITIAL) ;
           }
         case 41: break;
         case 10: 

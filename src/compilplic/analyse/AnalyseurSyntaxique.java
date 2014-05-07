@@ -464,7 +464,7 @@ class CUP$AnalyseurSyntaxique$actions {
 		int ileft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int iright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		String i = (String)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("fin exp idf "+i) ; RESULT = new Identificateur(i) ; 
+ RESULT = new Identificateur(i) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("EXP",0, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
@@ -488,7 +488,7 @@ class CUP$AnalyseurSyntaxique$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).right;
 		String c = (String)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).value;
-		 System.out.println("fin ecrire chaine "+c.replaceAll("\\\\n","\n").replaceAll("\"\"", "\"")) ; RESULT = new Ecrire(c, cleft+1) ; 
+ RESULT = new Ecrire(c, cleft+1) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("ECRIRE",8, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-2)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
@@ -500,7 +500,7 @@ class CUP$AnalyseurSyntaxique$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).right;
 		Expression e = (Expression)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).value;
-		 System.out.println("fin ecrire exp "+e) ; RESULT = new Ecrire(e, eleft+1) ; 
+ RESULT = new Ecrire(e, eleft+1) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("ECRIRE",8, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-2)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
@@ -512,7 +512,7 @@ class CUP$AnalyseurSyntaxique$actions {
 		int ileft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).left;
 		int iright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).right;
 		String i = (String)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).value;
-		 System.out.println("lire idf "+i) ; RESULT = new Lire(i, ileft+1) ; 
+ RESULT = new Lire(i, ileft+1) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("LIRE",7, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-2)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
@@ -524,7 +524,7 @@ class CUP$AnalyseurSyntaxique$actions {
 		int ileft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int iright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		String i = (String)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("fin acces idf "+i) ; RESULT = i ; 
+ RESULT = i ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("ACCES",3, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
@@ -539,7 +539,6 @@ class CUP$AnalyseurSyntaxique$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).right;
 		Expression e = (Expression)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).value;
-		 System.out.println("fin affect avec expression "+e) ;
                        RESULT = new Affectation(i, e, ileft+1) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("AFFECT",6, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-3)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
@@ -552,7 +551,7 @@ class CUP$AnalyseurSyntaxique$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		Instruction e = (Instruction)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("fin inst -> ecrire") ; RESULT = e ; 
+ RESULT = e ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("INSTRUCTION",5, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
@@ -564,7 +563,7 @@ class CUP$AnalyseurSyntaxique$actions {
 		int lleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int lright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		Instruction l = (Instruction)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("fin inst -> lire") ; RESULT = l ; 
+ RESULT = l ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("INSTRUCTION",5, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
@@ -576,7 +575,7 @@ class CUP$AnalyseurSyntaxique$actions {
 		int aleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		Instruction a = (Instruction)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("fin inst -> affect") ; RESULT = a ; 
+ RESULT = a ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("INSTRUCTION",5, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
@@ -588,7 +587,6 @@ class CUP$AnalyseurSyntaxique$actions {
 		int ileft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int iright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		Instruction i = (Instruction)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("fin l_inst -> inst") ;
                        ArrayList<Instruction> l = new ArrayList<Instruction>() ;
                        l.add(i) ; RESULT = l ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("L_INSTRUCTION",4, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
@@ -605,7 +603,7 @@ class CUP$AnalyseurSyntaxique$actions {
 		int ileft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int iright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		Instruction i = (Instruction)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("fin l_inst -> l_inst inst") ; l.add(i) ; RESULT = l ; 
+ l.add(i) ; RESULT = l ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("L_INSTRUCTION",4, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
@@ -617,7 +615,6 @@ class CUP$AnalyseurSyntaxique$actions {
 		int lleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int lright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		ArrayList<Instruction> l = (ArrayList<Instruction>)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("fin decl_const") ;
                        lexique.ajouterDecl(bloc_courant, new D_Const("idf", lleft+1, l)) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("DECL_CONST",13, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
@@ -627,7 +624,7 @@ class CUP$AnalyseurSyntaxique$actions {
           case 10: // L_IDF ::= 
             {
               ArrayList<String> RESULT =null;
-		 System.out.println("fin l_idf vide") ; RESULT = new ArrayList<String>() ; 
+ RESULT = new ArrayList<String>() ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("L_IDF",2, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
@@ -642,7 +639,7 @@ class CUP$AnalyseurSyntaxique$actions {
 		int lleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).left;
 		int lright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()).right;
 		ArrayList<String> l = (ArrayList<String>)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.peek()).value;
-		 System.out.println("fin l_idf : "+i) ; l.add(i) ; RESULT = l ; 
+ l.add(i) ; RESULT = l ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("L_IDF",2, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-2)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
@@ -663,7 +660,6 @@ class CUP$AnalyseurSyntaxique$actions {
 		int lleft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).left;
 		int lright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).right;
 		ArrayList<String> l = (ArrayList<String>)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).value;
-		 System.out.println("fin decl_champ de premier nom "+i) ;
                        lexique.ajouterDecl(bloc_courant, new D_Champ(i,ileft+1,s,t)) ;
                        tds.ajouter(new Entree(i), t) ;
                        for(String idf : l) {
@@ -678,7 +674,6 @@ class CUP$AnalyseurSyntaxique$actions {
           case 7: // DECLARATION ::= DECL_CONST 
             {
               Symbol RESULT =null;
-		 System.out.println("fin decl_const") ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("DECLARATION",11, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
@@ -687,7 +682,6 @@ class CUP$AnalyseurSyntaxique$actions {
           case 6: // DECLARATION ::= DECL_CHAMP 
             {
               Symbol RESULT =null;
-		 System.out.println("fin decl_champ") ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("DECLARATION",11, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
@@ -696,7 +690,6 @@ class CUP$AnalyseurSyntaxique$actions {
           case 5: // L_DECLARATION ::= 
             {
               Symbol RESULT =null;
-		 System.out.println("fin l_decl -> vide") ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("L_DECLARATION",10, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
@@ -705,7 +698,6 @@ class CUP$AnalyseurSyntaxique$actions {
           case 4: // L_DECLARATION ::= L_DECLARATION DECLARATION 
             {
               Symbol RESULT =null;
-		 System.out.println("fin l_decl -> l_decl decl") ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("L_DECLARATION",10, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
@@ -719,7 +711,6 @@ class CUP$AnalyseurSyntaxique$actions {
 		int ileft = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-3)).left;
 		int iright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-3)).right;
 		String i = (String)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-3)).value;
-		 System.out.println("fin classe de nom "+i) ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("CLASSE",9, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-4)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;
@@ -740,7 +731,7 @@ class CUP$AnalyseurSyntaxique$actions {
           case 1: // SYSTEME ::= CLASSE 
             {
               Lexique RESULT =null;
-		 System.out.println("fin systeme") ; RESULT = lexique ; 
+ RESULT = lexique ; 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("SYSTEME",1, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
           return CUP$AnalyseurSyntaxique$result;

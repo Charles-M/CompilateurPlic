@@ -39,11 +39,10 @@ public class Test {
         System.out.println("FINI !");
     }
     
-    private void writeMips(Expression e, String filename) throws IOException {
-        String s = e.ecrireMips() ;
-        PrintWriter mips = new PrintWriter(new File(filename)) ;
-        mips.printf(s);
-        mips.close();
+    private void writeMips(String mips, String filename) throws IOException {
+        PrintWriter f = new PrintWriter(new File(filename)) ;
+        f.printf(mips);
+        f.close();
     }
     
     private void writeDot(Expression e, String filename) throws IOException {
