@@ -4,7 +4,7 @@ b = a + 25 ;
 publique entier a, b ;
 a = 0 ;
 privee entier c1, d2, de ;
-privee entier A, unNomDidentificateurTresLongPourEmbeterLesCompilateursDuLangagePlic1 ;
+privee entier A, unNomDidentificateurTresLongPourEmbeterLesCompilateursDuLangagePlic ;
 ecrire "programme de test\n" ;
 ecrire "\n\n" ;
 ecrire a ; ecrire "\n" ;

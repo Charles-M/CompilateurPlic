@@ -4,6 +4,7 @@
  */
 package compilplic.tds;
 
+import compilplic.exception.DoubleDeclarationException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -58,9 +59,11 @@ public class TDS {
             return listeBloc.get(r).get(e);
         
         r = region_actuelle; /*new Region(num_bloc, num_imbrication, region_actuelle.getParent());*/
-        r=parcoursRegion(r, e);
-        if(r!=null)
-            return listeBloc.get(r).get(e);
+        if(region_actuelle.getBloc()!=1){
+            r=parcoursRegion(r, e);
+            if(r!=null)
+                return listeBloc.get(r).get(e);
+        }
         return null;
     }
     
@@ -72,9 +75,16 @@ public class TDS {
      */
     public Region parcoursRegion(Region region, Entree e){
         //On vérifie si l'entrée existe dans cette région
+        try{
+            System.out.println(e.getNom());
+            System.out.println(region);
+            //System.out.println(listeBloc);
         if(listeBloc.get(region).containsKey(e))
             return region;
-        
+        }catch(NullPointerException ne){
+            ne.printStackTrace();
+            System.exit(-1);
+        }
         //Si on est là, l'entrée n'existe PAS dans cette region
         
         //Si la region est la dernière region (variables globales) l'entrée n'existe pas dans la TDS
