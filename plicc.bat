@@ -23,13 +23,12 @@ goto usage
 
 :error_param
 echo Error need at least one argument
-goto usage
 
 :usage
 echo.
 echo Script usage : plicc sourcefile [destinationfile]
 echo.
-echo destinationfile : if not given, source filename is used with ".asm" extension
+echo destinationfile : if not given source filename is used, with ".asm" extension
 echo.
 goto end
 
@@ -47,7 +46,7 @@ set chemin_dest=%~dp0%2
 echo.
 echo Destination File :
 echo %chemin_dest%
-if not exist %chemin_dest% goto error_dest
+rem if not exist %chemin_dest% goto error_dest
 
 :launch
 echo.

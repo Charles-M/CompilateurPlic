@@ -1,12 +1,9 @@
 la $t7,($sp)
 la $s7,($gp)
-.data
-newline: .asciiz "\n"
-.text
 
 Class_Essai:
 
-Constructeur_idf356611321:
+Constructeur_idf1981655292:
 lw $v0,4($s7)
 sw $v0, ($sp)
 add $sp, $sp, -4
@@ -30,7 +27,7 @@ li $v0,0
 sw $v0, ($gp)
 add $gp, $gp, -4
 
-Constructeur_idf2087096917:
+Constructeur_idf356611321:
 li $v0, 0
 sw $v0, ($sp)
 add $sp, $sp, -4
@@ -53,7 +50,7 @@ li $v0,0
 sw $v0, ($gp)
 add $gp, $gp, -4
 
-Constructeur_idf839993921:
+Constructeur_idf2087096917:
 .data
 str1: .asciiz "programme de test\n"
 .text
@@ -75,10 +72,6 @@ add $sp,$sp,4
 lw $t8,($sp)
 li $v0,1
 add $a0,$t8,$zero
-syscall
-
-li $v0,4
-la $a0,newline
 syscall
 
 .data
@@ -223,10 +216,6 @@ li $v0,1
 add $a0,$t8,$zero
 syscall
 
-li $v0,4
-la $a0,newline
-syscall
-
 .data
 str4: .asciiz "\n"
 .text
@@ -265,10 +254,6 @@ li $v0,1
 add $a0,$t8,$zero
 syscall
 
-li $v0,4
-la $a0,newline
-syscall
-
 li $v0,5
 syscall
 
@@ -286,15 +271,11 @@ li $v0,1
 add $a0,$t8,$zero
 syscall
 
-li $v0,4
-la $a0,newline
-syscall
-
 li $v0,0
 sw $v0, ($gp)
 add $gp, $gp, -4
 
-Constructeur_idf1576652250:
+Constructeur_idf1463607684:
 li $v0, 1
 sw $v0, ($sp)
 add $sp, $sp, -4
@@ -308,7 +289,7 @@ li $v0,0
 sw $v0, ($gp)
 add $gp, $gp, -4
 
-Constructeur_idf993645417:
+Constructeur_idf1576652250:
 li $v0, 2
 sw $v0, ($sp)
 add $sp, $sp, -4

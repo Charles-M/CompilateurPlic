@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             Plic plic;
-            System.out.println("args : "+args.length);
+            //System.out.println("args : "+args.length);
             if(args.length==1)
                 plic = new Plic(args[0]);
             else

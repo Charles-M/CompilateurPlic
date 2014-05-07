@@ -25,8 +25,8 @@ public class Plic {
     private File f ;
     private File f_dest;
 
-    public Plic(String chemin_fichier) throws IOException, Exception {
-        lireFichier(chemin_fichier) ;
+    public Plic(String chemin_src) throws IOException, Exception {
+        lireFichier(chemin_src) ;
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(contenu_fichier.toString())));
         Lexique l = (Lexique)as.parse().value ;
         l.verifier();
@@ -35,17 +35,13 @@ public class Plic {
         System.out.println("COMPILATION OK");
     }
 
-    public Plic(String chemin_fichier, String chemin_dest) throws IOException, Exception {
-        lireFichier(chemin_fichier) ;
+    public Plic(String chemin_src, String chemin_dest) throws IOException, Exception {
+        lireFichier(chemin_src) ;
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(contenu_fichier.toString())));
         Lexique l = (Lexique)as.parse().value ;
         l.verifier();
         //Initialisation pour savoir s'il s'agit d'un fichier ou d'un dossier
         f_dest=new File(chemin_dest);
-        
-        //Si le nom du fichier fini par .plic, c'est un fichier plic
-        if(f_dest.getAbsolutePath().endsWith(".plic"))
-            f_dest = new File(chemin_dest.replaceAll("\\.plic", ".asm"));
         
         //Si le nom du fichier fini par / ou \ (Windows), il s'agit d'un repertoire
         if(f_dest.getAbsolutePath().endsWith("[/\\]")){
@@ -56,8 +52,14 @@ public class Plic {
             if(f_dest.isDirectory()){
                 f_dest = new File(chemin_dest+"/"+f.getName().replaceAll("\\.plic", ".asm"));
                 writeMips(l);
-            }else
+            }else{
+                //Si le nom du fichier fini par .plic, c'est un fichier plic
+                if(f_dest.getAbsolutePath().endsWith(".plic"))
+                    f_dest = new File(chemin_dest.replaceAll("\\.plic", ".asm"));
+                if(!f_dest.getName().endsWith(".asm"))
+                    f_dest=new File(f_dest.getAbsolutePath().concat(".asm"));
                 writeMips(l);
+            }
         }
         System.out.println("COMPILATION OK");
     }

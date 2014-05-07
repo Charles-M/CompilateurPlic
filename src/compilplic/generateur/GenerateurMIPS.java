@@ -82,9 +82,9 @@ public final class GenerateurMIPS {
         return 
                 "la $t7,($sp)\n"
                 + "la $s7,($gp)\n"
-                + ".data\n"
+                /*+ ".data\n"
                 + "newline: .asciiz \"\\n\"\n"
-                + ".text\n";
+                + ".text\n"*/;
     }
     
     /**
@@ -308,7 +308,7 @@ public final class GenerateurMIPS {
                 + ecrireChargeEntier(1)
                 + "add $a0,$t8,$zero\n"
                 + "syscall\n\n"
-                + ecrireNewLine();
+                /*+ ecrireNewLine()*/;
         
     }
     
