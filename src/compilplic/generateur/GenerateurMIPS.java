@@ -70,17 +70,14 @@ public final class GenerateurMIPS {
                 + "add $sp, $sp, -4\n";
     }
     
-    public String ecrireStockerGlobal(int deplacement){
-        return "sw $v0,"+deplacement+"($s7)\n";
-    }
-    
     /**
      * Permet de transferer la reference des variables de la pile dans $t7
      * @return le code Mips associe
      */
     public String ecrireInitialisation(){
         return 
-                "la $t7,($sp)\n"
+                "#Initialisation\n"
+                + "la $t7,($sp)\n"
                 + "la $s7,($gp)\n"
                 /*+ ".data\n"
                 + "newline: .asciiz \"\\n\"\n"
@@ -105,7 +102,9 @@ public final class GenerateurMIPS {
     }
     
     public String ecrireBloc(String s){
-        return "\n"+s+":\n";
+        return 
+                "\n#Bloc"
+                + "\n"+s+":\n";
     }
     
     /**
@@ -303,7 +302,8 @@ public final class GenerateurMIPS {
      */
     public String ecrireEntier(){
         return 
-                "add $sp,$sp,4\n"
+                "\n#ecrire entier\n"
+                + "add $sp,$sp,4\n"
                 + "lw $t8,($sp)\n"
                 + ecrireChargeEntier(1)
                 + "add $a0,$t8,$zero\n"
@@ -331,7 +331,8 @@ public final class GenerateurMIPS {
     public String ecrireString(String value){
         nbstr++;
         return 
-                ".data\n"
+                "#ecrire string\n"
+                + ".data\n"
                 + "str"+nbstr+": .asciiz \""+value+"\"\n"
                 + ".text\n"
                 + ecrireChargeEntier(4)
@@ -345,11 +346,12 @@ public final class GenerateurMIPS {
      */
     public String lireEntier(int deplacement, boolean global){
         return 
-                ecrireChargeEntier(5)
-                + "syscall\n\n"
+                "#lire entier\n"
+                + ecrireChargeEntier(5)
+                + "syscall\n"
                 + "sw $v0,($sp)\n"
                 + "add $sp,$sp,-4\n"
-                + ecrireStockerIdentificateur(deplacement, global);
+                + ecrireStockerIdentificateur(deplacement, global)+"\n";
     }
     
     /**
@@ -359,7 +361,8 @@ public final class GenerateurMIPS {
      */
     public String lireString(String value){
         return  
-                ecrireChargeEntier(8)
+                "#lire string\n"
+                + ecrireChargeEntier(8)
                 + "la $a0,str"+value.hashCode()+"\n" //A verifier ça depend comment on le pense
                 + "syscall\n\n";
     }
@@ -396,29 +399,51 @@ public final class GenerateurMIPS {
     /**
      * Permet de recuperer la valeur d'une variable
      * @param deplacement deplacement de la variable
-     * @param global true si la variable est global false sinon
+     * @param global true si la variable est globale false sinon (locale)
      * @return le code Mips associe
      */
     public String ecrireIdentificateur(int deplacement, boolean global) {
         if(global)
             return
-                "lw $v0,"+deplacement+"($s7)\n"
+                ecrireChargerVarGlobale(deplacement)
                 + ecrireStocker();
         
         return
-                "lw $v0,"+deplacement+"($t7)\n"
+                ecrireChargerVarLocale(deplacement)
                 + ecrireStocker();
     }
     
+    /**
+     * Permet de stocker la derniere valeur de la pile dans une variable locale ou globale
+     * @param deplacement deplacement de la variable
+     * @param global true si la variable est globale false sinon (locale)
+     * @return le code Mips associe
+     */
     public String ecrireStockerIdentificateur(int deplacement, boolean global){
         if(global)
             return
                 ecrireChargeV0()
-                + "sw $v0,"+deplacement+"($s7)\n";
+                + ecrireStockerGlobale(deplacement);
         
         return
                 ecrireChargeV0()
-                + "sw $v0,"+deplacement+"($t7)\n";
+                + ecrireStockerLocale(deplacement);
+    }
+    
+    public String ecrireChargerVarGlobale(int deplacement){
+        return "lw $v0,"+deplacement+"($s7)\n";
+    }
+    
+    public String ecrireChargerVarLocale(int deplacement){
+        return "lw $v0,"+deplacement+"($t7)\n";
+    }
+    
+    public String ecrireStockerGlobale(int deplacement){
+        return "sw $v0,"+deplacement+"($s7)\n";
+    }
+    
+    public String ecrireStockerLocale(int deplacement){
+        return "sw $v0,"+deplacement+"($t7)\n";
     }
     
     /**

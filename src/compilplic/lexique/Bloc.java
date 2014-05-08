@@ -7,6 +7,9 @@
 package compilplic.lexique;
 
 import compilplic.generateur.GenerateurMIPS;
+import compilplic.tds.Entree;
+import compilplic.tds.Symbole;
+import compilplic.tds.TDS;
 import java.util.ArrayList;
 
 /**
@@ -40,9 +43,24 @@ public class Bloc {
     }
     
     public String ecrireMips() {
-        String str = "";   
+        String str = "";
+        TDS tds = TDS.getInstance();
         for(Declaration d : declaration){
-            str += d.ecrireMips();
+            if(d instanceof D_Champ){
+                Symbole s = tds.identifier(new Entree(((D_Champ) d).idf));
+                if(s.isGlobal()){
+                    str+=d.ecrireMips();
+                }
+            }
+        }
+        for(Declaration d : declaration){
+            if(d instanceof D_Champ){
+                Symbole s = tds.identifier(new Entree(((D_Champ) d).idf));
+                if(!s.isGlobal()){
+                    str+=d.ecrireMips();
+                }
+            }else
+                str+=d.ecrireMips();
         }
 
         return str;

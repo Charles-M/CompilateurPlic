@@ -1,12 +1,18 @@
+#Initialisation
 la $t7,($sp)
 la $s7,($gp)
-.data
-newline: .asciiz "\n"
-.text
 
+#Bloc
 Class_test:
+li $v0,0
+sw $v0, ($gp)
+add $gp, $gp, -4
+li $v0,0
+sw $v0, ($gp)
+add $gp, $gp, -4
 
-Constructeur_idf1119746574:
+#Bloc
+Constructeur_idf604376696:
 lw $v0,4($s7)
 sw $v0, ($sp)
 add $sp, $sp, -4
@@ -26,39 +32,31 @@ sw $v0,8($s7)
 lw $v0,8($s7)
 sw $v0, ($sp)
 add $sp, $sp, -4
+
+#ecrire entier
 add $sp,$sp,4
 lw $t8,($sp)
 li $v0,1
 add $a0,$t8,$zero
 syscall
 
-li $v0,4
-la $a0,newline
-syscall
 
-li $v0,0
-sw $v0, ($gp)
-add $gp, $gp, -4
-
-Constructeur_idf1181470557:
+#Bloc
+Constructeur_idf161479362:
 lw $v0,8($s7)
 sw $v0, ($sp)
 add $sp, $sp, -4
+
+#ecrire entier
 add $sp,$sp,4
 lw $t8,($sp)
 li $v0,1
 add $a0,$t8,$zero
 syscall
 
-li $v0,4
-la $a0,newline
-syscall
 
-li $v0,0
-sw $v0, ($gp)
-add $gp, $gp, -4
-
-Constructeur_idf1341851337:
+#Bloc
+Constructeur_idf1711790973:
 li $v0, 4
 sw $v0, ($sp)
 add $sp, $sp, -4
@@ -68,35 +66,32 @@ sw $v0,8($s7)
 lw $v0,8($s7)
 sw $v0, ($sp)
 add $sp, $sp, -4
+
+#ecrire entier
 add $sp,$sp,4
 lw $t8,($sp)
 li $v0,1
 add $a0,$t8,$zero
 syscall
 
-li $v0,4
-la $a0,newline
-syscall
-
+#lire entier
 li $v0,5
 syscall
-
 sw $v0,($sp)
 add $sp,$sp,-4
 add $sp, $sp, 4
 lw $v0, ($sp)
 sw $v0,8($s7)
+
 lw $v0,8($s7)
 sw $v0, ($sp)
 add $sp, $sp, -4
+
+#ecrire entier
 add $sp,$sp,4
 lw $t8,($sp)
 li $v0,1
 add $a0,$t8,$zero
-syscall
-
-li $v0,4
-la $a0,newline
 syscall
 
 li $v0, 3
@@ -122,13 +117,11 @@ lw $t8, ($sp)
 add $v0, $t8, $v0
 sw $v0, ($sp)
 add $sp, $sp, -4
+
+#ecrire entier
 add $sp,$sp,4
 lw $t8,($sp)
 li $v0,1
 add $a0,$t8,$zero
-syscall
-
-li $v0,4
-la $a0,newline
 syscall
 
