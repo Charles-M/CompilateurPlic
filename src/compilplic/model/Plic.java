@@ -7,7 +7,6 @@ package compilplic.model;
 import compilplic.analyse.AnalyseurLexical;
 import compilplic.analyse.AnalyseurSyntaxique;
 import compilplic.lexique.Lexique;
-import compilplic.lexique.expression.Expression;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;

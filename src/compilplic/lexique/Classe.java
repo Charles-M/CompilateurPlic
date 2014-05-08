@@ -1,17 +1,6 @@
 package compilplic.lexique;
 
-import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
-import compilplic.tds.Entree;
-import compilplic.tds.Symbole;
-import compilplic.tds.TDS;
-
-
-/**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
- */
 
 public class Classe extends Bloc_IDF
 {

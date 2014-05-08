@@ -3,7 +3,6 @@
 package compilplic.analyse ;
 
 import java_cup.runtime.*;
-import compilplic.exception.LexicalException;
 
 
 /**

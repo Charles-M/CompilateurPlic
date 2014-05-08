@@ -4,8 +4,6 @@
  */
 package compilplic.generateur;
 
-import java.io.PrintStream;
-
 /**
  * Cette classe est une collection de string representative du langage MIPS
  * @author ASUS

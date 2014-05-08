@@ -8,7 +8,6 @@ package compilplic.lexique.expression;
 
 import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
-import java.util.Iterator;
 
 /**
  *

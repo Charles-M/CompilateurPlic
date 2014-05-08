@@ -6,7 +6,6 @@
 
 package compilplic.lexique;
 
-import compilplic.generateur.GenerateurMIPS;
 import compilplic.tds.Entree;
 import compilplic.tds.Symbole;
 import compilplic.tds.TDS;

@@ -1,9 +1,5 @@
 package compilplic.lexique;
 
-import compilplic.exception.SemantiqueException;
-import compilplic.generateur.GenerateurMIPS;
-import java.util.ArrayList;
-
 
 
 
