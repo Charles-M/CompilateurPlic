@@ -66,8 +66,8 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
 <YYINITIAL> {typePrimitif}    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.TYPE,yytext()) ;}
 <YYINITIAL> {idf}    {/*System.out.println("idf : " + yytext()) ;*/ return symbol(CodesLexicaux.IDF,yytext()) ;}
 
-<YYINITIAL> "//"		{System.out.println("com ligne " + yytext()) ; yybegin(commentaireLigne) ;}
-<YYINITIAL> "/*"		{System.out.println("com bloc " + yytext()) ; yybegin(commentaireBloc) ;}
+<YYINITIAL> "//"		{/*System.out.println("com ligne " + yytext()) ;*/ yybegin(commentaireLigne) ;}
+<YYINITIAL> "/*"		{/*System.out.println("com bloc " + yytext()) ;*/ yybegin(commentaireBloc) ;}
 
 <YYINITIAL> {operateur}   { 
     switch(yytext()) {
@@ -93,13 +93,13 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
 }
 
 <YYINITIAL> {constEnt}	{ return symbol(CodesLexicaux.CSTE_ENT, yytext());}
-<YYINITIAL> {constChaine}	{ System.out.println("string "+yytext()) ; return symbol(CodesLexicaux.CSTE_CHAINE, yytext());}
+<YYINITIAL> {constChaine}	{ /*System.out.println("string "+yytext()) ;*/ return symbol(CodesLexicaux.CSTE_CHAINE, yytext());}
 <YYINITIAL> "("		{ return symbol(CodesLexicaux.PARENTH_OUVRANTE);}
 <YYINITIAL> ")"		{ return symbol(CodesLexicaux.PARENTH_FERMANTE);}
 			
-<commentaireBloc>	"*/"		{System.out.println("fin com bloc ") ; yybegin(YYINITIAL) ;}
-<commentaireBloc>	.*		{System.out.println("com bloc contenu : "+yytext()) ;}
-<commentaireLigne>	"\n"		{System.out.println("fin com ligne ") ; yybegin(YYINITIAL) ;}
-<commentaireLigne>	.*		{System.out.println("com ligne contenu : "+yytext()) ;}
+<commentaireBloc>	"*/"		{/*System.out.println("fin com bloc ") ;*/ yybegin(YYINITIAL) ;}
+<commentaireBloc>	[^(*/).]*	{/*System.out.println("com bloc contenu : "+yytext()) ;*/}
+<commentaireLigne>	"\n"		{/*System.out.println("fin com ligne ") ;*/ yybegin(YYINITIAL) ;}
+<commentaireLigne>	.*		{/*System.out.println("com ligne contenu : "+yytext()) ;*/}
 
 <YYINITIAL> .			{ System.err.println("ERREUR LEXICAL ligne:"+yyline+" colonne:"+yycolumn+" caractere non lu : "+yytext()) ; }

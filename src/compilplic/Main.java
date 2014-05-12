@@ -29,7 +29,7 @@ public class Main {
         } catch (SemantiqueException e3) {
             System.err.println("ERREUR SEMANTIQUE : "+e3.getMessage()) ;
         } catch (LexicalException e4) {
-            System.err.println(e4.getMessage()) ;
+            System.err.println("ERREUR LEXICALE : "+e4.getMessage()) ;
         } catch (Exception e5) {
             e5.printStackTrace();
             System.err.println("ERREUR SYNTAXIQUE : "+e5.getMessage()) ;

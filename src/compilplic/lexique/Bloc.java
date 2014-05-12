@@ -46,7 +46,7 @@ public class Bloc {
         TDS tds = TDS.getInstance();
         for(Declaration d : declaration){
             if(d instanceof D_Champ){
-                Symbole s = tds.identifier(new Entree(((D_Champ) d).idf));
+                Symbole s = tds.identifier(new Entree(((D_Champ) d).idf, 0));
                 if(s.isGlobal()){
                     str+=d.ecrireMips();
                 }
@@ -54,7 +54,7 @@ public class Bloc {
         }
         for(Declaration d : declaration){
             if(d instanceof D_Champ){
-                Symbole s = tds.identifier(new Entree(((D_Champ) d).idf));
+                Symbole s = tds.identifier(new Entree(((D_Champ) d).idf, 0));
                 if(!s.isGlobal()){
                     str+=d.ecrireMips();
                 }

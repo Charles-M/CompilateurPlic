@@ -680,10 +680,10 @@ class CUP$AnalyseurSyntaxique$actions {
 		int lright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).right;
 		ArrayList<String> l = (ArrayList<String>)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).value;
                        lexique.ajouterDecl(bloc_courant, new D_Champ(i,ileft+1,s,t)) ;
-                       tds.ajouter(new Entree(i), t) ;
+                       tds.ajouter(new Entree(i,ileft+1), t) ;
                        for(String idf : l) {
                         lexique.ajouterDecl(bloc_courant, new D_Champ(idf,ileft+1,s,t)) ;
-                        tds.ajouter(new Entree(idf), t) ;
+                        tds.ajouter(new Entree(idf,ileft+1), t) ;
                        }
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("DECL_CHAMP",12, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-4)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }

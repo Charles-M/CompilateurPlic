@@ -1,0 +1,18 @@
+classe Prout
+// La seule et unique classe de Plic1
+publique entier a,b,c ;
+ecrire "Calcul de somme : c = a + b \n" ;
+ecrire "nombre a : " ;
+lire a ;
+ecrire "\nnombre b : " ;
+lire b ;
+c = a + b ;
+ecrire "\nresultat de " ;
+ecrire a ;
+ecrire " + " ;
+ecrire b ;
+ecrire " = " ;
+ecrire c ;
+ecrire ".\n" ;
+ecrire "FIN" ;
+fin

@@ -32,7 +32,7 @@ public class Lire extends Instruction
     @Override
     public String ecrireMips() {
         TDS tds = TDS.getInstance();
-        Symbole s = tds.identifier(new Entree(value));
+        Symbole s = tds.identifier(new Entree(value, 0));
 
         String str = GenerateurMIPS.getInstance().lireEntier(s.getDeplacement(),s.isGlobal());
         return str;
@@ -41,7 +41,7 @@ public class Lire extends Instruction
     @Override
     public boolean verifier() throws SemantiqueException {
         TDS tds = TDS.getInstance();
-        Symbole s = tds.identifier(new Entree(value));
+        Symbole s = tds.identifier(new Entree(value, 0));
         if(s==null){
             throw new SemantiqueException("La declaration de la variable "+value+" a la ligne "+/*line+*/" est manquante");
         }

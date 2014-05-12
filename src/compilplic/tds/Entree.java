@@ -13,13 +13,19 @@ import java.util.Objects;
 public class Entree {
     
     private String nom ;
+    private int line ;
 
-    public Entree(String nom) {
+    public Entree(String nom, int l) {
         this.nom = nom;
+        this.line = l ;
     }
 
     public String getNom() {
         return nom;
+    }
+
+    public int getLine() {
+        return line;
     }
     
     /**

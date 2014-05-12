@@ -38,7 +38,7 @@ public class TDS {
     
     public void ajouter(Entree e,String s) throws DoubleDeclarationException {
         if(listeBloc.get(region_actuelle).containsKey(e))
-            throw new DoubleDeclarationException(e,s);
+            throw new DoubleDeclarationException(" a la ligne "+e.getLine()+" : "+e.getNom()+" est deja declaree");
         else{
             Symbole sym = new Symbole(s,deplacement=deplacement+4);
             if(region_actuelle.getBloc()==1)

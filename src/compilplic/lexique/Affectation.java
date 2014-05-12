@@ -34,7 +34,7 @@ public class Affectation extends Instruction
     @Override
     public boolean verifier() throws SemantiqueException {
         TDS tds = TDS.getInstance();
-        Symbole s = tds.identifier(new Entree(var));
+        Symbole s = tds.identifier(new Entree(var, 0));
         if(s==null)
             throw new SemantiqueException("La declaration de la variable "+var+" a la ligne "+line+" est manquante");
         
@@ -50,7 +50,7 @@ public class Affectation extends Instruction
     @Override
     public String ecrireMips() {
         TDS tds = TDS.getInstance();
-        Symbole s = tds.identifier(new Entree(var));
+        Symbole s = tds.identifier(new Entree(var, 0));
         return expression.ecrireMips()+
                 GenerateurMIPS.getInstance().ecrireAffectation(s.getDeplacement(),s.isGlobal());
     }
