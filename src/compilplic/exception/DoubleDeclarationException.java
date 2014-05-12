@@ -14,8 +14,8 @@ import compilplic.tds.Entree;
  */
 public class DoubleDeclarationException extends SemantiqueException {
 
-    public DoubleDeclarationException(Entree e, String s) {
-        super(""+e.toString());
+    public DoubleDeclarationException(String s) {
+        super(s);
     }
     
 }
