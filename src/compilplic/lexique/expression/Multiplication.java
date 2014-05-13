@@ -1,5 +1,6 @@
 package compilplic.lexique.expression;
 
+import compilplic.exception.GestionnaireSemantique;
 import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
 
@@ -33,9 +34,9 @@ public class Multiplication extends Binaire {
         super.verifier();
         if(gauche.isBoolean()){
             setBoolean();
-            if(!droite.isBoolean()) throw new SemantiqueException("Expression droite arithmetique, booleenne attendue pour le ET ligne:"+line+" colonne:"+col);
+            if(!droite.isBoolean()) GestionnaireSemantique.getInstance().add(new SemantiqueException("Expression droite arithmetique, booleenne attendue pour le ET ligne:"+line+" colonne:"+col));
         }else
-            if(droite.isBoolean()) throw new SemantiqueException("Expression droite booléenne, arithmetique attendue pour la multiplication ligne:"+line+" colonne:"+col);
+            if(droite.isBoolean()) GestionnaireSemantique.getInstance().add(new SemantiqueException("Expression droite booléenne, arithmetique attendue pour la multiplication ligne:"+line+" colonne:"+col));
         
         return true;
     }

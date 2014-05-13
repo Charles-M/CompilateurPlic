@@ -1,5 +1,6 @@
 package compilplic.lexique.expression;
 
+import compilplic.exception.GestionnaireSemantique;
 import compilplic.exception.SemantiqueException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -92,12 +93,12 @@ public abstract class Binaire extends Expression {
     @Override
     public boolean verifier() throws SemantiqueException {
         if(gauche instanceof Identificateur && !gauche.verifier()){
-                throw new SemantiqueException("La declaration de la variable "+((Identificateur) gauche).getNom()+" a la ligne "+line+" est manquante");
+                GestionnaireSemantique.getInstance().add(new SemantiqueException("La declaration de la variable "+((Identificateur) gauche).getNom()+" a la ligne "+line+" est manquante"));
         }else
             gauche.verifier();
         
         if(droite instanceof Identificateur && !droite.verifier()){
-               throw new SemantiqueException("La declaration de la variable "+((Identificateur) droite).getNom()+" a la ligne "+line+" est manquante");
+               GestionnaireSemantique.getInstance().add(new SemantiqueException("La declaration de la variable "+((Identificateur) droite).getNom()+" a la ligne "+line+" est manquante"));
         }else
             droite.verifier();
         

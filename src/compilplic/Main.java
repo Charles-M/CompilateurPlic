@@ -5,7 +5,6 @@
 package compilplic;
 
 import compilplic.exception.LexicalException;
-import compilplic.exception.SemantiqueException;
 import compilplic.model.Plic;
 import java.io.IOException;
 
@@ -26,8 +25,6 @@ public class Main {
             System.err.println("Usage : L'extension du fichier source doit etre .plic");
         } catch (IOException e2) {
             System.err.println("IOException dans Main : fichier introuvable.");
-        } catch (SemantiqueException e3) {
-            System.err.println("ERREUR SEMANTIQUE : "+e3.getMessage()) ;
         } catch (LexicalException e4) {
             System.err.println("ERREUR LEXICALE : "+e4.getMessage()) ;
         } catch (Exception e5) {

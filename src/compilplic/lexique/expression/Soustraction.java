@@ -1,5 +1,6 @@
 package compilplic.lexique.expression;
 
+import compilplic.exception.GestionnaireSemantique;
 import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
 
@@ -32,7 +33,7 @@ public class Soustraction extends Binaire {
         super.verifier();
         if(gauche.isBoolean()){
             setBoolean();
-            if(!droite.isBoolean()) throw new SemantiqueException("Expression droite arithmetique, booleenne attendue pour le XOR ligne:"+line+" colonne:"+col);
+            if(!droite.isBoolean()) GestionnaireSemantique.getInstance().add(new SemantiqueException("Expression droite arithmetique, booleenne attendue pour le XOR ligne:"+line+" colonne:"+col));
         }else{
             
                 
@@ -41,7 +42,7 @@ public class Soustraction extends Binaire {
                     setBoolean();
                     ((Nombre) gauche).setNombre(1);
                 }else
-                    throw new SemantiqueException("Expression droite booléenne, arithmetique attendu pour Soustraction ligne:"+line+" colonne:"+col);
+                    GestionnaireSemantique.getInstance().add(new SemantiqueException("Expression droite booléenne, arithmetique attendu pour Soustraction ligne:"+line+" colonne:"+col));
             }
         }
         

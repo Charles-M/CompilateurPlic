@@ -1,5 +1,6 @@
 package compilplic.lexique;
 
+import compilplic.exception.GestionnaireSemantique;
 import compilplic.exception.SemantiqueException;
 import compilplic.lexique.expression.Expression;
 import compilplic.lexique.expression.Identificateur;
@@ -31,7 +32,7 @@ public class BoucleFor extends Bloc
     public boolean verifier() throws Exception {
         super.verifier();
         if(!expression.verifier())
-            throw new SemantiqueException("La declaration de la variable "+((Identificateur) expression).getNom()+" a la ligne "+/*line+*/" est manquante");
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("La declaration de la variable "+((Identificateur) expression).getNom()+" a la ligne "+/*line+*/" est manquante"));
                 
         for(Instruction i : instructions){
             i.verifier();

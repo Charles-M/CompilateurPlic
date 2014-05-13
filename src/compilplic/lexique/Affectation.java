@@ -1,4 +1,5 @@
 package compilplic.lexique;
+import compilplic.exception.GestionnaireSemantique;
 import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
 import compilplic.lexique.expression.Expression;
@@ -36,13 +37,13 @@ public class Affectation extends Instruction
         TDS tds = TDS.getInstance();
         Symbole s = tds.identifier(new Entree(var, 0));
         if(s==null)
-            throw new SemantiqueException("La declaration de la variable "+var+" a la ligne "+line+" est manquante");
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("La declaration de la variable "+var+" a la ligne "+line+" est manquante"));
         
         if(!expression.verifier())
-            throw new SemantiqueException("La declaration de la variable "+((Identificateur) expression).getNom()+" a la ligne "+line+" est manquante");
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("La declaration de la variable "+((Identificateur) expression).getNom()+" a la ligne "+line+" est manquante"));
         
         if(expression.isBoolean())
-            throw new SemantiqueException("Expression booleenne trouvee a la ligne "+line+", expression entiere attendue");
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("Expression booleenne trouvee a la ligne "+line+", expression entiere attendue"));
         
         return true;
     }

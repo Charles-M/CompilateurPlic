@@ -1,15 +1,10 @@
 package compilplic.lexique;
 
+import compilplic.exception.GestionnaireSemantique;
 import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
 import compilplic.lexique.expression.Expression;
 import compilplic.lexique.expression.Identificateur;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 /**
@@ -64,14 +59,14 @@ public class Ecrire extends Instruction
         //Dans le cas où il y aurait d'autres methodes verifier pouvant retourner false
         /*if(value instanceof Identificateur){
             if(!((Identificateur) value).verifier())
-                throw new SemantiqueException("La declaration de la variable "+((Identificateur) value).getNom()+" a la ligne "+line+" est manquante");
+                GestionnaireSemantique.getInstance().add(new SemantiqueException("La declaration de la variable "+((Identificateur) value).getNom()+" a la ligne "+line+" est manquante");
         }els
             ((Expression) value).verifier();*/
         
         //Pour le moment seule la methode verifier d'un identificateur peut retourner false
         
         if(value instanceof Expression && !((Expression) value).verifier())
-            throw new SemantiqueException("La declaration de la variable "+((Identificateur) value).getNom()+" a la ligne "+line+" est manquante");
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("La declaration de la variable "+((Identificateur) value).getNom()+" a la ligne "+line+" est manquante"));
         
         return true;
     }

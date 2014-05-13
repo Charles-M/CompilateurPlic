@@ -1,8 +1,9 @@
 classe test
-    publique entier a,b,d,test, A ;
+    publique entier a,b,d,test, A, A ;
     a = 2+4 ;
     ecrire "a = " ;
     ecrire a ;
+    publique entier b ;
     ecrire "\nA = " ;
     ecrire A ;
     ecrire "\nFIN" ;

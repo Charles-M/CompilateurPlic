@@ -6,8 +6,9 @@ package compilplic.model;
 
 import compilplic.analyse.AnalyseurLexical;
 import compilplic.analyse.AnalyseurSyntaxique;
+import compilplic.exception.GestionnaireSemantique;
+import compilplic.exception.SemantiqueException;
 import compilplic.lexique.Lexique;
-import compilplic.tds.TDS;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,11 +30,16 @@ public class Plic {
         lireFichier(chemin_src) ;
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(contenu_fichier.toString())));
         Lexique l = (Lexique)as.parse().value ;
-        System.out.println(TDS.getInstance());
+        //System.out.println(TDS.getInstance());
         l.verifier();
-        f_dest = new File(f.getAbsolutePath().replaceAll("\\.plic", ".asm"));
-        writeMips(l);
-        System.out.println("COMPILATION OK");
+        if(GestionnaireSemantique.getInstance().size() != 0)
+            for (SemantiqueException s : GestionnaireSemantique.getInstance())
+                System.out.println("ERREUR SEMANTIQUE : "+s.getMessage());
+        else{
+            f_dest = new File(f.getAbsolutePath().replaceAll("\\.plic", ".asm"));
+            writeMips(l);
+            System.out.println("COMPILATION OK");
+        }
     }
 
     public Plic(String chemin_src, String chemin_dest) throws IOException, Exception {

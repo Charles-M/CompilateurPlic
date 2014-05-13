@@ -1,5 +1,6 @@
 package compilplic.lexique.expression;
 
+import compilplic.exception.GestionnaireSemantique;
 import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
 
@@ -17,14 +18,14 @@ public class Division extends Binaire {
     public boolean verifier() throws SemantiqueException {
         super.verifier();
         if(gauche.isBoolean())
-            throw new SemantiqueException("Expression gauche de la division est booléenne, arithmétique attendue ligne:"+line+" colonne:"+col);
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("Expression gauche de la division est booléenne, arithmétique attendue ligne:"+line+" colonne:"+col));
         
         if(droite.isBoolean())
-            throw new SemantiqueException("Expression droite de la division est booléenne, arithmétique attendue ligne:"+line+" colonne:"+col);
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("Expression droite de la division est booléenne, arithmétique attendue ligne:"+line+" colonne:"+col));
         
         //Pas de division par 0
         if(droite.isZero())
-            throw new SemantiqueException("Division par 0 ligne:"+line+" colonne:"+col);
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("Division par 0 ligne:"+line+" colonne:"+col));
         
         return true;
     }

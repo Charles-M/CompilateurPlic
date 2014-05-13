@@ -34,9 +34,9 @@ public class D_Champ extends Declaration
         /*TDS tds = TDS.getInstance();
         String type = tds.identifier(idf);
         if(type==null)
-            throw new SemantiqueException("Variable "+idf+" non declaree");
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("Variable "+idf+" non declaree"));
         if(!type.equals("entier"))
-            throw new SemantiqueException("Variable "+idf+" pas de type entier");*/
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("Variable "+idf+" pas de type entier"));*/
         return true;
     }
 

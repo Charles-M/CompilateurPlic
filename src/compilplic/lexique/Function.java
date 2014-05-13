@@ -1,5 +1,6 @@
 package compilplic.lexique;
 
+import compilplic.exception.GestionnaireSemantique;
 import compilplic.exception.SemantiqueException;
 import java.util.ArrayList;
 
@@ -30,7 +31,7 @@ public class Function extends Bloc_IDF
     public boolean verifier() throws Exception{
         super.verifier();
         if(!type_retour.equals("entier"))
-            throw new SemantiqueException("Le type de retour de la fonction "+idf+" est de type "+type_retour+", type entier attendu");
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("Le type de retour de la fonction "+idf+" est de type "+type_retour+", type entier attendu"));
                 
         for(Instruction i : instructions){
             i.verifier();

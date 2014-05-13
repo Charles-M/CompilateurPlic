@@ -5,6 +5,7 @@
 package compilplic.tds;
 
 import compilplic.exception.DoubleDeclarationException;
+import compilplic.exception.GestionnaireSemantique;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -38,7 +39,7 @@ public class TDS {
     
     public void ajouter(Entree e,String s) throws DoubleDeclarationException {
         if(listeBloc.get(region_actuelle).containsKey(e) && listeBloc.get(region_actuelle).get(e).getType().equals(s)){
-            throw new DoubleDeclarationException(" a la ligne "+e.getLine()+" : "+e.getNom()+" est deja declaree");
+            GestionnaireSemantique.getInstance().add(new DoubleDeclarationException(" a la ligne "+e.getLine()+" : "+e.getNom()+" est deja declaree"));
         }else{
             Symbole sym;
             if(!s.equals("classe") && !s.equals("fonction"))
