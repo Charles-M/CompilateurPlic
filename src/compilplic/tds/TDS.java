@@ -37,13 +37,19 @@ public class TDS {
     }
     
     public void ajouter(Entree e,String s) throws DoubleDeclarationException {
-        if(listeBloc.get(region_actuelle).containsKey(e))
+        if(listeBloc.get(region_actuelle).containsKey(e) && listeBloc.get(region_actuelle).get(e).getType().equals(s)){
             throw new DoubleDeclarationException(" a la ligne "+e.getLine()+" : "+e.getNom()+" est deja declaree");
-        else{
-            Symbole sym = new Symbole(s,deplacement=deplacement+4);
+        }else{
+            Symbole sym;
+            if(!s.equals("classe") && !s.equals("fonction"))
+                sym = new Symbole(s,deplacement+=4);
+            else{
+                sym = new Symbole(s,0);
+            }
             if(region_actuelle.getBloc()==1)
                 sym.setGlobal(true);
             listeBloc.get(region_actuelle).put(e, sym);
+       
         }
     }
     
@@ -154,7 +160,7 @@ public class TDS {
         for(Entry ent : listeBloc.entrySet()){
             r=(Region) ent.getKey();
             str+="Region "+r.getBloc()+" "+r.getProfondeur()+"\n";
-            for(Entry entry : listeBloc.get((Region) r).entrySet()){
+            for(Entry entry : listeBloc.get(r).entrySet()){
                 e = (Entree) entry.getKey();
                 s = (Symbole) entry.getValue();
                 str+="\t"+e.getNom()+"->"+s.toString()+"\n";

@@ -61,9 +61,7 @@ public class Identificateur extends Expression{
     @Override
     public boolean verifier() throws SemantiqueException {
         TDS tds = TDS.getInstance();
-        Symbole decl = tds.identifier(new Entree(getNom(), 0));
-        if(decl==null)
-            System.err.println("VERIF Declaration de "+this.nom+" introuvable");
+        Symbole decl = tds.identifier(new Entree(getNom(), 0, "entier"));
         if(decl==null)
             return false;
         
@@ -73,7 +71,7 @@ public class Identificateur extends Expression{
     @Override
     public String ecrireMips() {
         TDS tds = TDS.getInstance();
-        Symbole decl = tds.identifier(new Entree(getNom(), 0));
+        Symbole decl = tds.identifier(new Entree(getNom(), 0, "entier"));
         
         return GenerateurMIPS.getInstance().ecrireIdentificateur(/*tds.getDeplacement()+*/decl.getDeplacement(),decl.isGlobal());
     }

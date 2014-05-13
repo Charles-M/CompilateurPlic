@@ -82,7 +82,7 @@ terminal String CSTE_ENT, CSTE_CHAINE, IDF, S_FIN, S_CLASSE, S_LIRE, S_ECRIRE, S
 
 non terminal Expression EXP ;
 non terminal Lexique SYSTEME ;
-non terminal ArrayList<String> L_IDF ;
+non terminal ArrayList<Entree> L_IDF ;
 non terminal String ACCES ;
 non terminal ArrayList<Instruction> L_INSTRUCTION ;
 non terminal Instruction INSTRUCTION, AFFECT, LIRE, ECRIRE ;
@@ -121,86 +121,87 @@ OPER ::= + | - | * | > | < | == | != | / | %
 start with SYSTEME ;
 
 SYSTEME         ::= CLASSE
-                {: System.out.println("fin systeme") ; RESULT = lexique ; :}
+                {: /*System.out.println("fin systeme") ;*/ RESULT = lexique ; :}
                 ;
 
 CLASSE          ::= S_CLASSE IDF:i {: lexique.ajouterBloc(new Classe(i)) ; tds.entreeBloc() ; :} L_DECLARATION S_FIN
-                    {: System.out.println("fin classe de nom "+i) ; :}
+                    {: /*System.out.println("fin classe de nom "+i) ;*/ tds.ajouter(new Entree(i, ileft+1, "classe"), "classe") ; :}
                 ;
 
 L_DECLARATION   ::= L_DECLARATION DECLARATION
-                    {: System.out.println("fin l_decl -> l_decl decl") ; :}
+                    {: //System.out.println("fin l_decl -> l_decl decl") ; :}
                 |
-                    {: System.out.println("fin l_decl -> vide") ; :}
+                    {: //System.out.println("fin l_decl -> vide") ; :}
                 ;
 
 DECLARATION     ::= DECL_CHAMP
-                    {: System.out.println("fin decl_champ") ; :}
+                    {: //System.out.println("fin decl_champ") ; :}
                 | DECL_CONST
-                    {: System.out.println("fin decl_const") ; :}
+                    {: //System.out.println("fin decl_const") ; :}
                 ;
 
 DECL_CHAMP      ::= STATUT:s TYPE:t IDF:i L_IDF:l POINT_VIRGULE
-                    {: System.out.println("fin decl_champ de premier nom "+i) ;
+                    {: //System.out.println("fin decl_champ de premier nom "+i) ;
                        lexique.ajouterDecl(bloc_courant, new D_Champ(i,ileft+1,s,t)) ;
-                       tds.ajouter(new Entree(i), t) ;
-                       for(String idf : l) {
-                        lexique.ajouterDecl(bloc_courant, new D_Champ(idf,ileft+1,s,t)) ;
-                        tds.ajouter(new Entree(idf), t) ;
+                       tds.ajouter(new Entree(i, ileft+1, t), t) ;
+                       for(Entree idf : l) {
+                        idf.setEspace(t) ;
+                        lexique.ajouterDecl(bloc_courant, new D_Champ(idf.getNom(),idf.getLine(),s,t)) ;
+                        tds.ajouter(idf, t) ;
                        }:}
                 ;
 
 L_IDF           ::= VIRGULE IDF:i L_IDF:l
-                    {: System.out.println("fin l_idf : "+i) ; l.add(i) ; RESULT = l ; :}
+                    {: /*System.out.println("fin l_idf : "+i) ;*/ l.add(new Entree(i, ileft+1)) ; RESULT = l ; :}
                 |
-                    {: System.out.println("fin l_idf vide") ; RESULT = new ArrayList<String>() ; :}
+                    {: /*System.out.println("fin l_idf vide") ;*/ RESULT = new ArrayList<Entree>() ; :}
                 ;
 
 DECL_CONST      ::= L_INSTRUCTION:l
-                    {: System.out.println("fin decl_const") ;
+                    {: /*System.out.println("fin decl_const") ;*/
                        lexique.ajouterDecl(bloc_courant, new D_Const("idf", lleft+1, l)) ; :}
                 ;
 
 L_INSTRUCTION   ::= L_INSTRUCTION:l INSTRUCTION:i
-                    {: System.out.println("fin l_inst -> l_inst inst") ; l.add(i) ; RESULT = l ; :}
+                    {: /*System.out.println("fin l_inst -> l_inst inst") ;*/ l.add(i) ; RESULT = l ; :}
                 | INSTRUCTION:i
-                    {: System.out.println("fin l_inst -> inst") ;
+                    {: /*System.out.println("fin l_inst -> inst") ;*/
                        ArrayList<Instruction> l = new ArrayList<Instruction>() ;
                        l.add(i) ; RESULT = l ; :}
                 ;
 
 INSTRUCTION     ::= AFFECT:a
-                    {: System.out.println("fin inst -> affect") ; RESULT = a ; :}
+                    {: /*System.out.println("fin inst -> affect") ;*/ RESULT = a ; :}
                 | LIRE:l
-                    {: System.out.println("fin inst -> lire") ; RESULT = l ; :}
+                    {: /*System.out.println("fin inst -> lire") ;*/ RESULT = l ; :}
                 | ECRIRE:e
-                    {: System.out.println("fin inst -> ecrire") ; RESULT = e ; :}
+                    {: /*System.out.println("fin inst -> ecrire") ;*/ RESULT = e ; :}
                 ;
 
 AFFECT          ::= ACCES:i EQUAL EXP:e POINT_VIRGULE
-                    {: System.out.println("fin affect avec expression "+e) ;
+                    {: /*System.out.println("fin affect avec expression "+e) ;*/
                        RESULT = new Affectation(i, e, ileft+1) ; :}
                 ;
 
 ACCES           ::= IDF:i
-                    {: System.out.println("fin acces idf "+i) ; RESULT = i ; :}
+                    {: /*System.out.println("fin acces idf "+i) ;*/ RESULT = i ; :}
                 ;
 
 LIRE            ::= S_LIRE IDF:i POINT_VIRGULE
-                    {: System.out.println("lire idf "+i) ; RESULT = new Lire(i, ileft+1) ; :}
+                    {: /*System.out.println("lire idf "+i) ;*/ RESULT = new Lire(i, ileft+1) ; :}
                 ;
 
 ECRIRE          ::= S_ECRIRE EXP:e POINT_VIRGULE
-                    {: System.out.println("fin ecrire exp "+e) ; RESULT = new Ecrire(e, eleft+1) ; :}
+                    {: /*System.out.println("fin ecrire exp "+e) ;*/ RESULT = new Ecrire(e, eleft+1) ; :}
                 | S_ECRIRE CSTE_CHAINE:c POINT_VIRGULE
-                    {: System.out.println("fin ecrire chaine "+c.replaceAll("\"\"", "\"")) ; RESULT = new Ecrire(c.replaceAll("\"\"", "\""), cleft+1) ; :}
+                    {: /*System.out.println("fin ecrire chaine "+c.replaceAll("\"\"", "\"")) ;*/ RESULT = new Ecrire(c.replaceAll("\"\"", "\""), cleft+1) ; :}
                 ;
 
 EXP	::= CSTE_ENT:i
 	 {: RESULT = new Nombre(Integer.parseInt(i.trim())) ; :}
 
          |  IDF:i
-	 {: System.out.println("fin exp idf "+i) ; RESULT = new Identificateur(i) ; :}
+	 {: /*System.out.println("fin exp idf "+i) ;*/ RESULT = new Identificateur(i) ; :}
 
          |  PARENTH_OUVRANTE EXP:e PARENTH_FERMANTE
          {: RESULT = e ; :}

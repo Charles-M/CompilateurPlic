@@ -12,12 +12,19 @@ import java.util.Objects;
  */
 public class Entree {
     
-    private String nom ;
+    private String nom, espace ;
     private int line ;
 
     public Entree(String nom, int l) {
         this.nom = nom;
         this.line = l ;
+        this.espace="entier";
+    }
+
+    public Entree(String nom, int l, String espace) {
+        this.nom = nom;
+        this.line = l ;
+        this.espace = espace ;
     }
 
     public String getNom() {
@@ -26,6 +33,14 @@ public class Entree {
 
     public int getLine() {
         return line;
+    }
+
+    public void setEspace(String espace) {
+        this.espace = espace;
+    }
+
+    public String getEspace() {
+        return espace;
     }
     
     /**
@@ -39,7 +54,7 @@ public class Entree {
             return true;
         
         Entree e = (Entree) o;
-        return this.nom.equals(e.getNom());
+        return this.nom.equals(e.getNom()) && espace.equals(e.getEspace());
     }
 
     @Override

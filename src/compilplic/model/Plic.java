@@ -7,6 +7,7 @@ package compilplic.model;
 import compilplic.analyse.AnalyseurLexical;
 import compilplic.analyse.AnalyseurSyntaxique;
 import compilplic.lexique.Lexique;
+import compilplic.tds.TDS;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,6 +29,7 @@ public class Plic {
         lireFichier(chemin_src) ;
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(contenu_fichier.toString())));
         Lexique l = (Lexique)as.parse().value ;
+        System.out.println(TDS.getInstance());
         l.verifier();
         f_dest = new File(f.getAbsolutePath().replaceAll("\\.plic", ".asm"));
         writeMips(l);
