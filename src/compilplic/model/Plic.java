@@ -34,7 +34,7 @@ public class Plic {
         l.verifier();
         if(GestionnaireSemantique.getInstance().size() != 0)
             for (SemantiqueException s : GestionnaireSemantique.getInstance())
-                System.out.println("ERREUR SEMANTIQUE : "+s.getMessage());
+                System.err.println("ERREUR SEMANTIQUE : "+s.getMessage());
         else{
             f_dest = new File(f.getAbsolutePath().replaceAll("\\.plic", ".asm"));
             writeMips(l);
