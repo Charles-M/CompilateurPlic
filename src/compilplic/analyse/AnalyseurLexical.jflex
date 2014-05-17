@@ -60,6 +60,8 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
 <YYINITIAL> ";"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.POINT_VIRGULE,yytext()) ;}
 <YYINITIAL> ","    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.VIRGULE,yytext()) ;}
 <YYINITIAL> "fin"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_FIN,yytext()) ;}
+<YYINITIAL> "debut"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_DEBUT,yytext()) ;}
+<YYINITIAL> "retourne"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_RETOURNE,yytext()) ;}
 <YYINITIAL> "lire"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_LIRE,yytext()) ;}
 <YYINITIAL> "ecrire"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_ECRIRE,yytext()) ;}
 <YYINITIAL> {statut}    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.STATUT,yytext()) ;}

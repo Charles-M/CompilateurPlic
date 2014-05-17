@@ -28,14 +28,16 @@ public class Test {
     
     public Test(String [] args) throws IOException, Exception {
         String texte = lireFichier(args[0]) ;
-        AnalyseurSyntaxique s = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(texte))) ;
+        AnalyseurLexical lex = new AnalyseurLexical(new StringReader(texte)) ;
+        AnalyseurSyntaxique s = new AnalyseurSyntaxique(lex) ;
+        s.parse() ;
         Lexique l = (Lexique) s.parse().value ;
         TDS tds = TDS.getInstance() ;
         System.out.println("lexique = \n"+l);
         System.out.println("tds = \n"+tds);
-        boolean b = l.verifier();
+        /*boolean b = l.verifier();
         String mips = l.ecrireMips();
-        System.out.println(mips);
+        System.out.println(mips);*/
         System.out.println("FINI !");
     }
     

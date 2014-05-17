@@ -73,7 +73,7 @@ parser code {:
 
 terminal String PLUS, MOINS, MULT, DIV, MOD, GT, LT, DOUBLE_EQUAL, DIFF ;
 terminal Symbol VIRGULE, PARENTH_OUVRANTE, PARENTH_FERMANTE, POINT_VIRGULE, EQUAL ;
-terminal String CSTE_ENT, CSTE_CHAINE, IDF, S_FIN, S_CLASSE, S_LIRE, S_ECRIRE, STATUT, TYPE ;
+terminal String CSTE_ENT, CSTE_CHAINE, IDF, S_FIN, S_CLASSE, S_LIRE, S_ECRIRE, STATUT, TYPE, S_DEBUT, S_RETOURNE ;
    
 /* Non terminals used in the grammar section.  
    Non terminals that have an object value are listed first and then non terminals that have an 
@@ -86,7 +86,7 @@ non terminal ArrayList<Entree> L_IDF ;
 non terminal String ACCES ;
 non terminal ArrayList<Instruction> L_INSTRUCTION ;
 non terminal Instruction INSTRUCTION, AFFECT, LIRE, ECRIRE ;
-non terminal Symbol CLASSE, L_DECLARATION, DECLARATION, DECL_CHAMP, DECL_CONST ; 
+non terminal Symbol CLASSE, L_DECLARATION, DECLARATION, DECL_CHAMP, DECL_CONST, L_EXP, L_CLASSE, DECL_FONCTION, PAR_EFF, PARAMETRES, DECL_VAR, L_DECL_VAR, L_PARAM, RETOURNE ; 
 
 /* truc bizare sur les priorités */
 
@@ -98,54 +98,70 @@ precedence left S_LIRE, S_ECRIRE, IDF ;
 /* ----------------------------Grammar Section-------------------- */
 /* GRAMMAIRE DE L'ANALYSEUR SYNTAXIQUE
 
-    PLIC 1
-SYSTEME         ::= CLASSE
+    PLIC 1 // 2
+SYSTEME         ::= L_CLASSE
+L_CLASSE        ::= CLASSE L_CLASSE | ^
 CLASSE          ::= S_CLASSE IDF L_DECLARATION S_FIN
-L_DECLARATION   ::= DECLARATION L_DECLARATION | DECLARATION
-DECLARATION     ::= DECL_CHAMP | DECL_CONST
+L_DECLARATION   ::= DECLARATION L_DECLARATION | ^
+DECLARATION     ::= DECL_CHAMP | DECL_CONST | DECL_FONCTION
 DECL_CHAMP      ::= STATUT TYPE IDF L_IDF POINT_VIRGULE
-DECL_CONST      ::= L_INSTRUCTION
+L_IDF           ::= VIRGULE IDF | ^
+DECL_CONST      ::= STATUT IDF PARAMETRES S_DEBUT L_DECL_VAR L_INSTRUCTION S_FIN
+L_DELC_VAR      ::= DECL_VAR L_DECL_VAR | ^
+DECL_VAR        ::= TYPE IDF L_IDF POINT_VIRGULE
+DECL_FONCTION   ::= STATUT TYPE IDF PARAMETRES S_DEBUT L_DECL_VAR L_INSTRUCTION S_FIN
+PARAMETRE       ::= PARENTHESE_OUVRANTE TYPE IDF L_PARAM PARENTHESE_FERMANTE | PARENTHESE_OUVRANTE PARENTHESE_FERMANTE
+PAR_EFF         ::= EXP L_EXP | ^
+L_EXP           ::= VIRGULE EXP L_EXP | ^
+L_PARAM         ::= VIRGULE TYPE IDF L_PARAM |
 L_INSTRUCTION   ::= INSTRUCTION L_INSTRUCTION | INSTRUCTION
-INSTRUCTION     ::= AFFECT | LIRE | ECRIRE
+INSTRUCTION     ::= AFFECT | LIRE | ECRIRE | RETOURNE
 AFFECT          ::= ACCES EQUAL EXP POINT_VIRGULE
 ACCES           ::= IDF
 LIRE            ::= S_LIRE IDF POINT_VIRGULE
 ECRIRE          ::= S_ECRIRE EXP POINT_VIRGULE | S_ECRIRE CSTE_CHAINE POINT_VIRGULE
+RETOURNE        ::= S_RETOURNE EXP POINT_VIRGULE
 
     PLIC 0
-EXP ::= cste_ent | ( EXP ) | - EXP | EXP OPER EXP
+EXP ::= cste_ent | ( EXP ) | - EXP | EXP OPER EXP | IDF PARENTHESE_OUVRANTE PAR_EFF PARENTHESE_FERMANTE
 OPER ::= + | - | * | > | < | == | != | / | %
 
 */
 
 start with SYSTEME ;
 
-SYSTEME         ::= CLASSE
-                {: /*System.out.println("fin systeme") ;*/ RESULT = lexique ; :}
+SYSTEME         ::= L_CLASSE
+                {: System.out.println("fin systeme") ; RESULT = lexique ; :}
                 ;
 
-CLASSE          ::= S_CLASSE IDF:i {: lexique.ajouterBloc(new Classe(i)) ; tds.entreeBloc() ; :} L_DECLARATION S_FIN
-                    {: /*System.out.println("fin classe de nom "+i) ;*/ tds.ajouter(new Entree(i, ileft+1, "classe"), "classe") ; :}
+L_CLASSE        ::= CLASSE L_CLASSE
+                | 
+                ;
+
+CLASSE          ::= S_CLASSE IDF:i {: System.out.println("(entree bloc)") ; lexique.ajouterBloc(new Classe(i)) ; tds.entreeBloc() ; :} L_DECLARATION S_FIN
+                    {: System.out.println("fin classe de nom "+i+" (sortie bloc)") ; tds.ajouter(new Entree(i, ileft+1, "classe"), "classe") ; tds.sortieBloc() ; :}
                 ;
 
 L_DECLARATION   ::= L_DECLARATION DECLARATION
-                    {: //System.out.println("fin l_decl -> l_decl decl") ; :}
+                    {: System.out.println("fin l_decl -> l_decl decl") ; :}
                 |
-                    {: //System.out.println("fin l_decl -> vide") ; :}
+                    {: System.out.println("fin l_decl -> vide") ; :}
                 ;
 
 DECLARATION     ::= DECL_CHAMP
-                    {: //System.out.println("fin decl_champ") ; :}
+                    {: System.out.println("fin decl_champ") ; :}
                 | DECL_CONST
-                    {: //System.out.println("fin decl_const") ; :}
+                    {: System.out.println("fin decl_const") ; :}
+                | DECL_FONCTION
+                    {: System.out.println("fin decl_fonction") ; :}
                 ;
 
 DECL_CHAMP      ::= STATUT:s TYPE:t IDF:i L_IDF:l POINT_VIRGULE
                     {: //System.out.println("fin decl_champ de premier nom "+i) ;
                        lexique.ajouterDecl(bloc_courant, new D_Champ(i,ileft+1,s,t)) ;
-                       tds.ajouter(new Entree(i, ileft+1, t), t) ;
+                       tds.ajouter(new Entree(i, ileft+1, "variable"), t) ;
                        for(Entree idf : l) {
-                        idf.setEspace(t) ;
+                        idf.setEspace("variable") ;
                         lexique.ajouterDecl(bloc_courant, new D_Champ(idf.getNom(),idf.getLine(),s,t)) ;
                         tds.ajouter(idf, t) ;
                        }:}
@@ -157,9 +173,45 @@ L_IDF           ::= VIRGULE IDF:i L_IDF:l
                     {: /*System.out.println("fin l_idf vide") ;*/ RESULT = new ArrayList<Entree>() ; :}
                 ;
 
-DECL_CONST      ::= L_INSTRUCTION:l
-                    {: /*System.out.println("fin decl_const") ;*/
+DECL_CONST      ::= STATUT IDF:i PARAMETRES S_DEBUT L_DECL_VAR L_INSTRUCTION:l S_FIN
+                    {: System.out.println("fin decl_const idf="+i) ;
                        lexique.ajouterDecl(bloc_courant, new D_Const("idf", lleft+1, l)) ; :}
+                ;
+
+L_DECL_VAR      ::= DECL_VAR L_DECL_VAR
+                | 
+                ;
+
+DECL_VAR        ::= TYPE:t IDF:i L_IDF:l POINT_VIRGULE
+                    {: System.out.println("in decl_var type="+t+" idf="+i+" liste="+l) ; :}
+                ;
+
+DECL_FONCTION   ::= STATUT:s TYPE:t IDF:i PARAMETRES S_DEBUT L_DECL_VAR L_INSTRUCTION S_FIN
+                    {: System.out.println("fin decl fonct statut="+s+" type="+t+" idf="+i) ;:}
+                ;
+
+PARAMETRES      ::= PARENTH_OUVRANTE TYPE:t IDF:i L_PARAM PARENTH_FERMANTE
+                    {: System.out.println("fin param type="+t+" idf="+i) ; :}
+                | PARENTH_OUVRANTE PARENTH_FERMANTE
+                    {: System.out.println("fin param vide") ; :}
+                ;
+
+PAR_EFF         ::= EXP:e L_EXP
+                    {: System.out.println("fin par_eff exp="+e) ; :}
+                | 
+                    {: System.out.println("fin par_eff vide") ; :}
+                ;
+
+L_EXP           ::= VIRGULE EXP:e L_EXP
+                    {: System.out.println("fin L_exp -> virgule exp="+e) ; :}
+                | 
+                    {: System.out.println("fin l_exp vide") ; :}
+                ;
+
+L_PARAM         ::= VIRGULE TYPE:t IDF:i L_PARAM
+                    {: System.out.println("fin l_param type="+t+" idf="+i) ; :}
+                | 
+                    {: System.out.println("fin l_param vide") ; :}
                 ;
 
 L_INSTRUCTION   ::= L_INSTRUCTION:l INSTRUCTION:i
@@ -176,6 +228,8 @@ INSTRUCTION     ::= AFFECT:a
                     {: /*System.out.println("fin inst -> lire") ;*/ RESULT = l ; :}
                 | ECRIRE:e
                     {: /*System.out.println("fin inst -> ecrire") ;*/ RESULT = e ; :}
+                | RETOURNE
+                    {: System.out.println("fin inst -> retourne") ; :}
                 ;
 
 AFFECT          ::= ACCES:i EQUAL EXP:e POINT_VIRGULE
@@ -195,6 +249,10 @@ ECRIRE          ::= S_ECRIRE EXP:e POINT_VIRGULE
                     {: /*System.out.println("fin ecrire exp "+e) ;*/ RESULT = new Ecrire(e, eleft+1) ; :}
                 | S_ECRIRE CSTE_CHAINE:c POINT_VIRGULE
                     {: /*System.out.println("fin ecrire chaine "+c.replaceAll("\"\"", "\"")) ;*/ RESULT = new Ecrire(c.replaceAll("\"\"", "\""), cleft+1) ; :}
+                ;
+
+RETOURNE        ::= S_RETOURNE PARENTH_OUVRANTE EXP:e PARENTH_FERMANTE POINT_VIRGULE
+                    {: System.out.println("fin retourne exp="+e) ; :}
                 ;
 
 EXP	::= CSTE_ENT:i
@@ -235,6 +293,9 @@ EXP	::= CSTE_ENT:i
 
          |  EXP:g MOD:s EXP:d
          {: RESULT = new Modulo(g, d, sleft+1, sright+1) ; :}
+
+         |  IDF:i PARENTH_OUVRANTE PAR_EFF PARENTH_FERMANTE
+         {: System.out.println("fin exp -> idf(param) idf="+i) ; :}
         ;
 
 /*

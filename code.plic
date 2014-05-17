@@ -1,11 +1,36 @@
-classe test
-    publique entier a,b,d,test, A ;
-    a = 2+4 ;
-    ecrire "a = " ;
-    ecrire a ;
-    //publique entier b ;
-    ecrire "\nA = " ;
-    ecrire A ;
-    //b = z + 1 ;
-    ecrire "\nFIN" ;
+// Test de declarations
+classe Essai1 // bloc 0
+    // Declarations de champs
+    publique entier x , y ;
+    publique entier a ;
+
+    // Declarations de constructeurs
+    publique Essai1(entier x, entier y) // bloc 1
+        debut
+            x = a ;
+        fin
+    publique Essai1(entier x) // bloc 2
+        debut
+            y = x+a + f (x, a) ;
+        fin
+    // Declaration d’une fonction
+    publique entier f (entier a, entier b)
+        debut
+            entier x ;
+            x = a + b ;
+            retourne(x) ;
+        fin
+fin
+
+classe Test // bloc 0
+    publique entier a ;
+    publique Test(entier y) // bloc 1
+        debut
+            x = a + y ;
+        fin
+    publique entier x , y ;
+    publique Test() // bloc 2
+        debut
+            y = x+a ;
+        fin
 fin
