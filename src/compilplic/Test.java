@@ -26,18 +26,23 @@ public class Test {
     private File f ;
     private StringBuilder contenu_fichier ;
     
-    public Test(String [] args) throws IOException, Exception {
-        String texte = lireFichier(args[0]) ;
-        AnalyseurLexical lex = new AnalyseurLexical(new StringReader(texte)) ;
-        AnalyseurSyntaxique s = new AnalyseurSyntaxique(lex) ;
-        s.parse() ;
-        Lexique l = (Lexique) s.parse().value ;
-        TDS tds = TDS.getInstance() ;
-        System.out.println("lexique = \n"+l);
-        System.out.println("tds = \n"+tds);
-        /*boolean b = l.verifier();
-        String mips = l.ecrireMips();
-        System.out.println(mips);*/
+    public Test(String [] args) throws IOException {
+        try{
+            String texte = lireFichier(args[0]) ;
+            AnalyseurLexical lex = new AnalyseurLexical(new StringReader(texte)) ;
+            AnalyseurSyntaxique s = new AnalyseurSyntaxique(lex) ;
+            s.parse() ;
+            Lexique l = (Lexique) s.parse().value ;
+            TDS tds = TDS.getInstance() ;
+            System.out.println("lexique = \n"+l);
+            System.out.println("tds = \n"+tds);
+            /*boolean b = l.verifier();
+            String mips = l.ecrireMips();
+            System.out.println(mips);*/
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
         System.out.println("FINI !");
     }
     

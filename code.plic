@@ -2,7 +2,7 @@
 classe Essai1 // bloc 0
     // Declarations de champs
     publique entier x , y ;
-    publique entier a ;
+    publique entier a, ahahahah ;
 
     // Declarations de constructeurs
     publique Essai1(entier x, entier y) // bloc 1
@@ -16,14 +16,14 @@ classe Essai1 // bloc 0
     // Declaration d’une fonction
     publique entier f (entier a, entier b)
         debut
-            entier x ;
+            entier x, varDansF ;
             x = a + b ;
             retourne(x) ;
         fin
 fin
 
 classe Test // bloc 0
-    publique entier a ;
+    publique entier a, plouf, patate ;
     publique Test(entier y) // bloc 1
         debut
             x = a + y ;

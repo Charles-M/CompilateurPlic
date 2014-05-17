@@ -173,9 +173,10 @@ L_IDF           ::= VIRGULE IDF:i L_IDF:l
                     {: /*System.out.println("fin l_idf vide") ;*/ RESULT = new ArrayList<Entree>() ; :}
                 ;
 
-DECL_CONST      ::= STATUT IDF:i PARAMETRES S_DEBUT L_DECL_VAR L_INSTRUCTION:l S_FIN
+DECL_CONST      ::= STATUT IDF:i {: tds.entreeBloc() ; :} PARAMETRES S_DEBUT L_DECL_VAR L_INSTRUCTION:l S_FIN
                     {: System.out.println("fin decl_const idf="+i) ;
-                       lexique.ajouterDecl(bloc_courant, new D_Const("idf", lleft+1, l)) ; :}
+                       lexique.ajouterDecl(bloc_courant, new D_Const("idf", lleft+1, l)) ;
+                       tds.sortieBloc() ; :}
                 ;
 
 L_DECL_VAR      ::= DECL_VAR L_DECL_VAR
@@ -186,8 +187,9 @@ DECL_VAR        ::= TYPE:t IDF:i L_IDF:l POINT_VIRGULE
                     {: System.out.println("in decl_var type="+t+" idf="+i+" liste="+l) ; :}
                 ;
 
-DECL_FONCTION   ::= STATUT:s TYPE:t IDF:i PARAMETRES S_DEBUT L_DECL_VAR L_INSTRUCTION S_FIN
-                    {: System.out.println("fin decl fonct statut="+s+" type="+t+" idf="+i) ;:}
+DECL_FONCTION   ::= STATUT:s TYPE:t IDF:i {: tds.entreeBloc() ; :} PARAMETRES S_DEBUT L_DECL_VAR L_INSTRUCTION S_FIN
+                    {: System.out.println("fin decl fonct statut="+s+" type="+t+" idf="+i) ;
+                       tds.sortieBloc() ; :}
                 ;
 
 PARAMETRES      ::= PARENTH_OUVRANTE TYPE:t IDF:i L_PARAM PARENTH_FERMANTE
