@@ -138,7 +138,7 @@ L_CLASSE        ::= CLASSE L_CLASSE
                 | 
                 ;
 
-CLASSE          ::= S_CLASSE IDF:i {: System.out.println("(entree bloc)") ; lexique.ajouterBloc(new Classe(i)) ; tds.entreeBloc() ; :} L_DECLARATION S_FIN
+CLASSE          ::= S_CLASSE IDF:i {: System.out.println("(entree bloc)") ; lexique.ajouterBloc(new Classe(i)) ; tds.entreeBloc() ; bloc_courant++ ; :} L_DECLARATION S_FIN
                     {: System.out.println("fin classe de nom "+i+" (sortie bloc)") ; tds.ajouter(new Entree(i, ileft+1, "classe"), "classe") ; tds.sortieBloc() ; :}
                 ;
 
@@ -173,7 +173,7 @@ L_IDF           ::= VIRGULE IDF:i L_IDF:l
                     {: /*System.out.println("fin l_idf vide") ;*/ RESULT = new ArrayList<Entree>() ; :}
                 ;
 
-DECL_CONST      ::= STATUT IDF:i {: tds.entreeBloc() ; :} PARAMETRES S_DEBUT L_DECL_VAR L_INSTRUCTION:l S_FIN
+DECL_CONST      ::= STATUT IDF:i {: tds.ajouter(new Entree(i, ileft+1, "fonction"), i) ; lexique.ajouterBloc(new Function(i, i)) ; tds.entreeBloc() ; bloc_courant++ ; :} PARAMETRES S_DEBUT L_DECL_VAR L_INSTRUCTION:l S_FIN
                     {: System.out.println("fin decl_const idf="+i) ;
                        lexique.ajouterDecl(bloc_courant, new D_Const("idf", lleft+1, l)) ;
                        tds.sortieBloc() ; :}
@@ -184,10 +184,17 @@ L_DECL_VAR      ::= DECL_VAR L_DECL_VAR
                 ;
 
 DECL_VAR        ::= TYPE:t IDF:i L_IDF:l POINT_VIRGULE
-                    {: System.out.println("in decl_var type="+t+" idf="+i+" liste="+l) ; :}
+                    {: System.out.println("in decl_var type="+t+" idf="+i+" liste="+l) ;
+                       lexique.ajouterDecl(bloc_courant, new D_Var(i,ileft+1,t)) ;
+                       tds.ajouter(new Entree(i, ileft+1, "variable"), t) ;
+                       for(Entree idf : l) {
+                        idf.setEspace("variable") ;
+                        lexique.ajouterDecl(bloc_courant, new D_Var(idf.getNom(),idf.getLine(),t)) ;
+                        tds.ajouter(idf, t) ;
+                       } :}
                 ;
 
-DECL_FONCTION   ::= STATUT:s TYPE:t IDF:i {: tds.entreeBloc() ; :} PARAMETRES S_DEBUT L_DECL_VAR L_INSTRUCTION S_FIN
+DECL_FONCTION   ::= STATUT:s TYPE:t IDF:i {: tds.ajouter(new Entree(i, ileft+1, "fonction"), t) ; lexique.ajouterBloc(new Function(i, t)) ; tds.entreeBloc() ; bloc_courant++ ; :} PARAMETRES S_DEBUT L_DECL_VAR L_INSTRUCTION S_FIN
                     {: System.out.println("fin decl fonct statut="+s+" type="+t+" idf="+i) ;
                        tds.sortieBloc() ; :}
                 ;

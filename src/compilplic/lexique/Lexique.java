@@ -24,7 +24,7 @@ public class Lexique {
     
         
         public void ajouterDecl(int i, Declaration d) {
-            liste_bloc.get(i).ajouterDecl(d) ;
+            liste_bloc.get(i-1).ajouterDecl(d) ;
         }
 
         public boolean verifier() throws Exception {
@@ -43,6 +43,11 @@ public class Lexique {
             return str;
 	}
 
+    public ArrayList<Bloc> getListe_bloc() {
+        return liste_bloc;
+    }
+
+        
     @Override
     public String toString() {
         return "Lexique{" + "liste_bloc=" + liste_bloc + '}';

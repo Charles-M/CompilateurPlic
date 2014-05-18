@@ -6,6 +6,7 @@ package compilplic;
 
 import compilplic.analyse.AnalyseurLexical;
 import compilplic.analyse.AnalyseurSyntaxique;
+import compilplic.lexique.Bloc;
 import compilplic.lexique.Lexique;
 import compilplic.lexique.expression.Expression;
 import compilplic.tds.TDS;
@@ -31,10 +32,11 @@ public class Test {
             String texte = lireFichier(args[0]) ;
             AnalyseurLexical lex = new AnalyseurLexical(new StringReader(texte)) ;
             AnalyseurSyntaxique s = new AnalyseurSyntaxique(lex) ;
-            s.parse() ;
             Lexique l = (Lexique) s.parse().value ;
             TDS tds = TDS.getInstance() ;
             System.out.println("lexique = \n"+l);
+            for (Bloc b : l.getListe_bloc())
+                System.out.println(b.declaration) ;
             System.out.println("tds = \n"+tds);
             /*boolean b = l.verifier();
             String mips = l.ecrireMips();
