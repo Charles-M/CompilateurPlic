@@ -3,7 +3,7 @@ package compilplic.lexique;
 import compilplic.generateur.GenerateurMIPS;
 import java.util.ArrayList;
 
-public class Classe extends BlocIDF
+public class Classe extends BlocIdf
 {
     
     public Classe(String idf) {

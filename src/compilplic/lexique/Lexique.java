@@ -19,8 +19,12 @@ public class Lexique {
             liste_bloc.add(new Classe("root"));
         }
         
-        public void ajouterBloc(int bloc, BlocIDF b) {
-            ((BlocIDF) (liste_bloc.get(bloc))).ajouterBloc(b);
+        public void ajouterBloc(int bloc, BlocIdf b) {
+            liste_bloc.get(bloc).ajouterBloc(b);
+        }
+        
+        public void ajouterParam(int bloc, String t) {
+            ((BlocIdfParam)(liste_bloc.get(bloc))).ajouterParam(t);
         }
 
         public boolean verifier() throws Exception {

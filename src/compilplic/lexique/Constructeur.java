@@ -12,29 +12,33 @@ import java.util.ArrayList;
  * @generated
  */
 
-public class Constructeur extends BlocIDF
+public class Constructeur extends BlocIdfParam
 {
     /**
      * Liste des variable declaree
      */
-    public ArrayList<Instruction> instruction;
+    public ArrayList<Instruction> instructions;
 
-    public Constructeur(String idf) {
-        super(idf);
+    public Constructeur() {
+        super(null);
     }
 
-    public void setInstruction(ArrayList<Instruction> instruction) {
-        this.instruction = instruction;
+    public void setInstructions(ArrayList<Instruction> instructions) {
+        this.instructions = instructions;
+    }
+
+    public void setIdf(String idf) {
+        this.idf = idf;
     }
 
     @Override
     public String toString() {
-        return "D_Const{" + "instruction=" + instruction + '}';
+        return "D_Const{" + "instruction=" + instructions + '}';
     }
 
     @Override
     public boolean verifier() throws SemantiqueException {
-        for(Instruction i : instruction){
+        for(Instruction i : instructions){
             i.verifier();
         }
         return true;
@@ -43,7 +47,7 @@ public class Constructeur extends BlocIDF
     @Override
     public String ecrireMips() {
         String str = GenerateurMIPS.getInstance().ecrireBloc("Constructeur_"+idf+hashCode());
-        for(Instruction i : instruction){
+        for(Instruction i : instructions){
             str += i.ecrireMips();
         }
         return str;

@@ -36,7 +36,7 @@ public abstract class Declaration
 	 * @ordered
 	 */
 	
-	public BlocIDF bloc;
+	public BlocIdf bloc;
 
     public Declaration(String idf, int line) {
         this.idf = idf;

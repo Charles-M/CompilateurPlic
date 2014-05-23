@@ -11,15 +11,26 @@ import java.util.ArrayList;
  * @generated
  */
 
-public class Function extends BlocIDF
+public class Function extends BlocIdfParam
 {
     
     protected String type_retour;
     public ArrayList<Instruction> instructions;
     
-    public Function(String idf, String type) {
-        super(idf);
-        type_retour=type;
+    public Function() {
+        super(null);
+    }
+
+    public void setIdf(String idf) {
+        this.idf = idf;
+    }
+
+    public void setType_retour(String type_retour) {
+        this.type_retour = type_retour;
+    }
+
+    public void setInstructions(ArrayList<Instruction> instructions) {
+        this.instructions = instructions;
     }
 
     @Override

@@ -8,6 +8,8 @@ import java.util.* ;
 
 action code {:  private Lexique lexique = new Lexique() ;
                 private int bloc_courant = 0 ;
+                private Constructeur cons = new Constructeur() ;
+                private Function func = new Function() ;
                 private TDS tds = TDS.getInstance() ;
 
 	    :} ;
@@ -82,14 +84,15 @@ terminal String CSTE_ENT, CSTE_CHAINE, IDF, S_FIN, S_CLASSE, S_LIRE, S_ECRIRE, S
 non terminal Expression EXP ;
 non terminal Lexique SYSTEME ;
 non terminal ArrayList<Entree> L_IDF ;
+non terminal ArrayList<String> L_PARAM, PARAMETRES ;
 non terminal String ACCES ;
 non terminal ArrayList<Instruction> L_INSTRUCTION ;
 non terminal Instruction INSTRUCTION, AFFECT, LIRE, ECRIRE ;
-non terminal Symbol CLASSE, L_DECLARATION, DECLARATION, DECL_CHAMP, DECL_CONST, L_EXP, L_CLASSE, DECL_FONCTION, PAR_EFF, PARAMETRES, DECL_VAR, L_DECL_VAR, L_PARAM, RETOURNE ; 
+non terminal Symbol CLASSE, L_DECLARATION, DECLARATION, DECL_CHAMP, DECL_CONST, L_EXP, L_CLASSE, DECL_FONCTION, PAR_EFF, DECL_VAR, L_DECL_VAR, RETOURNE ; 
 
 /* truc bizare sur les priorités */
 
-precedence left MOINS,PLUS ;
+precedence left MOINS, PLUS ;
 precedence left MULT, DIV, MOD ;
 precedence left GT, LT, DOUBLE_EQUAL, DIFF ;
 precedence left S_LIRE, S_ECRIRE, IDF ;
@@ -149,9 +152,9 @@ L_DECLARATION   ::= L_DECLARATION DECLARATION
 
 DECLARATION     ::= DECL_CHAMP
                     {: System.out.println("fin decl_champ") ; :}
-                | DECL_CONST
+                |   DECL_CONST
                     {: System.out.println("fin decl_const") ; :}
-                | DECL_FONCTION
+                |   DECL_FONCTION
                     {: System.out.println("fin decl_fonction") ; :}
                 ;
 
@@ -170,9 +173,9 @@ L_IDF           ::= VIRGULE IDF:i L_IDF:l
                     {: /*System.out.println("fin l_idf vide") ;*/ RESULT = new ArrayList<Entree>() ; :}
                 ;
 
-DECL_CONST      ::= STATUT IDF:i {: tds.ajouter(new Entree(i, ileft+1, "fonction"), i) ; Constructeur cons = new Construteur(i) ; lexique.ajouterBloc(bloc_courant, cons) ; tds.entreeBloc() ; bloc_courant++ ; :} PARAMETRES S_DEBUT L_DECL_VAR L_INSTRUCTION:l S_FIN
+DECL_CONST      ::= STATUT IDF:i {: tds.ajouter(new Entree(i, ileft+1, "fonction"), i) ; cons.setIdf(i) ; lexique.ajouterBloc(bloc_courant, cons) ; tds.entreeBloc() ; bloc_courant++ ; :} PARAMETRES S_DEBUT L_DECL_VAR L_INSTRUCTION:l S_FIN
                     {: System.out.println("fin decl_const idf="+i) ;
-                       cons.setInstruction(l) ;
+                       cons.setInstructions(l) ;
                        tds.sortieBloc() ; :}
                 ;
 
@@ -189,14 +192,18 @@ DECL_VAR        ::= TYPE:t IDF:i L_IDF:l POINT_VIRGULE
                        } :}
                 ;
 
-DECL_FONCTION   ::= STATUT:s TYPE:t IDF:i {: tds.ajouter(new Entree(i, ileft+1, "fonction"), t) ; lexique.ajouterBloc(bloc_courant, new Function(i, t)) ; tds.entreeBloc() ; bloc_courant++ ; :} PARAMETRES S_DEBUT L_DECL_VAR L_INSTRUCTION S_FIN
+DECL_FONCTION   ::= STATUT:s TYPE:t IDF:i {: tds.ajouter(new Entree(i, ileft+1, "fonction"), t) ; func.setIdf(i) ; func.setType_retour(t) ; lexique.ajouterBloc(bloc_courant, func) ; tds.entreeBloc() ; bloc_courant++ ; :} PARAMETRES:p S_DEBUT L_DECL_VAR L_INSTRUCTION:l S_FIN
                     {: System.out.println("fin decl fonct statut="+s+" type="+t+" idf="+i) ;
+                       func.setInstructions(l) ;
                        tds.sortieBloc() ; bloc_courant-- ; :}
                 ;
 
-PARAMETRES      ::= PARENTH_OUVRANTE TYPE:t IDF:i L_PARAM PARENTH_FERMANTE
-                    {: System.out.println("fin param type="+t+" idf="+i) ; :}
-                | PARENTH_OUVRANTE PARENTH_FERMANTE
+PARAMETRES      ::= PARENTH_OUVRANTE TYPE:t IDF:i L_PARAM:l PARENTH_FERMANTE
+                    {: System.out.println("fin param type="+t+" idf="+i) ;
+                       lexique.ajouterParam(bloc_courant, t) ;
+                       tds.ajouter(new Entree(i, ileft+1, "variable"), t) ;
+                       RESULT = l ; :}
+                |   PARENTH_OUVRANTE PARENTH_FERMANTE
                     {: System.out.println("fin param vide") ; :}
                 ;
 
@@ -212,15 +219,20 @@ L_EXP           ::= VIRGULE EXP:e L_EXP
                     {: System.out.println("fin l_exp vide") ; :}
                 ;
 
-L_PARAM         ::= VIRGULE TYPE:t IDF:i L_PARAM
-                    {: System.out.println("fin l_param type="+t+" idf="+i) ; :}
+L_PARAM         ::= VIRGULE TYPE:t IDF:i L_PARAM:l
+                    {: System.out.println("fin l_param type="+t+" idf="+i) ;
+                       lexique.ajouterParam(bloc_courant, t) ;
+                       tds.ajouter(new Entree(i, ileft+1, "variable"), t) ;
+                       l.add(t) ;
+                       RESULT = l ; :}
                 | 
-                    {: System.out.println("fin l_param vide") ; :}
+                    {: System.out.println("fin l_param vide") ;
+                       RESULT = new ArrayList<String> ; :}
                 ;
 
 L_INSTRUCTION   ::= L_INSTRUCTION:l INSTRUCTION:i
                     {: /*System.out.println("fin l_inst -> l_inst inst") ;*/ l.add(i) ; RESULT = l ; :}
-                | INSTRUCTION:i
+                |   INSTRUCTION:i
                     {: /*System.out.println("fin l_inst -> inst") ;*/
                        ArrayList<Instruction> l = new ArrayList<Instruction>() ;
                        l.add(i) ; RESULT = l ; :}
@@ -228,11 +240,11 @@ L_INSTRUCTION   ::= L_INSTRUCTION:l INSTRUCTION:i
 
 INSTRUCTION     ::= AFFECT:a
                     {: /*System.out.println("fin inst -> affect") ;*/ RESULT = a ; :}
-                | LIRE:l
+                |   LIRE:l
                     {: /*System.out.println("fin inst -> lire") ;*/ RESULT = l ; :}
-                | ECRIRE:e
+                |   ECRIRE:e
                     {: /*System.out.println("fin inst -> ecrire") ;*/ RESULT = e ; :}
-                | RETOURNE
+                |   RETOURNE
                     {: System.out.println("fin inst -> retourne") ; :}
                 ;
 
@@ -303,7 +315,7 @@ EXP	::= CSTE_ENT:i
          |  IDF:i PARENTH_OUVRANTE PAR_EFF PARENTH_FERMANTE
          {: System.out.println("fin exp -> idf(param) idf="+i) ; :}
 
-         |  IDF:obj POINT IDF:func PARENTH_OUVRANTE PAR_EFF PARENTH_FERMANTE POINT_VIRGULE
-         {: System.out.println("fin exp -> idf(param) obj="+obj+" fonction="+func) ; :}
+         |  IDF:obj POINT IDF:f PARENTH_OUVRANTE PAR_EFF PARENTH_FERMANTE POINT_VIRGULE
+         {: System.out.println("fin exp -> idf(param) obj="+obj+" fonction="+f) ; :}
         ;
 

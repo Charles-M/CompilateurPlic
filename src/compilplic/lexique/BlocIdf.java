@@ -3,12 +3,12 @@
 import compilplic.generateur.GenerateurMIPS;
 
 
-public class BlocIDF extends Bloc {
+public class BlocIdf extends Bloc {
     
     protected String statut;
     protected String idf;
     
-    public BlocIDF(String idf) {
+    public BlocIdf(String idf) {
         super();
         this.idf = idf;
     }
