@@ -1,10 +1,11 @@
 package compilplic.lexique;
 
 import compilplic.generateur.GenerateurMIPS;
+import java.util.ArrayList;
 
-public class Classe extends Bloc_IDF
+public class Classe extends BlocIDF
 {
-
+    
     public Classe(String idf) {
         super(idf);
     }

@@ -30,7 +30,6 @@ public class Conditionnelle extends Bloc
         
     @Override
     public boolean verifier() throws Exception {
-        super.verifier();
         if(!expression.verifier())
             GestionnaireSemantique.getInstance().add(new SemantiqueException("La declaration de la variable "+((Identificateur) expression).getNom()+" a la ligne "+/*line+*/" est manquante"));
         if(!expression.isBoolean())
@@ -42,7 +41,8 @@ public class Conditionnelle extends Bloc
         return true;
     }
     
-    public String ecrireMIPS(){
+    @Override
+    public String ecrireMips(){
         String str = "";
         
         for(Instruction i : instructions){

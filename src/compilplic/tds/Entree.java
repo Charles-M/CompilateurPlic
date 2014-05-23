@@ -63,4 +63,9 @@ public class Entree {
         hash = 47 * hash + Objects.hashCode(this.nom);
         return hash;
     }
+    
+    @Override
+    public String toString(){
+        return "("+this.getNom()+";"+this.getEspace()+")";
+    }
 }

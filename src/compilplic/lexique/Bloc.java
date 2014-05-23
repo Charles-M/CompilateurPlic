@@ -6,26 +6,20 @@
 
 package compilplic.lexique;
 
-import compilplic.tds.Entree;
-import compilplic.tds.Symbole;
-import compilplic.tds.TDS;
 import java.util.ArrayList;
 
 /**
  *
  * @author Yan
  */
-public class Bloc {
+public abstract class Bloc {
     
     public Lexique lexique;
-    public ArrayList<Declaration> declaration;
 
+    private ArrayList<Bloc> l_bloc ;
+    
     public Bloc() {
-        declaration = new ArrayList<>() ;
-    }
-
-    void ajouterDecl(Declaration d) {
-        declaration.add(d) ;
+        l_bloc=new ArrayList<>();
     }
 
     @Override
@@ -33,35 +27,19 @@ public class Bloc {
         return super.toString();
     }
     
-    public boolean verifier() throws Exception {
-        for(Declaration d : declaration){
-            d.verifier();
-        }
-
-        return true;
+    public void ajouterBloc(Bloc b) {
+        l_bloc.add(b) ;
     }
     
-    public String ecrireMips() {
-        String str = "";
-        TDS tds = TDS.getInstance();
-        for(Declaration d : declaration){
-            if(d instanceof D_Champ){
-                Symbole s = tds.identifier(new Entree(((D_Champ) d).idf, 0, "entier"));
-                if(s.isGlobal()){
-                    str+=d.ecrireMips();
-                }
-            }
-        }
-        for(Declaration d : declaration){
-            if(d instanceof D_Champ){
-                Symbole s = tds.identifier(new Entree(((D_Champ) d).idf, 0,"entier"));
-                if(!s.isGlobal()){
-                    str+=d.ecrireMips();
-                }
-            }else
-                str+=d.ecrireMips();
-        }
+    public abstract boolean verifier() throws Exception;
+    
+    public abstract String ecrireMips();
 
-        return str;
+    public ArrayList<Bloc> getL_bloc() {
+        return l_bloc;
+    }
+
+    public void setL_bloc(ArrayList<Bloc> l_bloc) {
+        this.l_bloc = l_bloc;
     }
 }

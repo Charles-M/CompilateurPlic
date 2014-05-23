@@ -16,15 +16,11 @@ public class Lexique {
 	
 	public Lexique(){
             liste_bloc = new ArrayList<>() ;
-	}
-        
-        public void ajouterBloc(Bloc_IDF b) {
-            liste_bloc.add(b) ;
+            liste_bloc.add(new Classe("root"));
         }
-    
         
-        public void ajouterDecl(int i, Declaration d) {
-            liste_bloc.get(i-1).ajouterDecl(d) ;
+        public void ajouterBloc(int bloc, BlocIDF b) {
+            ((BlocIDF) (liste_bloc.get(bloc))).ajouterBloc(b);
         }
 
         public boolean verifier() throws Exception {

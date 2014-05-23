@@ -12,16 +12,19 @@ import java.util.ArrayList;
  * @generated
  */
 
-public class D_Const extends Declaration
+public class Constructeur extends BlocIDF
 {
     /**
      * Liste des variable declaree
      */
     public ArrayList<Instruction> instruction;
 
-    public D_Const(String idf, int line, ArrayList<Instruction> l) {
-        super(idf, line);
-        instruction = l ;
+    public Constructeur(String idf) {
+        super(idf);
+    }
+
+    public void setInstruction(ArrayList<Instruction> instruction) {
+        this.instruction = instruction;
     }
 
     @Override

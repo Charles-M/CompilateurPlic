@@ -47,8 +47,8 @@ public class TDS {
             else{
                 sym = new Symbole(s,0);
             }
-            if(region_actuelle.getBloc()==1)
-                sym.setGlobal(true);
+            /*if(region_actuelle.getBloc()==1)
+                sym.setGlobal(true);*/
             listeBloc.get(region_actuelle).put(e, sym);
        
         }
@@ -164,7 +164,7 @@ public class TDS {
             for(Entry entry : listeBloc.get(r).entrySet()){
                 e = (Entree) entry.getKey();
                 s = (Symbole) entry.getValue();
-                str+="\t"+e.getNom()+"->"+s.toString()+"\n";
+                str+="\t"+e.toString()+"->"+s.toString()+"\n";
             }
             str+="\n";
         }

@@ -57,9 +57,11 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
 
 <YYINITIAL> "classe"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_CLASSE,yytext()) ;}
 <YYINITIAL> "="    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.EQUAL,yytext()) ;}
+<YYINITIAL> "\."    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.POINT,yytext()) ;}
 <YYINITIAL> ";"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.POINT_VIRGULE,yytext()) ;}
 <YYINITIAL> ","    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.VIRGULE,yytext()) ;}
 <YYINITIAL> "fin"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_FIN,yytext()) ;}
+<YYINITIAL> "nouveau"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_NOUVEAU,yytext()) ;}
 <YYINITIAL> "debut"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_DEBUT,yytext()) ;}
 <YYINITIAL> "retourne"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_RETOURNE,yytext()) ;}
 <YYINITIAL> "lire"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_LIRE,yytext()) ;}

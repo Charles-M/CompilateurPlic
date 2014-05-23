@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @generated
  */
 
-public class Function extends Bloc_IDF
+public class Function extends BlocIDF
 {
     
     protected String type_retour;
