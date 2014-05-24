@@ -207,9 +207,11 @@ PARAMETRES      ::= PARENTH_OUVRANTE TYPE:t IDF:i L_PARAM:l PARENTH_FERMANTE
                     {: System.out.println("fin param type="+t+" idf="+i) ;
                        lexique.ajouterParam(bloc_courant, t) ;
                        tds.ajouter(new Entree(i, ileft+1, "variable"), t) ;
+                       l.add(t) ;
                        RESULT = l ; :}
                 |   PARENTH_OUVRANTE PARENTH_FERMANTE
-                    {: System.out.println("fin param vide") ; :}
+                    {: System.out.println("fin param vide") ;
+                       RESULT = new ArrayList<String>() ; :}
                 ;
 
 PAR_EFF         ::= EXP:e L_EXP
