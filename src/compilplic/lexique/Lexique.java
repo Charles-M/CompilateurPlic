@@ -20,6 +20,7 @@ public class Lexique {
         }
         
         public void ajouterBloc(int bloc, BlocIdf b) {
+            liste_bloc.add(b) ;
             liste_bloc.get(bloc).ajouterBloc(b);
         }
         
