@@ -84,6 +84,6 @@ public class Entree {
     
     @Override
     public String toString(){
-        return "("+this.getNom()+";"+this.getEspace()+";"+param+")";
+        return "("+this.getLine()+";"+this.getNom()+";"+this.getEspace()+";"+param+")";
     }
 }

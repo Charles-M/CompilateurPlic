@@ -6,10 +6,11 @@ package compilplic;
 
 import compilplic.analyse.AnalyseurLexical;
 import compilplic.analyse.AnalyseurSyntaxique;
+import compilplic.exception.GestionnaireSemantique;
+import compilplic.exception.SemantiqueException;
 import compilplic.lexique.Bloc;
 import compilplic.lexique.Lexique;
 import compilplic.lexique.expression.Expression;
-import compilplic.tds.Entree;
 import compilplic.tds.TDS;
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,7 +19,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.util.ArrayList;
 
 /**
  *
@@ -42,7 +42,13 @@ public class Test {
         /*boolean b = l.verifier();
         String mips = l.ecrireMips();
         System.out.println(mips);*/
-        System.out.println("FINI !");
+        if(GestionnaireSemantique.getInstance().size() != 0){
+            for (SemantiqueException se : GestionnaireSemantique.getInstance())
+                System.out.println("ERREUR SEMANTIQUE : "+se.getMessage());
+            System.out.println("ERREUR !");
+        }else{
+            System.out.println("FINI !");
+        }
     }
     
     private void writeMips(String mips, String filename) throws IOException {

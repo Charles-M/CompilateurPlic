@@ -42,7 +42,7 @@ public class TDS {
             GestionnaireSemantique.getInstance().add(new DoubleDeclarationException(" a la ligne "+e.getLine()+" : "+e.getNom()+" est deja declaree"));
         }else{
             Symbole sym;
-            if(!e.getEspace().equals("classe") && !e.getEspace().equals("fonction"))
+            if(!e.getEspace().equals("classe") && !e.getEspace().equals("fonction") && !e.getEspace().equals("constructeur"))
                 sym = new Symbole(s,deplacement+=4);
             else{
                 sym = new Symbole(s,0);
