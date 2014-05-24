@@ -67,13 +67,15 @@ public class Region {
         
         /** Pas besoin de verifier le parent, en théorie tout ça suffit......... ET BAH NAN !
          */
+        if(profondeur==1) return true ;
         return (this.bloc==r.bloc && this.profondeur==r.profondeur);
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + this.bloc;
+        if(profondeur!=1)
+            hash = 97 * hash + this.bloc;
         hash = 97 * hash + this.profondeur;
         return hash;
     }

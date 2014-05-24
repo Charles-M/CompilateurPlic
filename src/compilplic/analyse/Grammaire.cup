@@ -137,12 +137,14 @@ SYSTEME         ::= L_CLASSE
                 {: System.out.println("fin systeme") ; RESULT = lexique ; :}
                 ;
 
-L_CLASSE        ::= CLASSE L_CLASSE
+L_CLASSE        ::= L_CLASSE CLASSE
                 | 
+                   {: System.out.println("INIT avec L_classe vide") ;
+                      tds.entreeBloc() ; :}
                 ;
 
-CLASSE          ::= S_CLASSE IDF:i {: System.out.println("(entree bloc)") ; lexique.ajouterBloc(bloc_courant, new Classe(i)) ; tds.entreeBloc() ; bloc_courant++ ; :} L_DECLARATION S_FIN
-                    {: System.out.println("fin classe de nom "+i+" (sortie bloc)") ; tds.ajouter(new Entree(i, ileft+1, "classe"), "classe") ; tds.sortieBloc() ; bloc_courant-- ; :}
+CLASSE          ::= S_CLASSE IDF:i {: System.out.println("(entree bloc)") ; lexique.ajouterBloc(bloc_courant, new Classe(i)) ; tds.ajouter(new Entree(i, ileft+1, "classe"), "classe") ; tds.entreeBloc() ; bloc_courant++ ; :} L_DECLARATION S_FIN
+                    {: System.out.println("fin classe de nom "+i+" (sortie bloc)") ; tds.sortieBloc() ; bloc_courant-- ; :}
                 ;
 
 L_DECLARATION   ::= L_DECLARATION DECLARATION

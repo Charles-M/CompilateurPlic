@@ -31,7 +31,7 @@ public class Plic {
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(contenu_fichier.toString())));
         Lexique l = (Lexique)as.parse().value ;
         //System.out.println(TDS.getInstance());
-        l.verifier();
+        //l.verifier();
         if(GestionnaireSemantique.getInstance().size() != 0)
             for (SemantiqueException s : GestionnaireSemantique.getInstance())
                 System.err.println("ERREUR SEMANTIQUE : "+s.getMessage());
