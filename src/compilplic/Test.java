@@ -9,6 +9,7 @@ import compilplic.analyse.AnalyseurSyntaxique;
 import compilplic.lexique.Bloc;
 import compilplic.lexique.Lexique;
 import compilplic.lexique.expression.Expression;
+import compilplic.tds.Entree;
 import compilplic.tds.TDS;
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,6 +18,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.util.ArrayList;
 
 /**
  *

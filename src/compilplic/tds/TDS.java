@@ -42,7 +42,7 @@ public class TDS {
             GestionnaireSemantique.getInstance().add(new DoubleDeclarationException(" a la ligne "+e.getLine()+" : "+e.getNom()+" est deja declaree"));
         }else{
             Symbole sym;
-            if(!s.equals("classe") && !s.equals("fonction"))
+            if(!e.getEspace().equals("classe") && !e.getEspace().equals("fonction"))
                 sym = new Symbole(s,deplacement+=4);
             else{
                 sym = new Symbole(s,0);
@@ -50,7 +50,7 @@ public class TDS {
             /*if(region_actuelle.getBloc()==1)
                 sym.setGlobal(true);*/
             listeBloc.get(region_actuelle).put(e, sym);
-       
+            
         }
     }
     

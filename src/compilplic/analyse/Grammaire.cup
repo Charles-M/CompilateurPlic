@@ -10,6 +10,7 @@ action code {:  private Lexique lexique = new Lexique() ;
                 private int bloc_courant = 0 ;
                 private Constructeur cons = new Constructeur() ;
                 private Function func = new Function() ;
+                private Entree tmp ;
                 private TDS tds = TDS.getInstance() ;
 
 	    :} ;
@@ -173,9 +174,10 @@ L_IDF           ::= VIRGULE IDF:i L_IDF:l
                     {: /*System.out.println("fin l_idf vide") ;*/ RESULT = new ArrayList<Entree>() ; :}
                 ;
 
-DECL_CONST      ::= STATUT IDF:i {: tds.ajouter(new Entree(i, ileft+1, "fonction"), i) ; cons.setIdf(i) ; lexique.ajouterBloc(bloc_courant, cons) ; tds.entreeBloc() ; bloc_courant++ ; :} PARAMETRES S_DEBUT L_DECL_VAR L_INSTRUCTION:l S_FIN
+DECL_CONST      ::= STATUT IDF:i {: tmp = new Entree(i, ileft+1, "fonction"); tds.ajouter(tmp, i) ; cons.setIdf(i) ; lexique.ajouterBloc(bloc_courant, cons) ; tds.entreeBloc() ; bloc_courant++ ; :} PARAMETRES:p S_DEBUT L_DECL_VAR L_INSTRUCTION:l S_FIN
                     {: System.out.println("fin decl_const idf="+i) ;
                        cons.setInstructions(l) ;
+                       tmp.setParam(p) ;
                        tds.sortieBloc() ; :}
                 ;
 
@@ -192,9 +194,10 @@ DECL_VAR        ::= TYPE:t IDF:i L_IDF:l POINT_VIRGULE
                        } :}
                 ;
 
-DECL_FONCTION   ::= STATUT:s TYPE:t IDF:i {: tds.ajouter(new Entree(i, ileft+1, "fonction"), t) ; func.setIdf(i) ; func.setType_retour(t) ; lexique.ajouterBloc(bloc_courant, func) ; tds.entreeBloc() ; bloc_courant++ ; :} PARAMETRES:p S_DEBUT L_DECL_VAR L_INSTRUCTION:l S_FIN
+DECL_FONCTION   ::= STATUT:s TYPE:t IDF:i {: tmp = new Entree(i, ileft+1, "fonction");  tds.ajouter(tmp, t) ; func.setIdf(i) ; func.setType_retour(t) ; lexique.ajouterBloc(bloc_courant, func) ; tds.entreeBloc() ; bloc_courant++ ; :} PARAMETRES:p S_DEBUT L_DECL_VAR L_INSTRUCTION:l S_FIN
                     {: System.out.println("fin decl fonct statut="+s+" type="+t+" idf="+i) ;
                        func.setInstructions(l) ;
+                       tmp.setParam(p) ;
                        tds.sortieBloc() ; bloc_courant-- ; :}
                 ;
 
@@ -227,7 +230,7 @@ L_PARAM         ::= VIRGULE TYPE:t IDF:i L_PARAM:l
                        RESULT = l ; :}
                 | 
                     {: System.out.println("fin l_param vide") ;
-                       RESULT = new ArrayList<String> ; :}
+                       RESULT = new ArrayList<String>() ; :}
                 ;
 
 L_INSTRUCTION   ::= L_INSTRUCTION:l INSTRUCTION:i

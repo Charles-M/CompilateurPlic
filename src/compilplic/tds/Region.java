@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package compilplic.tds;
 
 /**
@@ -71,8 +65,9 @@ public class Region {
         
         Region r = (Region) o;
         
-        //Pas besoin de verifier le parent, en théorie tout ça suffit
-        return (this.bloc==r.bloc /*&& this.profondeur==r.profondeur*/);
+        /** Pas besoin de verifier le parent, en théorie tout ça suffit......... ET BAH NAN !
+         */
+        return (this.bloc==r.bloc && this.profondeur==r.profondeur);
     }
 
     @Override

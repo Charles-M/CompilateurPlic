@@ -4,6 +4,7 @@
  */
 package compilplic.tds;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -13,6 +14,7 @@ import java.util.Objects;
 public class Entree {
     
     private String nom, espace ;
+    private ArrayList<String> param = new ArrayList<String>();
     private int line ;
 
     public Entree(String nom, int l) {
@@ -27,8 +29,20 @@ public class Entree {
         this.espace = espace ;
     }
 
+    public void setParam(ArrayList<String> param) {
+        this.param = param;
+    }
+
+    public ArrayList<String> getParam() {
+        return param;
+    }
+
     public String getNom() {
         return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public int getLine() {
@@ -42,6 +56,10 @@ public class Entree {
     public String getEspace() {
         return espace;
     }
+
+    public void setLine(int line) {
+        this.line = line;
+    }
     
     /**
      * Methode permettant de comparer deux entree
@@ -54,7 +72,7 @@ public class Entree {
             return true;
         
         Entree e = (Entree) o;
-        return this.nom.equals(e.getNom()) && espace.equals(e.getEspace());
+        return this.nom.equals(e.getNom()) && espace.equals(e.getEspace()) && this.param.equals(e.getParam());
     }
 
     @Override
@@ -66,6 +84,6 @@ public class Entree {
     
     @Override
     public String toString(){
-        return "("+this.getNom()+";"+this.getEspace()+")";
+        return "("+this.getNom()+";"+this.getEspace()+";"+param+")";
     }
 }

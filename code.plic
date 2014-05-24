@@ -34,3 +34,7 @@ classe Test // bloc 0
             y = x+a ;
         fin
 fin
+
+classe Test
+    privee entier z ;
+fin
