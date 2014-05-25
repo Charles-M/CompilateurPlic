@@ -17,7 +17,8 @@ public class Conditionnelle extends Bloc
 {
 
     private Expression expression;
-    public ArrayList<Instruction> instructions;
+    public ArrayList<Instruction> instructions_alors;
+    public ArrayList<Instruction> instructions_sinon;
         
     public Conditionnelle() {
         super();
@@ -35,7 +36,7 @@ public class Conditionnelle extends Bloc
         if(!expression.isBoolean())
             GestionnaireSemantique.getInstance().add(new SemantiqueException("Expression entiere trouvee a la ligne "/*+line*/+", expression booleenne attendue"));
         
-        for(Instruction i : instructions){
+        for(Instruction i : instructions_alors){
             i.verifier();
         }
         return true;
@@ -45,7 +46,7 @@ public class Conditionnelle extends Bloc
     public String ecrireMips(){
         String str = "";
         
-        for(Instruction i : instructions){
+        for(Instruction i : instructions_alors){
             str += i.ecrireMips();
         }
         

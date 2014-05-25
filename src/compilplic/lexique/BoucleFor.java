@@ -13,11 +13,12 @@ import java.util.ArrayList;
  * @generated
  */
 
-public class BoucleFor extends Bloc
+public class BoucleFor extends Boucle
 {
 
     private Expression expression;
-    public ArrayList<Instruction> instructions;
+    private String indice ;
+    private ArrayList<Instruction> instructions;
     
     public BoucleFor() {
         super();
