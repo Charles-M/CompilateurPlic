@@ -9,6 +9,8 @@ import compilplic.analyse.AnalyseurSyntaxique;
 import compilplic.exception.GestionnaireSemantique;
 import compilplic.exception.SemantiqueException;
 import compilplic.lexique.Lexique;
+import compilplic.tds.Entree;
+import compilplic.tds.TDS;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,18 +28,34 @@ public class Plic {
     private File f ;
     private File f_dest;
 
-    public Plic(String chemin_src) throws IOException, Exception {
+    public Plic(String[] args) throws IOException, Exception {
+        String chemin_src = args[0] ;
+        String classe_main = "" ;
+        try{
+            classe_main = args[1] ;
+        }catch(ArrayIndexOutOfBoundsException e){
+            System.err.println("ERREUR : Il manque le nom de la Classe principale !");
+            System.exit(0);
+        }
         lireFichier(chemin_src) ;
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(contenu_fichier.toString())));
         Lexique l = (Lexique)as.parse().value ;
-        //System.out.println(TDS.getInstance());
+        TDS tds = TDS.getInstance();
+        if(tds.identifier(new Entree(classe_main, 0, "classe"))==null){
+            System.err.println("ERREUR : La classe principale "+classe_main+" n'existe pas.");
+            System.exit(0);
+        }
+        else if(tds.identifier(new Entree(classe_main, 0, "constructeur"))==null){
+            System.err.println("ERREUR : La classe principale "+classe_main+" n'a pas de constructeur public sans argument.");
+            System.exit(0);
+        }
         //l.verifier();
         if(GestionnaireSemantique.getInstance().size() != 0)
             for (SemantiqueException s : GestionnaireSemantique.getInstance())
                 System.err.println("ERREUR SEMANTIQUE : "+s.getMessage());
         else{
             f_dest = new File(f.getAbsolutePath().replaceAll("\\.plic", ".asm"));
-            writeMips(l);
+            writeMips(l,classe_main);
             System.out.println("COMPILATION OK");
         }
     }
@@ -71,8 +89,9 @@ public class Plic {
         System.out.println("COMPILATION OK");
     }
     
-    private void writeMips(Lexique l) throws IOException {
+    private void writeMips(Lexique l, String classe_main) throws IOException {
         String s = l.ecrireMips() ;
+        s = s+"LIGNE MIPS D'APPEL DU CONSTRUCTION DEFAULT DE LA CLASSE PRINCIPALE" ;
         PrintWriter mips = new PrintWriter(f_dest) ;
         mips.printf(s);
         mips.close();

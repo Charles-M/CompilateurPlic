@@ -19,11 +19,11 @@ public class Main {
     public static void main(String[] args) {
         try {
             Plic plic;
-            //System.out.println("args : "+args.length);
+            String chemin_src = args[0] ;
             if(args.length==1)
-                plic = new Plic(args[0]);
+                plic = new Plic(args);
             else
-                plic = new Plic(args[0],args[1]);
+                plic = new Plic(chemin_src,args[1]);
             InputStream out = Runtime.getRuntime().exec("java -jar Mars4_4.jar "+args[0].replace(".plic", ".asm")).getInputStream() ;
             BufferedReader buf = new BufferedReader(new InputStreamReader(out)) ;
             String line = null ;
