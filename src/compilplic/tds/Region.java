@@ -22,10 +22,16 @@ public class Region {
      */
     private Region parent;
     
+    /**
+     * Indique l'entree correspondant a la declaration de cette region
+     */
+    private Entree entree;
+    
     public Region(int bloc, int profondeur, Region parent){
         this.bloc=bloc;
         this.profondeur=profondeur;
         this.parent=parent;
+        entree=new Entree("racine", 0);
     }
 
     public int getBloc() {
@@ -51,7 +57,14 @@ public class Region {
     public void setParent(Region parent) {
         this.parent = parent;
     }
-    
+
+    public Entree getEntree() {
+        return entree;
+    }
+
+    public void setEntree(Entree entree) {
+        this.entree = entree;
+    }
     
     /**
      * Methode permettant de dire si deux region sont identiques ou non
@@ -78,6 +91,11 @@ public class Region {
             hash = 97 * hash + this.bloc;
         hash = 97 * hash + this.profondeur;
         return hash;
+    }
+    
+    @Override
+    public String toString(){
+        return "Region : "+entree.getNom()+" "+bloc+" "+profondeur;
     }
     
 }

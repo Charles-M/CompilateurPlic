@@ -30,6 +30,11 @@ public class TDS {
      * Region region_actuelle (region_actuelle des regions qu'elle peut contenir)
      */
     private Region region_actuelle;
+    
+    /**
+     * Declaration en cours de traitement (fonction, classe, constructeur)
+     */
+    private Entree entree_actuelle;
 
     private TDS() {
         num_bloc = num_imbrication = 0 ;
@@ -42,9 +47,10 @@ public class TDS {
             GestionnaireSemantique.getInstance().add(new DoubleDeclarationException(" a la ligne "+e.getLine()+" : la "+e.getEspace()+" "+e.getNom()+" est deja declaree"));
         }else{
             Symbole sym;
-            if(!e.getEspace().equals("classe") && !e.getEspace().equals("fonction") && !e.getEspace().equals("constructeur"))
+            if(!e.getEspace().equals("classe") && !e.getEspace().equals("fonction") && !e.getEspace().equals("constructeur")){
                 sym = new Symbole(s,deplacement+=4);
-            else{
+            }else{
+                entree_actuelle = e;
                 sym = new Symbole(s,0);
             }
             /*if(region_actuelle.getBloc()==1)
@@ -115,6 +121,10 @@ public class TDS {
         num_bloc++ ;
         num_imbrication++ ;
         Region r = new Region(num_bloc,num_imbrication,region_actuelle);
+        System.out.println("ENTREE : "+entree_actuelle);
+        if(entree_actuelle!=null)
+            r.setEntree(entree_actuelle);
+        
         listeBloc.put(r,new HashMap<Entree, Symbole>());
         //La region region_actuelle est la nouvelle region dans laquelle on vient d'entrer
         this.region_actuelle=r;
@@ -124,7 +134,24 @@ public class TDS {
     public void sortieBloc() {
         num_imbrication-- ;
         //on sort du bloc donc la region region_actuelle redevient la region parent (au dessus dans la profondeur)
+        
+        //Parcours des variables locales
+        int deplacement_actu=0;
+        for (Entry<Entree,Symbole> entry : listeBloc.get(region_actuelle).entrySet()) {
+            Entree e = entry.getKey();
+            Symbole s = entry.getValue();
+            if(e.getEspace().equals("variable"))
+                deplacement_actu+=4;
+        }
+        //on remonte à la region parente (celle contenant la declaration de la region dont on est en train de sortir
         region_actuelle=region_actuelle.getParent();
+        
+        //Si ce n'est pas le bloc racine (ne contenant que des declarations de classes), on modifie le deplacement a effectué pour charger cette region
+        if(!entree_actuelle.getNom().equals("racine"))
+            listeBloc.get(region_actuelle).get(entree_actuelle).setDeplacement(deplacement_actu);
+        
+        //La declaration de la region actuelle est mise à jour
+        entree_actuelle=region_actuelle.getEntree();
     }
 
     public HashMap<Region, HashMap<Entree, Symbole>> getListeBloc() {
@@ -160,7 +187,11 @@ public class TDS {
         Symbole s;
         for(Entry ent : listeBloc.entrySet()){
             r=(Region) ent.getKey();
-            str+="Region "+r.getBloc()+" "+r.getProfondeur()+"\n";
+            
+            if(!r.getEntree().getNom().equals("racine"))
+                str+=r.toString()+" "+listeBloc.get(r.getParent()).get(r.getEntree()).getDeplacement()+"\n";
+            else
+                str+=r.toString()+"\n"; 
             for(Entry entry : listeBloc.get(r).entrySet()){
                 e = (Entree) entry.getKey();
                 s = (Symbole) entry.getValue();

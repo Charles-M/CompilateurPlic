@@ -4,6 +4,8 @@
  */
 package compilplic.generateur;
 
+import compilplic.tds.TDS;
+
 /**
  * Cette classe est une collection de string representative du langage MIPS
  * @author ASUS
@@ -73,13 +75,25 @@ public final class GenerateurMIPS {
      * @return le code Mips associe
      */
     public String ecrireInitialisation(){
+        
+        TDS tds = TDS.getInstance();
+        
         return 
                 "#Initialisation\n"
                 + "la $t7,($sp)\n"
                 + "la $s7,($gp)\n"
+                + ecrireChargeEnvironnement(0)
                 /*+ ".data\n"
                 + "newline: .asciiz \"\\n\"\n"
                 + ".text\n"*/;
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public String ecrireChargeEnvironnement(int deplacement){
+        return "add $sp,$sp,-"+deplacement;
     }
     
     /**
@@ -374,6 +388,11 @@ public final class GenerateurMIPS {
                 + "add $gp, $gp, -4\n";
     }
     
+    public String ecrireAjouterVar(){
+        return  "sw $v0, ($sp)\n"
+                + "add $sp, $sp, -4\n";
+    }
+    
     /**
      * Permet d'ajouter un champ
      * @return le code Mips associe
@@ -381,7 +400,7 @@ public final class GenerateurMIPS {
     public String ecrireAjouterChamp(){
         return 
                 ecrireChargeEntier(0)
-                + ecrireAjouterVarGlobale();
+                + ecrireAjouterVar();
     }
     
     /**
