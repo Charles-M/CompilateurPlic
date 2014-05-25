@@ -28,26 +28,18 @@ public class Plic {
     private File f ;
     private File f_dest;
 
-    public Plic(String[] args) throws IOException, Exception {
-        String chemin_src = args[0] ;
-        String classe_main = "" ;
-        try{
-            classe_main = args[1] ;
-        }catch(ArrayIndexOutOfBoundsException e){
-            System.err.println("ERREUR : Il manque le nom de la Classe principale !");
-            System.exit(0);
-        }
+    public Plic(String chemin_src, String classe_main) throws IOException, Exception {
         lireFichier(chemin_src) ;
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(contenu_fichier.toString())));
         Lexique l = (Lexique)as.parse().value ;
         TDS tds = TDS.getInstance();
         if(tds.identifier(new Entree(classe_main, 0, "classe"))==null){
             System.err.println("ERREUR : La classe principale "+classe_main+" n'existe pas.");
-            System.exit(0);
+            System.exit(-1);
         }
         else if(tds.identifier(new Entree(classe_main, 0, "constructeur"))==null){
             System.err.println("ERREUR : La classe principale "+classe_main+" n'a pas de constructeur public sans argument.");
-            System.exit(0);
+            System.exit(-1);
         }
         //l.verifier();
         if(GestionnaireSemantique.getInstance().size() != 0)
@@ -60,30 +52,44 @@ public class Plic {
         }
     }
 
-    public Plic(String chemin_src, String chemin_dest) throws IOException, Exception {
+    public Plic(String chemin_src, String chemin_dest, String classe_main) throws IOException, Exception {
         lireFichier(chemin_src) ;
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(contenu_fichier.toString())));
         Lexique l = (Lexique)as.parse().value ;
+        TDS tds = TDS.getInstance();
+        if(tds.identifier(new Entree(classe_main, 0, "classe"))==null){
+            System.err.println("ERREUR : La classe principale "+classe_main+" n'existe pas.");
+            System.exit(0);
+        }
+        else if(tds.identifier(new Entree(classe_main, 0, "constructeur"))==null){
+            System.err.println("ERREUR : La classe principale "+classe_main+" n'a pas de constructeur public sans argument.");
+            System.exit(0);
+        }
         l.verifier();
-        //Initialisation pour savoir s'il s'agit d'un fichier ou d'un dossier
-        f_dest=new File(chemin_dest);
-        
-        //Si le nom du fichier fini par / ou \ (Windows), il s'agit d'un repertoire
-        if(f_dest.getAbsolutePath().endsWith("[/\\]")){
-            f_dest = new File(chemin_dest+f.getName().replaceAll("\\.plic", ".asm"));
-            writeMips(l);
-        }else{
-            //S'il s'agit d'un repertoire
-            if(f_dest.isDirectory()){
-                f_dest = new File(chemin_dest+"/"+f.getName().replaceAll("\\.plic", ".asm"));
-                writeMips(l);
+        if(GestionnaireSemantique.getInstance().size() != 0)
+            for (SemantiqueException s : GestionnaireSemantique.getInstance())
+                System.err.println("ERREUR SEMANTIQUE : "+s.getMessage());
+        else{
+            //Initialisation pour savoir s'il s'agit d'un fichier ou d'un dossier
+            f_dest=new File(chemin_dest);
+
+            //Si le nom du fichier fini par / ou \ (Windows), il s'agit d'un repertoire
+            if(f_dest.getAbsolutePath().endsWith("[/\\]")){
+                f_dest = new File(chemin_dest+f.getName().replaceAll("\\.plic", ".asm"));
+                writeMips(l,classe_main);
             }else{
-                //Si le nom du fichier fini par .plic, c'est un fichier plic
-                if(f_dest.getAbsolutePath().endsWith(".plic"))
-                    f_dest = new File(chemin_dest.replaceAll("\\.plic", ".asm"));
-                if(!f_dest.getName().endsWith(".asm"))
-                    f_dest=new File(f_dest.getAbsolutePath().concat(".asm"));
-                writeMips(l);
+                //S'il s'agit d'un repertoire
+                if(f_dest.isDirectory()){
+                    f_dest = new File(chemin_dest+"/"+f.getName().replaceAll("\\.plic", ".asm"));
+                    writeMips(l,classe_main);
+                }else{
+                    //Si le nom du fichier fini par .plic, c'est un fichier plic
+                    if(f_dest.getAbsolutePath().endsWith(".plic"))
+                        f_dest = new File(chemin_dest.replaceAll("\\.plic", ".asm"));
+                    if(!f_dest.getName().endsWith(".asm"))
+                        f_dest=new File(f_dest.getAbsolutePath().concat(".asm"));
+                    writeMips(l,classe_main);
+                }
             }
         }
         System.out.println("COMPILATION OK");

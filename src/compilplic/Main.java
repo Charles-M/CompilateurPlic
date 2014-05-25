@@ -5,8 +5,10 @@
 package compilplic;
 
 import compilplic.exception.LexicalException;
+import compilplic.exception.SyntaxeException;
 import compilplic.model.Plic;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,25 +21,39 @@ public class Main {
     public static void main(String[] args) {
         try {
             Plic plic;
-            String chemin_src = args[0] ;
-            if(args.length==1)
-                plic = new Plic(args);
-            else
-                plic = new Plic(chemin_src,args[1]);
+            switch(args.length){
+                case 2:
+                    testArgs(args[0]);
+                    plic = new Plic(args[0],args[1]);
+                    break;
+                case 3:
+                    testArgs(args[0]);
+                    plic = new Plic(args[0],args[2],args[1]);
+                    break;
+                default:
+                    throw new ArrayIndexOutOfBoundsException("USAGE : plic fichier_source.plic classe_main [fichier_destination.asm]");
+            } 
             InputStream out = Runtime.getRuntime().exec("java -jar Mars4_4.jar "+args[0].replace(".plic", ".asm")).getInputStream() ;
             BufferedReader buf = new BufferedReader(new InputStreamReader(out)) ;
             String line = null ;
             while((line = buf.readLine()) != null)
                 System.out.println(line);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("Usage : L'extension du fichier source doit etre .plic");
-        } catch (IOException e2) {
-            System.err.println("Fichier introuvable.");
-        } catch (LexicalException e4) {
-            System.err.println("ERREUR LEXICALE : "+e4.getMessage()) ;
-        } catch (Exception e5) {
-            e5.printStackTrace();
-            System.err.println("ERREUR SYNTAXIQUE : "+e5.getMessage()) ;
+        } catch (ArrayIndexOutOfBoundsException aioobe) {
+            System.err.println("ERREUR ARGUMENTS : "+aioobe.getMessage());
+        }catch(IOException io){
+            System.err.println("ERREUR FICHIER SOURCE : "+io.getMessage());
+        } catch (LexicalException le) {
+            System.err.println("ERREUR LEXICALE : "+le.getMessage()) ;
+        } catch (SyntaxeException se) {
+            System.err.println("ERREUR SYNTAXIQUE : "+se.getMessage()) ;
+        }catch(Exception e){
+            e.printStackTrace();
         }
+    }
+    
+    public static void testArgs(String path) throws IOException {
+        File f = new File(path);
+        if(!f.exists() || f.isDirectory())
+            throw new IOException("Fichier source introuvable");
     }
 }
