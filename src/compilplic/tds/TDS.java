@@ -121,7 +121,6 @@ public class TDS {
         num_bloc++ ;
         num_imbrication++ ;
         Region r = new Region(num_bloc,num_imbrication,region_actuelle);
-        System.out.println("ENTREE : "+entree_actuelle);
         if(entree_actuelle!=null)
             r.setEntree(entree_actuelle);
         

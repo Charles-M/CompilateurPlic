@@ -37,7 +37,7 @@ public class Plic {
             System.err.println("ERREUR : La classe principale "+classe_main+" n'existe pas.");
             System.exit(-1);
         }
-        else if(tds.identifier(new Entree(classe_main, 0, "constructeur"))==null){
+        else if(tds.identifier(new Entree(classe_main, 0, "fonction"))==null){
             System.err.println("ERREUR : La classe principale "+classe_main+" n'a pas de constructeur public sans argument.");
             System.exit(-1);
         }
@@ -61,7 +61,7 @@ public class Plic {
             System.err.println("ERREUR : La classe principale "+classe_main+" n'existe pas.");
             System.exit(0);
         }
-        else if(tds.identifier(new Entree(classe_main, 0, "constructeur"))==null){
+        else if(tds.identifier(new Entree(classe_main, 0, "fonction"))==null){
             System.err.println("ERREUR : La classe principale "+classe_main+" n'a pas de constructeur public sans argument.");
             System.exit(0);
         }

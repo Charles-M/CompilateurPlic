@@ -12,7 +12,7 @@ public class Classe extends BlocIdf
 
     @Override
     public String toString() {
-        return super.toString(); //To change body of generated methods, choose Tools | Templates.
+        return "Classe{" +idf+ '}';
     }
     
     @Override

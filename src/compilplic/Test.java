@@ -37,7 +37,7 @@ public class Test {
         TDS tds = TDS.getInstance() ;
         System.out.println("lexique = \n"+l);
         for (Bloc b : l.getListe_bloc())
-            System.out.println(b.getL_bloc()) ;
+            System.out.println(b) ;
         System.out.println("tds = \n"+tds);
         /*boolean b = l.verifier();
         String mips = l.ecrireMips();

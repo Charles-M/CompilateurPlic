@@ -18,11 +18,6 @@ public abstract class Instruction
         this.line = line;
     }
 
-    @Override
-    public String toString() {
-        return "Instruction{" + '}';
-    }
-
     /**
      * <!-- begin-user-doc -->
      * <!--  end-user-doc  -->

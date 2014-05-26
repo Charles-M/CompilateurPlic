@@ -33,7 +33,7 @@ public class Constructeur extends BlocIdfParam
 
     @Override
     public String toString() {
-        return "D_Const{" + "instruction=" + instructions + '}';
+        return "Constructeur{" + "instructions=" + instructions + '}';
     }
 
     @Override

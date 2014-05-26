@@ -35,7 +35,7 @@ public class Function extends BlocIdfParam
 
     @Override
     public String toString() {
-        return super.toString(); //To change body of generated methods, choose Tools | Templates.
+        return "Function{" + "type_retour=" + type_retour + ", instructions=" + instructions + '}';
     }
     
     @Override

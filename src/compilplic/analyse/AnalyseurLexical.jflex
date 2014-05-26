@@ -55,20 +55,20 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
 
 <YYINITIAL> {WhiteSpace}*   {}
 
-<YYINITIAL> "classe"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_CLASSE,yytext()) ;}
-<YYINITIAL> "="    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.EQUAL,yytext()) ;}
-<YYINITIAL> "\."    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.POINT,yytext()) ;}
-<YYINITIAL> ";"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.POINT_VIRGULE,yytext()) ;}
-<YYINITIAL> ","    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.VIRGULE,yytext()) ;}
-<YYINITIAL> "fin"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_FIN,yytext()) ;}
-<YYINITIAL> "nouveau"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_NOUVEAU,yytext()) ;}
-<YYINITIAL> "debut"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_DEBUT,yytext()) ;}
-<YYINITIAL> "retourne"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_RETOURNE,yytext()) ;}
-<YYINITIAL> "lire"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_LIRE,yytext()) ;}
-<YYINITIAL> "ecrire"    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.S_ECRIRE,yytext()) ;}
-<YYINITIAL> {statut}    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.STATUT,yytext()) ;}
-<YYINITIAL> {typePrimitif}    {/*System.out.println("token : " + yytext()) ;*/ return symbol(CodesLexicaux.TYPE,yytext()) ;}
-<YYINITIAL> {idf}    {/*System.out.println("idf : " + yytext()) ;*/ return symbol(CodesLexicaux.IDF,yytext()) ;}
+<YYINITIAL> "classe"    {/*System.out.println("lex : classe") ;*/ return symbol(CodesLexicaux.S_CLASSE,yytext()) ;}
+<YYINITIAL> "="    {/*System.out.println("lex : equal(=)") ;*/ return symbol(CodesLexicaux.EQUAL,yytext()) ;}
+<YYINITIAL> "\."    {/*System.out.println("lex : point(.)") ;*/ return symbol(CodesLexicaux.POINT,yytext()) ;}
+<YYINITIAL> ";"    {/*System.out.println("lex : " + yytext()) ;*/ return symbol(CodesLexicaux.POINT_VIRGULE,yytext()) ;}
+<YYINITIAL> ","    {/*System.out.println("lex : " + yytext()) ;*/ return symbol(CodesLexicaux.VIRGULE,yytext()) ;}
+<YYINITIAL> "fin"    {/*System.out.println("lex : fin") ;*/ return symbol(CodesLexicaux.S_FIN,yytext()) ;}
+<YYINITIAL> "nouveau"    {/*System.out.println("lex : nouveau") ;*/ return symbol(CodesLexicaux.S_NOUVEAU,yytext()) ;}
+<YYINITIAL> "debut"    {/*System.out.println("lex : debut") ;*/ return symbol(CodesLexicaux.S_DEBUT,yytext()) ;}
+<YYINITIAL> "retourne"    {/*System.out.println("lex : retourne")) ;*/ return symbol(CodesLexicaux.S_RETOURNE,yytext()) ;}
+<YYINITIAL> "lire"    {/*System.out.println("lex : lire") ;*/ return symbol(CodesLexicaux.S_LIRE,yytext()) ;}
+<YYINITIAL> "ecrire"    {/*System.out.println("lex : ecrire") ;*/ return symbol(CodesLexicaux.S_ECRIRE,yytext()) ;}
+<YYINITIAL> {statut}    {/*System.out.println("lex : statut "+yytext()) ;*/ return symbol(CodesLexicaux.STATUT,yytext()) ;}
+<YYINITIAL> {typePrimitif}    {/*System.out.println("lex : primitif " + yytext()) ;*/ return symbol(CodesLexicaux.TYPE_PRIMITIF,yytext()) ;}
+<YYINITIAL> {idf}    {/*System.out.println("lew : idf " + yytext()) ;*/ return symbol(CodesLexicaux.IDF,yytext()) ;}
 
 <YYINITIAL> "//"		{/*System.out.println("com ligne " + yytext()) ;*/ yybegin(commentaireLigne) ;}
 <YYINITIAL> "/*"		{/*System.out.println("com bloc " + yytext()) ;*/ yybegin(commentaireBloc) ;}
