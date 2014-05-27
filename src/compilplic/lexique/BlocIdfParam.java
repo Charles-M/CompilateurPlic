@@ -24,4 +24,19 @@ public class BlocIdfParam extends BlocIdf {
     public void ajouterParam(String t) {
         liste_param.add(t) ;
     }
+    
+    @Override
+    public String toString(){
+        String str ="(";
+        for (String string : liste_param) {
+            str += string+";";
+        }
+        str+=")";
+        return str;
+    }
+
+    @Override
+    public String ecrireMips() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

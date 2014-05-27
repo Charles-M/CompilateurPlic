@@ -6,6 +6,7 @@ package compilplic.tds;
 
 import compilplic.exception.DoubleDeclarationException;
 import compilplic.exception.GestionnaireSemantique;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -48,7 +49,14 @@ public class TDS {
         }else{
             Symbole sym;
             if(!e.getEspace().equals("classe") && !e.getEspace().equals("fonction") && !e.getEspace().equals("constructeur")){
-                sym = new Symbole(s,deplacement+=4);
+                if(s.equals("entier")){
+                    sym = new Symbole(s,4);
+                    deplacement+=4;
+                }else{
+                    Symbole tmp = this.identifier(new Entree(s,0,"classe"));
+                    sym = new Symbole(s,tmp.getDeplacement());
+                    deplacement+=tmp.getDeplacement();
+                }
             }else{
                 entree_actuelle = e;
                 sym = new Symbole(s,0);
@@ -134,14 +142,19 @@ public class TDS {
         num_imbrication-- ;
         //on sort du bloc donc la region region_actuelle redevient la region parent (au dessus dans la profondeur)
         
+        //Array contenant les objets attributs ayant le même nom que la classe dans la quelle on est
+        ArrayList<Entry<Entree,Symbole>> array = new ArrayList<>();
         //Parcours des variables locales
         int deplacement_actu=0;
         for (Entry<Entree,Symbole> entry : listeBloc.get(region_actuelle).entrySet()) {
             Entree e = entry.getKey();
             Symbole s = entry.getValue();
             if(e.getEspace().equals("variable"))
-                deplacement_actu+=4;
+                deplacement_actu+=s.getDeplacement();
+            if(region_actuelle.getEntree().getEspace().equals("classe") && s.getType().equals(entree_actuelle.getNom()))
+                array.add(entry);
         }
+        
         //on remonte à la region parente (celle contenant la declaration de la region dont on est en train de sortir
         region_actuelle=region_actuelle.getParent();
         
@@ -149,6 +162,12 @@ public class TDS {
         if(!entree_actuelle.getNom().equals("racine"))
             listeBloc.get(region_actuelle).get(entree_actuelle).setDeplacement(deplacement_actu);
         
+        /*
+        Permet de recuperer le deplacement approximatif de la classe et de la mettre comme deplacement pour les objets attributs de cette même classe
+        */
+        for (Entry<Entree,Symbole> entry : array) {     
+            entry.getValue().setDeplacement(listeBloc.get(region_actuelle).get(entree_actuelle).getDeplacement());
+        }
         //La declaration de la region actuelle est mise à jour
         entree_actuelle=region_actuelle.getEntree();
     }

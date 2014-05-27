@@ -1,9 +1,7 @@
  package compilplic.lexique;
 
-import compilplic.generateur.GenerateurMIPS;
 
-
-public class BlocIdf extends Bloc {
+public abstract class BlocIdf extends Bloc {
     
     protected String statut;
     protected String idf;
@@ -26,9 +24,6 @@ public class BlocIdf extends Bloc {
     }
     
     @Override
-    public String ecrireMips() {
-        String str = GenerateurMIPS.getInstance().ecrireBloc(idf);
-        return str;
-    }
+    public abstract String ecrireMips();
 }
 

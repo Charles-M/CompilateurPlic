@@ -46,7 +46,7 @@ public class Constructeur extends BlocIdfParam
 
     @Override
     public String ecrireMips() {
-        String str = GenerateurMIPS.getInstance().ecrireBloc("Constructeur_"+idf+hashCode());
+        String str = GenerateurMIPS.getInstance().ecrireBloc("Constructeur_"+idf+liste_param.toString());
         for(Instruction i : instructions){
             str += i.ecrireMips();
         }
