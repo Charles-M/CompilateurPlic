@@ -49,14 +49,15 @@ public class TDS {
         }else{
             Symbole sym;
             if(!e.getEspace().equals("classe") && !e.getEspace().equals("fonction") && !e.getEspace().equals("constructeur")){
-                if(s.equals("entier")){
+                /*if(s.equals("entier")){
                     sym = new Symbole(s,4);
                     deplacement+=4;
                 }else{
-                    Symbole tmp = this.identifier(new Entree(s,0,"classe"));
-                    sym = new Symbole(s,tmp.getDeplacement());
-                    deplacement+=tmp.getDeplacement();
-                }
+                    sym = new Symbole(s,4);
+                    deplacement+=4;
+                }*/
+                sym = new Symbole(s,4);
+                deplacement+=4;
             }else{
                 entree_actuelle = e;
                 sym = new Symbole(s,0);
@@ -149,12 +150,9 @@ public class TDS {
         for (Entry<Entree,Symbole> entry : listeBloc.get(region_actuelle).entrySet()) {
             Entree e = entry.getKey();
             Symbole s = entry.getValue();
-            if(e.getEspace().equals("variable")){
-                deplacement_actu+=4;
-                s.setDeplacement(deplacement_actu);
-            }
-            if(region_actuelle.getEntree().getEspace().equals("classe") && s.getType().equals(entree_actuelle.getNom()))
-                array.add(entry);
+            deplacement_actu+=4;
+            /*if(region_actuelle.getEntree().getEspace().equals("classe") && s.getType().equals(entree_actuelle.getNom()))
+                array.add(entry);*/
         }
         
         //on remonte à la region parente (celle contenant la declaration de la region dont on est en train de sortir
@@ -164,12 +162,6 @@ public class TDS {
         if(!entree_actuelle.getNom().equals("racine"))
             listeBloc.get(region_actuelle).get(entree_actuelle).setDeplacement(deplacement_actu);
         
-        /*
-        Permet de recuperer le deplacement approximatif de la classe et de la mettre comme deplacement pour les objets attributs de cette même classe
-        */
-        for (Entry<Entree,Symbole> entry : array) {     
-            entry.getValue().setDeplacement(listeBloc.get(region_actuelle).get(entree_actuelle).getDeplacement());
-        }
         //La declaration de la region actuelle est mise à jour
         entree_actuelle=region_actuelle.getEntree();
     }

@@ -23,10 +23,12 @@ public class Appel extends Expression {
 
     private String nom_fonction ;
     private ArrayList<Expression> liste_param ;
+    protected int line;
 
-    public Appel(String nom_fonction, ArrayList<Expression> liste_param) {
+    public Appel(String nom_fonction, ArrayList<Expression> liste_param, int l) {
         this.nom_fonction = nom_fonction;
         this.liste_param = liste_param;
+        line=l;
     }
     
     @Override
@@ -62,7 +64,7 @@ public class Appel extends Expression {
             GestionnaireSemantique.getInstance().add(new SemantiqueException("la fonction "+nom_fonction+"n'a pas été déclarée"));
         for(Expression expression : this.liste_param) {
             if(!expression.verifier())
-                GestionnaireSemantique.getInstance().add(new SemantiqueException("La declaration de la variable "+((Identificateur) expression).getNom()+" a la ligne "+0+" est manquante"));
+                GestionnaireSemantique.getInstance().add(new SemantiqueException("La declaration de la variable "+((Identificateur) expression).getNom()+" a la ligne "+line+" est manquante"));
         }
         return true;
     }

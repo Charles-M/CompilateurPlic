@@ -22,8 +22,8 @@ public class AppelPointer extends Appel {
     
     private String objet ;    
 
-    public AppelPointer(String objet, String nom_fonction, ArrayList<Expression> liste_param) {
-        super(nom_fonction, liste_param);
+    public AppelPointer(String objet, String nom_fonction, ArrayList<Expression> liste_param, int l) {
+        super(nom_fonction, liste_param, l);
         this.objet = objet;
     }
     

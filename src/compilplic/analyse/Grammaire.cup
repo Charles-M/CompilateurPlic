@@ -98,7 +98,7 @@ precedence left MOINS, PLUS ;
 precedence left MULT, DIV, MOD ;
 precedence left GT, LT, DOUBLE_EQUAL, DIFF ;
 
-precedence left S_LIRE, S_ECRIRE, ACCES ;
+precedence left S_LIRE, S_ECRIRE ;
 
 /* ----------------------------Grammar Section-------------------- */
 /* GRAMMAIRE DE L'ANALYSEUR SYNTAXIQUE
@@ -335,12 +335,12 @@ EXP	::= CSTE_ENT:i
 
          |  IDF:f PARENTH_OUVRANTE PAR_EFF:l PARENTH_FERMANTE
          {: /*System.out.println("fin exp -> idf(param) idf="+f) ;*/
-            RESULT = new AppelSimple(f, l) ;
+            RESULT = new AppelSimple(f, l,fleft+1) ;
          :}
 
          |  IDF:obj POINT IDF:f PARENTH_OUVRANTE PAR_EFF:l PARENTH_FERMANTE
          {: /*System.out.println("fin exp -> idf(param) obj="+obj+" fonction="+f) ;*/
-            RESULT = new AppelPointer(obj, f, l) ;
+            RESULT = new AppelPointer(obj, f, l,fleft+1) ;
          :}
         ;
 
