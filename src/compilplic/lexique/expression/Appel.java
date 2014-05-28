@@ -6,7 +6,12 @@
 
 package compilplic.lexique.expression;
 
+import compilplic.exception.GestionnaireSemantique;
 import compilplic.exception.SemantiqueException;
+import compilplic.generateur.GenerateurMIPS;
+import compilplic.tds.Entree;
+import compilplic.tds.Symbole;
+import compilplic.tds.TDS;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -51,12 +56,22 @@ public class Appel extends Expression {
 
     @Override
     public boolean verifier() throws SemantiqueException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TDS tds = TDS.getInstance();
+        Symbole s = tds.identifier(new Entree(nom_fonction,0,"function"));
+        if(s==null)
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("la fonction "+nom_fonction+"n'a pas été déclarée"));
+        for(Expression expression : this.liste_param) {
+            if(!expression.verifier())
+                GestionnaireSemantique.getInstance().add(new SemantiqueException("La declaration de la variable "+((Identificateur) expression).getNom()+" a la ligne "+0+" est manquante"));
+        }
+        return true;
     }
 
     @Override
     public String ecrireMips() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TDS tds = TDS.getInstance();
+        Symbole s = tds.identifier(new Entree(nom_fonction,0,"function"));
+        return GenerateurMIPS.getInstance().ecrireChargeEnvironnement(s.getDeplacement());
     }
 
     @Override

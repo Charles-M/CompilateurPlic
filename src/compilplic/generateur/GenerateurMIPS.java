@@ -92,8 +92,12 @@ public final class GenerateurMIPS {
      * 
      * @return 
      */
-    public String ecrireChargeEnvironnement(int deplacement){
-        return "add $sp,$sp,-"+deplacement;
+    public String ecrireChargeEnvironnement(int deplacement_env){
+        return  "add $t1,$t1,1" //chainage statique à modifier !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                + "sw $t1,$sp"
+                + "add $sp,$sp,-4"
+                + "add $sp,$sp,-"+deplacement_env
+                + "add $sp, $sp, -4\n";
     }
     
     /**
@@ -356,14 +360,14 @@ public final class GenerateurMIPS {
      * Permet de lire un entier
      * @return le code Mips associe
      */
-    public String lireEntier(int deplacement, boolean global){
+    public String lireEntier(int deplacement){
         return 
                 "#lire entier\n"
                 + ecrireChargeEntier(5)
                 + "syscall\n"
                 + "sw $v0,($sp)\n"
                 + "add $sp,$sp,-4\n"
-                + ecrireStockerIdentificateur(deplacement, global)+"\n";
+                + ecrireStockerIdentificateur(deplacement)+"\n";
     }
     
     /**
@@ -406,11 +410,14 @@ public final class GenerateurMIPS {
     /**
      * Permet d'ecrire une affectation
      * @param deplacement deplacement de la variable affectee
-     * @param global true si la variable est global false sinon
+     * @param type type de l'affectation (objet ou entier)
      * @return le code Mips associe
      */
-    public String ecrireAffectation(int deplacement, boolean global){
-        return ecrireStockerIdentificateur(deplacement, global);
+    public String ecrireAffectation(int deplacement, String type){
+        if (type.equals("entier"))
+            return ecrireStockerIdentificateur(deplacement);
+
+        return ecrireStockerObjet(deplacement);
     }
     
     /**
@@ -436,15 +443,19 @@ public final class GenerateurMIPS {
      * @param global true si la variable est globale false sinon (locale)
      * @return le code Mips associe
      */
-    public String ecrireStockerIdentificateur(int deplacement, boolean global){
-        if(global)
+    public String ecrireStockerIdentificateur(int deplacement/*, boolean global*/){
+        /*if(global)
             return
                 ecrireChargeV0()
-                + ecrireStockerGlobale(deplacement);
+                + ecrireStockerGlobale(deplacement);*/
         
         return
                 ecrireChargeV0()
                 + ecrireStockerLocale(deplacement);
+    }
+    
+    public String ecrireStockerObjet(int deplacement){
+        return "add $gp,$gp,-"+deplacement;
     }
     
     public String ecrireChargerVarGlobale(int deplacement){
@@ -478,5 +489,17 @@ public final class GenerateurMIPS {
                 + ecrireStocker()
                 + ecrireChargeEntier(region)
                 + ecrireStocker();
+    }
+    
+    public String ecrireInitEnv(int deplacement){
+        return "la $t2,($sp)"
+                + ecrireChargeEntier(deplacement) //adr retour
+                + ecrireStocker()
+                + "sw $t2, ($sp)\n" //chainage dynamique
+                + "add $sp,$sp,-4";
+    }
+    
+    public String ecrireAppelPointer(int deplacement){
+        return "";
     }
 }

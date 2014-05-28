@@ -35,7 +35,7 @@ public class Lire extends Instruction
         TDS tds = TDS.getInstance();
         Symbole s = tds.identifier(new Entree(value, 0));
 
-        String str = GenerateurMIPS.getInstance().lireEntier(s.getDeplacement(),s.isGlobal());
+        String str = GenerateurMIPS.getInstance().lireEntier(s.getDeplacement());
         return str;
     }
 

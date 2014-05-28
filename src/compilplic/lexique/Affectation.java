@@ -53,7 +53,7 @@ public class Affectation extends Instruction
         TDS tds = TDS.getInstance();
         Symbole s = tds.identifier(new Entree(var, 0,"variable"));
         return expression.ecrireMips()+
-                GenerateurMIPS.getInstance().ecrireAffectation(s.getDeplacement(),s.isGlobal());
+                GenerateurMIPS.getInstance().ecrireAffectation(s.getDeplacement(),s.getType());
     }
 
 }

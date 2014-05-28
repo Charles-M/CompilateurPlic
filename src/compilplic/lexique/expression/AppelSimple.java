@@ -18,4 +18,9 @@ public class AppelSimple extends Appel {
         super(nom_fonction, liste_param);
     }
     
+    @Override
+    public String ecrireMips(){
+        return "";
+    }
+    
 }

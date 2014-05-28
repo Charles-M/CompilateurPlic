@@ -149,8 +149,10 @@ public class TDS {
         for (Entry<Entree,Symbole> entry : listeBloc.get(region_actuelle).entrySet()) {
             Entree e = entry.getKey();
             Symbole s = entry.getValue();
-            if(e.getEspace().equals("variable"))
-                deplacement_actu+=s.getDeplacement();
+            if(e.getEspace().equals("variable")){
+                deplacement_actu+=4;
+                s.setDeplacement(deplacement_actu);
+            }
             if(region_actuelle.getEntree().getEspace().equals("classe") && s.getType().equals(entree_actuelle.getNom()))
                 array.add(entry);
         }
