@@ -10,6 +10,8 @@ import compilplic.exception.GestionnaireSemantique;
 import compilplic.exception.SemantiqueException;
 import compilplic.lexique.Lexique;
 import compilplic.tds.Entree;
+import compilplic.tds.Region;
+import compilplic.tds.Symbole;
 import compilplic.tds.TDS;
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,14 +35,25 @@ public class Plic {
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(contenu_fichier.toString())));
         Lexique l = (Lexique)as.parse().value ;
         TDS tds = TDS.getInstance();
-        if(tds.identifier(new Entree(classe_main, 0, "classe"))==null){
+        Symbole sym;
+        if((sym=tds.identifier(new Region(1, 0, null),new Entree(classe_main, 0, "classe")))==null){
             System.err.println("ERREUR : La classe principale "+classe_main+" n'existe pas.");
             System.exit(-1);
         }
-        else if(tds.identifier(new Entree(classe_main, 0, "fonction"))==null){
+        else if(tds.identifier(new Region(sym.getRegion().getBloc(), 0, null),new Entree(classe_main, 0, "fonction"))==null){
             System.err.println("ERREUR : La classe principale "+classe_main+" n'a pas de constructeur public sans argument.");
             System.exit(-1);
         }
+        /*TDS tds = TDS.getInstance();
+        Entree e = new Entree(classe_main,0,"classe");
+        if(tds.identifier(e)==null){
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("La classe "+classe_main+" est introuvable"));
+            return;
+        }
+        if(!tds.getRegionFromEntree(e,classe_main)){
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("Le constructeur vide de la classe "+classe_main+" est introuvable"));
+            return;
+        }*/
         //l.verifier();
         if(GestionnaireSemantique.getInstance().size() != 0)
             for (SemantiqueException s : GestionnaireSemantique.getInstance())
@@ -57,14 +70,25 @@ public class Plic {
         AnalyseurSyntaxique as = new AnalyseurSyntaxique(new AnalyseurLexical(new StringReader(contenu_fichier.toString())));
         Lexique l = (Lexique)as.parse().value ;
         TDS tds = TDS.getInstance();
-        if(tds.identifier(new Entree(classe_main, 0, "classe"))==null){
+        Symbole sym;
+        if((sym=tds.identifier(new Region(1, 0, null),new Entree(classe_main, 0, "classe")))==null){
             System.err.println("ERREUR : La classe principale "+classe_main+" n'existe pas.");
             System.exit(0);
         }
-        else if(tds.identifier(new Entree(classe_main, 0, "fonction"))==null){
+        else if(tds.identifier(new Region(sym.getRegion().getBloc(), 0, null),new Entree(classe_main, 0, "fonction"))==null){
             System.err.println("ERREUR : La classe principale "+classe_main+" n'a pas de constructeur public sans argument.");
             System.exit(0);
         }
+        /*TDS tds = TDS.getInstance();
+        Entree e = new Entree(classe_main,0,"classe");
+        if(tds.identifier(e)==null){
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("La classe "+classe_main+" est introuvable"));
+            return;
+        }
+        if(!tds.getRegionFromEntree(e,classe_main)){
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("Le constructeur vide de la classe "+classe_main+" est introuvable"));
+            return;
+        }*/
         l.verifier();
         if(GestionnaireSemantique.getInstance().size() != 0)
             for (SemantiqueException s : GestionnaireSemantique.getInstance())

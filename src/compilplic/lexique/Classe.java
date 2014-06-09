@@ -1,5 +1,6 @@
 package compilplic.lexique;
 
+import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
 
 public class Classe extends BlocIdf
@@ -15,7 +16,7 @@ public class Classe extends BlocIdf
     }
     
     @Override
-    public boolean verifier() throws Exception{
+    public boolean verifier() throws SemantiqueException{
         super.verifier();
         return true;
     }

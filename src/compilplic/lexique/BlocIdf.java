@@ -1,5 +1,7 @@
  package compilplic.lexique;
 
+import compilplic.exception.SemantiqueException;
+
 
 public abstract class BlocIdf extends Bloc {
     
@@ -17,7 +19,7 @@ public abstract class BlocIdf extends Bloc {
     }
     
     @Override
-    public boolean verifier() throws Exception {
+    public boolean verifier() throws SemantiqueException {
        
         
         return true;

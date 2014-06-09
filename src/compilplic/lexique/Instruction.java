@@ -13,6 +13,7 @@ public abstract class Instruction
 {
     
     protected int line ;
+    protected int numBloc;
 
     public Instruction(int line) {
         this.line = line;

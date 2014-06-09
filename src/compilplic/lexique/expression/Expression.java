@@ -11,6 +11,8 @@ public abstract class Expression implements Iterable<Nombre> , Serializable {
 	public abstract int nbrNombre() ;
 	public abstract Iterator<Nombre> iterator() ;
 	public abstract Nombre nbri(int compteur) ;
+        private String type;
+        protected int numBloc;
         
         /**
          * Execute l'analyse semantique
@@ -37,9 +39,26 @@ public abstract class Expression implements Iterable<Nombre> , Serializable {
         public boolean isBoolean(){
             return false;
         }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+        
         
         public boolean isZero(){
             return false;
         }
-    
+
+    public int getNumBloc() {
+        return numBloc;
+    }
+
+    public void setNumBloc(int numBloc) {
+        this.numBloc = numBloc;
+    }
+        
 }

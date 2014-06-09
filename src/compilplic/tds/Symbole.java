@@ -15,6 +15,7 @@ public class Symbole {
     private String type;
     private int deplacement;
     private boolean global;
+    private Region region;
     
     public Symbole(String t,int d){
         type=t;
@@ -36,6 +37,14 @@ public class Symbole {
 
     public void setDeplacement(int deplacement) {
         this.deplacement = deplacement;
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
     }
     
     public String toString(){

@@ -39,9 +39,9 @@ public class Test {
         for (Bloc b : l.getListe_bloc())
             System.out.println(b) ;
         System.out.println("tds = \n"+tds);
-        /*boolean b = l.verifier();
+        boolean b = l.verifier();
         String mips = l.ecrireMips();
-        System.out.println(mips);*/
+        System.out.println(mips);
         if(GestionnaireSemantique.getInstance().size() != 0){
             for (SemantiqueException se : GestionnaireSemantique.getInstance())
                 System.out.println("ERREUR SEMANTIQUE : "+se.getMessage());

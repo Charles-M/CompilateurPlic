@@ -10,6 +10,7 @@ import compilplic.exception.GestionnaireSemantique;
 import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
 import compilplic.tds.Entree;
+import compilplic.tds.Region;
 import compilplic.tds.Symbole;
 import compilplic.tds.TDS;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class Appel extends Expression {
     private String nom_fonction ;
     private ArrayList<Expression> liste_param ;
     protected int line;
+    protected int numBloc;
 
     public Appel(String nom_fonction, ArrayList<Expression> liste_param, int l) {
         this.nom_fonction = nom_fonction;
@@ -59,21 +61,26 @@ public class Appel extends Expression {
     @Override
     public boolean verifier() throws SemantiqueException {
         TDS tds = TDS.getInstance();
-        Symbole s = tds.identifier(new Entree(nom_fonction,0,"function"));
-        if(s==null)
-            GestionnaireSemantique.getInstance().add(new SemantiqueException("la fonction "+nom_fonction+"n'a pas été déclarée"));
+        ArrayList<String> array = new ArrayList<>();
         for(Expression expression : this.liste_param) {
             if(!expression.verifier())
                 GestionnaireSemantique.getInstance().add(new SemantiqueException("La declaration de la variable "+((Identificateur) expression).getNom()+" a la ligne "+line+" est manquante"));
+            
         }
+        
+        Symbole s = tds.identifier(new Region(this.numBloc,0,null),new Entree(nom_fonction,0,"function"));
+        if(s==null)
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("la fonction "+nom_fonction+"n'a pas été déclarée"));
         return true;
     }
 
     @Override
     public String ecrireMips() {
         TDS tds = TDS.getInstance();
-        Symbole s = tds.identifier(new Entree(nom_fonction,0,"function"));
-        return GenerateurMIPS.getInstance().ecrireChargeEnvironnement(s.getDeplacement());
+        Entree e = new Entree(nom_fonction,0,"fonction");
+        Symbole s = tds.identifier(new Region(this.numBloc,0,null),e);
+        Region r = tds.getRegionFromEntree(e, nom_fonction);
+        return GenerateurMIPS.getInstance().ecrireChargeEnvironnement(r.getBloc(),s.getDeplacement());
     }
 
     @Override
