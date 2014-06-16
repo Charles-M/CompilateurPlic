@@ -12,7 +12,7 @@ package compilplic.tds;
  */
 public class Symbole {
     
-    private String type;
+    private String type, heritage;
     private int deplacement;
     private boolean global;
     
@@ -20,6 +20,12 @@ public class Symbole {
         type=t;
         deplacement=d;
         global=false;
+    }
+
+    public Symbole(String type, int deplacement, String heritage) {
+        this.type = type;
+        this.heritage = heritage;
+        this.deplacement = deplacement;
     }
 
     public String getType() {
@@ -39,7 +45,7 @@ public class Symbole {
     }
     
     public String toString(){
-        return "("+type+";"+deplacement+")";
+        return "("+type+";"+deplacement+";"+heritage+")";
     }
 
     public boolean isGlobal() {

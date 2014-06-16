@@ -65,6 +65,7 @@ tableau = ({typePrimitif}|{classe}){WhiteSpace}*[\[]{WhiteSpace}*[\]]
 <YYINITIAL> "debut"    {/*System.out.println("lex : debut") ;*/ return symbol(CodesLexicaux.S_DEBUT,yytext()) ;}
 <YYINITIAL> "retourne"    {/*System.out.println("lex : retourne")) ;*/ return symbol(CodesLexicaux.S_RETOURNE,yytext()) ;}
 <YYINITIAL> "lire"    {/*System.out.println("lex : lire") ;*/ return symbol(CodesLexicaux.S_LIRE,yytext()) ;}
+<YYINITIAL> "herite"    {/*System.out.println("lex : herite") ;*/ return symbol(CodesLexicaux.S_HERITE,yytext()) ;}
 <YYINITIAL> "ecrire"    {/*System.out.println("lex : ecrire") ;*/ return symbol(CodesLexicaux.S_ECRIRE,yytext()) ;}
 <YYINITIAL> {statut}    {/*System.out.println("lex : statut "+yytext()) ;*/ return symbol(CodesLexicaux.STATUT,yytext()) ;}
 <YYINITIAL> {typePrimitif}    {/*System.out.println("lex : primitif " + yytext()) ;*/ return symbol(CodesLexicaux.TYPE_PRIMITIF,yytext()) ;}

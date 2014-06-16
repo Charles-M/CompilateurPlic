@@ -75,7 +75,7 @@ parser code {:
 
 terminal String PLUS, MOINS, MULT, DIV, MOD, GT, LT, DOUBLE_EQUAL, DIFF, TYPE_PRIMITIF, IDF ;
 terminal String CSTE_ENT, CSTE_CHAINE, S_FIN, S_CLASSE, S_LIRE, S_ECRIRE, STATUT, S_DEBUT, S_RETOURNE ;
-terminal Symbol S_NOUVEAU, VIRGULE, PARENTH_OUVRANTE, PARENTH_FERMANTE, POINT_VIRGULE, EQUAL, POINT ;
+terminal Symbol S_HERITE, S_NOUVEAU, VIRGULE, PARENTH_OUVRANTE, PARENTH_FERMANTE, POINT_VIRGULE, EQUAL, POINT ;
    
 /* Non terminals used in the grammar section.  
    Non terminals that have an object value are listed first and then non terminals that have an 
@@ -98,7 +98,7 @@ precedence left MOINS, PLUS ;
 precedence left MULT, DIV, MOD ;
 precedence left GT, LT, DOUBLE_EQUAL, DIFF ;
 
-precedence left S_LIRE, S_ECRIRE, ACCES ;
+precedence left S_LIRE, S_ECRIRE ;
 
 /* ----------------------------Grammar Section-------------------- */
 /* GRAMMAIRE DE L'ANALYSEUR SYNTAXIQUE
@@ -106,7 +106,7 @@ precedence left S_LIRE, S_ECRIRE, ACCES ;
     PLIC 1 // 2
 SYSTEME         ::= L_CLASSE
 L_CLASSE        ::= CLASSE L_CLASSE | ^
-CLASSE          ::= S_CLASSE IDF L_DECLARATION S_FIN
+CLASSE          ::= S_CLASSE IDF L_DECLARATION S_FIN | S_CLASSE IDF S_HERITE IDF L_DECLARATION S_FIN
 L_DECLARATION   ::= DECLARATION L_DECLARATION | ^
 DECLARATION     ::= DECL_CHAMP | DECL_CONST | DECL_FONCTION
 DECL_CHAMP      ::= STATUT TYPE IDF L_IDF POINT_VIRGULE
@@ -145,8 +145,10 @@ L_CLASSE        ::= L_CLASSE CLASSE
                       tds.entreeBloc() ; :}
                 ;
 
-CLASSE          ::= S_CLASSE IDF:i {: /*System.out.println("(entree bloc)") ;*/ lexique.ajouterBloc(bloc_courant, new Classe(i)) ; tds.ajouter(new Entree(i, ileft+1, "classe"), "classe") ; tds.entreeBloc() ; bloc_courant++ ; :} L_DECLARATION S_FIN
+CLASSE          ::= S_CLASSE IDF:i {: /*System.out.println("(entree bloc)") ;*/ lexique.ajouterBloc(bloc_courant, new Classe(i)) ; tds.ajouter(new Entree(i, ileft+1, "classe"), "classe", "") ; tds.entreeBloc() ; bloc_courant++ ; :} L_DECLARATION S_FIN
                     {: /*System.out.println("fin classe de nom "+i+" (sortie bloc)") ;*/ tds.sortieBloc() ; bloc_courant-- ; :}
+                |   S_CLASSE IDF:i S_HERITE IDF:h {: /*System.out.println("(entree bloc) heritage de "+h+" pour "+i) ;*/ lexique.ajouterBloc(bloc_courant, new Classe(i)) ; tds.ajouter(new Entree(i, ileft+1, "classe"), "classe", h) ; tds.entreeBloc() ; bloc_courant++ ; :} L_DECLARATION S_FIN
+                    {: /*System.out.println("HERITAGE de "+h+" pour la classe "+i) ;*/ tds.sortieBloc() ; bloc_courant-- ; :}
                 ;
 
 L_DECLARATION   ::= L_DECLARATION DECLARATION
@@ -165,10 +167,10 @@ DECLARATION     ::= DECL_CHAMP
 
 DECL_CHAMP      ::= STATUT:s TYPE:t IDF:i L_IDF:l POINT_VIRGULE
                     {: //System.out.println("fin decl_champ de premier nom "+i) ;
-                       tds.ajouter(new Entree(i, ileft+1, "variable"), t) ;
+                       tds.ajouter(new Entree(i, ileft+1, "variable"), t, "") ;
                        for(Entree idf : l) {
                         idf.setEspace("variable") ;
-                        tds.ajouter(idf, t) ;
+                        tds.ajouter(idf, t, "") ;
                        }:}
                 ;
 
@@ -185,7 +187,7 @@ L_IDF           ::= VIRGULE IDF:i L_IDF:l
                     {: /*System.out.println("fin l_idf vide") ;*/ RESULT = new ArrayList<Entree>() ; :}
                 ;
 
-DECL_CONST      ::= STATUT IDF:i {: tmp = new Entree(i, ileft+1, "fonction"); tds.ajouter(tmp, i) ; cons.setIdf(i) ; lexique.ajouterBloc(bloc_courant, cons) ; tds.entreeBloc() ; bloc_courant++ ; :} PARAMETRES:p S_DEBUT L_DECL_VAR L_INSTRUCTION:l S_FIN
+DECL_CONST      ::= STATUT IDF:i {: tmp = new Entree(i, ileft+1, "fonction"); tds.ajouter(tmp, i, "") ; cons.setIdf(i) ; lexique.ajouterBloc(bloc_courant, cons) ; tds.entreeBloc() ; bloc_courant++ ; :} PARAMETRES:p S_DEBUT L_DECL_VAR L_INSTRUCTION:l S_FIN
                     {: /*System.out.println("fin decl_const idf="+i) ;*/
                        cons.setInstructions(l) ;
                        tmp.setParam(p) ;
@@ -198,14 +200,14 @@ L_DECL_VAR      ::= L_DECL_VAR DECL_VAR
 
 DECL_VAR        ::= TYPE:t IDF:i L_IDF:l POINT_VIRGULE
                     {: /*System.out.println("in decl_var type="+t+" idf="+i+" liste="+l) ;*/
-                       tds.ajouter(new Entree(i, ileft+1, "variable"), t) ;
+                       tds.ajouter(new Entree(i, ileft+1, "variable"), t, "") ;
                        for(Entree idf : l) {
                         idf.setEspace("variable") ;
-                        tds.ajouter(idf, t) ;
+                        tds.ajouter(idf, t, "") ;
                        } :}
                 ;
 
-DECL_FONCTION   ::= STATUT:s TYPE:t IDF:i {: tmp = new Entree(i, ileft+1, "fonction");  tds.ajouter(tmp, t) ; func.setIdf(i) ; func.setType_retour(t) ; lexique.ajouterBloc(bloc_courant, func) ; tds.entreeBloc() ; bloc_courant++ ; :} PARAMETRES:p S_DEBUT L_DECL_VAR L_INSTRUCTION:l S_FIN
+DECL_FONCTION   ::= STATUT:s TYPE:t IDF:i {: tmp = new Entree(i, ileft+1, "fonction");  tds.ajouter(tmp, t, "") ; func.setIdf(i) ; func.setType_retour(t) ; lexique.ajouterBloc(bloc_courant, func) ; tds.entreeBloc() ; bloc_courant++ ; :} PARAMETRES:p S_DEBUT L_DECL_VAR L_INSTRUCTION:l S_FIN
                     {: /*System.out.println("fin decl fonct statut="+s+" type="+t+" idf="+i) ;*/
                        func.setInstructions(l) ;
                        tmp.setParam(p) ;
@@ -215,7 +217,7 @@ DECL_FONCTION   ::= STATUT:s TYPE:t IDF:i {: tmp = new Entree(i, ileft+1, "fonct
 PARAMETRES      ::= PARENTH_OUVRANTE TYPE:t IDF:i L_PARAM:l PARENTH_FERMANTE
                     {: /*System.out.println("fin param type="+t+" idf="+i) ;*/
                        lexique.ajouterParam(bloc_courant, t) ;
-                       tds.ajouter(new Entree(i, ileft+1, "variable"), t) ;
+                       tds.ajouter(new Entree(i, ileft+1, "variable"), t, "") ;
                        l.add(t) ;
                        RESULT = l ; :}
                 |   PARENTH_OUVRANTE PARENTH_FERMANTE
@@ -238,7 +240,7 @@ L_EXP           ::= VIRGULE EXP:e L_EXP:l
 L_PARAM         ::= VIRGULE TYPE:t IDF:i L_PARAM:l
                     {: /*System.out.println("fin l_param type="+t+" idf="+i) ;*/
                        lexique.ajouterParam(bloc_courant, t) ;
-                       tds.ajouter(new Entree(i, ileft+1, "variable"), t) ;
+                       tds.ajouter(new Entree(i, ileft+1, "variable"), t, "") ;
                        l.add(t) ;
                        RESULT = l ; :}
                 | 

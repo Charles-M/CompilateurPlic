@@ -25,7 +25,7 @@ classe Essai1 // bloc 0
         fin
 fin
 
-classe Test // bloc 0
+classe Test herite Essai1 // bloc 0
     publique entier a, plouf, patate ;
     publique Test(entier y) // bloc 1
         debut

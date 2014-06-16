@@ -42,7 +42,7 @@ public class TDS {
         deplacement=0;
     }
     
-    public void ajouter(Entree e,String s) throws DoubleDeclarationException {
+    public void ajouter(Entree e,String s, String heritage) throws DoubleDeclarationException {
         if(listeBloc.get(region_actuelle).containsKey(e) && listeBloc.get(region_actuelle).get(e).getType().equals(s)){
             GestionnaireSemantique.getInstance().add(new DoubleDeclarationException(" a la ligne "+e.getLine()+" : la "+e.getEspace()+" "+e.getNom()+" est deja declaree"));
         }else{
@@ -51,7 +51,7 @@ public class TDS {
                 sym = new Symbole(s,deplacement+=4);
             }else{
                 entree_actuelle = e;
-                sym = new Symbole(s,0);
+                sym = new Symbole(s, 0, heritage);
             }
             /*if(region_actuelle.getBloc()==1)
                 sym.setGlobal(true);*/
