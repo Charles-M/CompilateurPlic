@@ -16,12 +16,10 @@ import java.util.ArrayList;
 public class BoucleFor extends Boucle
 {
 
-    private Expression expression;
     private String indice ;
-    private ArrayList<Instruction> instructions;
     
-    public BoucleFor() {
-        super();
+    public BoucleFor(Expression exp) {
+        super(exp);
     }
 
     @Override
@@ -33,7 +31,7 @@ public class BoucleFor extends Boucle
     public boolean verifier() throws Exception {
         if(!expression.verifier())
             GestionnaireSemantique.getInstance().add(new SemantiqueException("La declaration de la variable "+((Identificateur) expression).getNom()+" a la ligne "+/*line+*/" est manquante"));
-                
+        
         for(Instruction i : instructions){
             i.verifier();
         }

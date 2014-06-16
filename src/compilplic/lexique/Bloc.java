@@ -9,17 +9,21 @@ package compilplic.lexique;
 import java.util.ArrayList;
 
 /**
- *
+ * 
  * @author Yan
  */
 public abstract class Bloc {
     
+    public static int num=0;
     public Lexique lexique;
-
+    private int numBloc;
+    
     private ArrayList<Bloc> l_bloc ;
     
     public Bloc() {
         l_bloc=new ArrayList<>();
+        num++;
+        numBloc=num;
     }
 
     @Override
@@ -42,4 +46,13 @@ public abstract class Bloc {
     public void setL_bloc(ArrayList<Bloc> l_bloc) {
         this.l_bloc = l_bloc;
     }
+
+    public int getNumBloc() {
+        return numBloc;
+    }
+
+    public void setNumBloc(int numBloc) {
+        this.numBloc = numBloc;
+    }
+    
 }

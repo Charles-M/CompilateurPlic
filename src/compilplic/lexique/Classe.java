@@ -1,7 +1,7 @@
 package compilplic.lexique;
 
+import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
-import java.util.ArrayList;
 
 public class Classe extends BlocIdf
 {
@@ -16,7 +16,7 @@ public class Classe extends BlocIdf
     }
     
     @Override
-    public boolean verifier() throws Exception{
+    public boolean verifier() throws SemantiqueException{
         super.verifier();
         return true;
     }
@@ -24,7 +24,6 @@ public class Classe extends BlocIdf
     @Override
     public String ecrireMips(){
         String str=GenerateurMIPS.getInstance().ecrireBloc("Class_"+idf);
-        str+=super.ecrireMips();
         return str;
     }
 

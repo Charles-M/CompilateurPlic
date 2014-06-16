@@ -9,6 +9,7 @@ package compilplic.lexique.expression;
 import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
 import compilplic.tds.Entree;
+import compilplic.tds.Region;
 import compilplic.tds.Symbole;
 import compilplic.tds.TDS;
 import java.util.Iterator;
@@ -20,7 +21,7 @@ import java.util.Iterator;
 public class Identificateur extends Expression{
 
     private String nom ;
-
+    
     public Identificateur(String nom) {
         this.nom = nom;
     }
@@ -61,9 +62,14 @@ public class Identificateur extends Expression{
     @Override
     public boolean verifier() throws SemantiqueException {
         TDS tds = TDS.getInstance();
-        Symbole decl = tds.identifier(new Entree(getNom(), 0, "entier"));
+        Symbole decl;
+        decl = tds.identifier(new Region(this.numBloc,0,null),new Entree(getNom(), 0, "variable"));
+        if(decl==null)
+            decl = tds.identifier(new Region(this.numBloc,0,null),new Entree(getNom(), 0, "fonction"));
         if(decl==null)
             return false;
+        
+        this.setType(decl.getType());
         
         return true;
     }
@@ -71,7 +77,7 @@ public class Identificateur extends Expression{
     @Override
     public String ecrireMips() {
         TDS tds = TDS.getInstance();
-        Symbole decl = tds.identifier(new Entree(getNom(), 0, "entier"));
+        Symbole decl = tds.identifier(new Region(this.numBloc,0,null),new Entree(getNom(), 0, "entier"));
         
         return GenerateurMIPS.getInstance().ecrireIdentificateur(/*tds.getDeplacement()+*/decl.getDeplacement(),decl.isGlobal());
     }

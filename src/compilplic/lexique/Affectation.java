@@ -2,9 +2,11 @@ package compilplic.lexique;
 import compilplic.exception.GestionnaireSemantique;
 import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
+import compilplic.lexique.expression.Appel;
 import compilplic.lexique.expression.Expression;
 import compilplic.lexique.expression.Identificateur;
 import compilplic.tds.Entree;
+import compilplic.tds.Region;
 import compilplic.tds.Symbole;
 import compilplic.tds.TDS;
 
@@ -24,6 +26,7 @@ public class Affectation extends Instruction
         super(line);
         this.var = var;
         this.expression = expression;
+        this.expression.setNumBloc(numBloc);
     }
 
 
@@ -35,7 +38,10 @@ public class Affectation extends Instruction
     @Override
     public boolean verifier() throws SemantiqueException {
         TDS tds = TDS.getInstance();
-        Symbole s = tds.identifier(new Entree(var, 0));
+        System.err.println("num from Bloc : "+numBloc+" "+Bloc.num);
+        System.err.println("decl : "+var);
+        Symbole s = tds.identifier(new Region(this.numBloc, 0, null),new Entree(var, 0,"variable"));
+        System.err.println("decl : "+s.toString());
         if(s==null)
             GestionnaireSemantique.getInstance().add(new SemantiqueException("La declaration de la variable "+var+" a la ligne "+line+" est manquante"));
         
@@ -51,9 +57,14 @@ public class Affectation extends Instruction
     @Override
     public String ecrireMips() {
         TDS tds = TDS.getInstance();
-        Symbole s = tds.identifier(new Entree(var, 0));
-        return expression.ecrireMips()+
-                GenerateurMIPS.getInstance().ecrireAffectation(s.getDeplacement(),s.isGlobal());
+        Symbole s = tds.identifier(new Region(this.numBloc,0,null),new Entree(var, 0,"variable"));
+        String str = "";
+        if(expression instanceof Appel){
+            str+=GenerateurMIPS.getInstance().ecrireInitEnv(s.getRegion().getBloc(),s.getDeplacement())+expression.ecrireMips();            
+        }
+        
+        return str+expression.ecrireMips()+
+                GenerateurMIPS.getInstance().ecrireAffectation(s.getDeplacement(),s.getType());
     }
 
 }

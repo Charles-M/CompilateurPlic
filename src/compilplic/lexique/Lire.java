@@ -4,6 +4,7 @@ import compilplic.exception.GestionnaireSemantique;
 import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
 import compilplic.tds.Entree;
+import compilplic.tds.Region;
 import compilplic.tds.Symbole;
 import compilplic.tds.TDS;
 
@@ -33,16 +34,16 @@ public class Lire extends Instruction
     @Override
     public String ecrireMips() {
         TDS tds = TDS.getInstance();
-        Symbole s = tds.identifier(new Entree(value, 0));
+        Symbole s = tds.identifier(new Region(this.numBloc,0,null),new Entree(value, 0));
 
-        String str = GenerateurMIPS.getInstance().lireEntier(s.getDeplacement(),s.isGlobal());
+        String str = GenerateurMIPS.getInstance().lireEntier(s.getDeplacement());
         return str;
     }
 
     @Override
     public boolean verifier() throws SemantiqueException {
         TDS tds = TDS.getInstance();
-        Symbole s = tds.identifier(new Entree(value, 0));
+        Symbole s = tds.identifier(new Region(this.numBloc,0,null),new Entree(value, 0));
         if(s==null){
             GestionnaireSemantique.getInstance().add(new SemantiqueException("La declaration de la variable "+value+" a la ligne "+/*line+*/" est manquante"));
         }

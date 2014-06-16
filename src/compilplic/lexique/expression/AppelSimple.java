@@ -14,8 +14,13 @@ import java.util.ArrayList;
  */
 public class AppelSimple extends Appel {
 
-    public AppelSimple(String nom_fonction, ArrayList<Expression> liste_param) {
-        super(nom_fonction, liste_param);
+    public AppelSimple(String nom_fonction, ArrayList<Expression> liste_param, int l) {
+        super(nom_fonction, liste_param,l);
+    }
+    
+    @Override
+    public String ecrireMips(){
+        return "";
     }
     
 }

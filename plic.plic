@@ -1,3 +1,16 @@
-1/5//klbnj
-(3>4)*/*coucou*/
-(-(1==2))
+classe TEST
+
+    publique entier a;
+
+    publique TEST()
+    debut
+        entier x;
+        a = fonc1();
+    fin
+
+    publique entier fonc1()
+    debut
+        retourne(4);
+    fin
+
+fin

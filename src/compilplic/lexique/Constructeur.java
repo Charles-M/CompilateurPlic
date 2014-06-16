@@ -20,7 +20,7 @@ public class Constructeur extends BlocIdfParam
     public ArrayList<Instruction> instructions;
 
     public Constructeur() {
-        super(null);
+        super("constructeur");
     }
 
     public void setInstructions(ArrayList<Instruction> instructions) {
@@ -38,7 +38,9 @@ public class Constructeur extends BlocIdfParam
 
     @Override
     public boolean verifier() throws SemantiqueException {
+        super.verifier();
         for(Instruction i : instructions){
+            i.numBloc=this.getNumBloc();
             i.verifier();
         }
         return true;
@@ -46,7 +48,7 @@ public class Constructeur extends BlocIdfParam
 
     @Override
     public String ecrireMips() {
-        String str = GenerateurMIPS.getInstance().ecrireBloc("Constructeur_"+idf+hashCode());
+        String str = GenerateurMIPS.getInstance().ecrireBloc("Constructeur_"+idf+liste_param.toString());
         for(Instruction i : instructions){
             str += i.ecrireMips();
         }

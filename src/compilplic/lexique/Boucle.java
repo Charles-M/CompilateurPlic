@@ -6,20 +6,20 @@
 
 package compilplic.lexique;
 
+import compilplic.lexique.expression.Expression;
+import java.util.ArrayList;
+
 /**
  *
  * @author ASUS
  */
-class Boucle extends Bloc {
+public abstract class Boucle extends Bloc {
 
-    @Override
-    public boolean verifier() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String ecrireMips() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected Expression expression ;
+    protected ArrayList<Instruction> instructions;
+    
+    public Boucle(Expression exp){
+        expression = exp;
     }
     
 }

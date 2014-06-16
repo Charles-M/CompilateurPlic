@@ -16,7 +16,7 @@ public class Entree {
     private String nom, espace ;
     private ArrayList<String> param = new ArrayList<String>();
     private int line ;
-
+    
     public Entree(String nom, int l) {
         this.nom = nom;
         this.line = l ;

@@ -78,24 +78,26 @@ public class Region {
         
         Region r = (Region) o;
         
-        /** Pas besoin de verifier le parent, en théorie tout ça suffit......... ET BAH NAN !
+        /* Pas besoin de verifier le parent, en théorie tout ça suffit......... ET BAH NAN !
+         * Quoi ? imcomprehensible ce bazar
          */
-        if(profondeur==1) return true ;
-        return (this.bloc==r.bloc && this.profondeur==r.profondeur);
+        //if(profondeur==1) return true ;
+        System.out.println("compare : "+r.bloc+" "+bloc);
+        return bloc==r.bloc;//(this.bloc==r.bloc && this.profondeur==r.profondeur);
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        if(profondeur!=1)
+        //if(profondeur!=1)
             hash = 97 * hash + this.bloc;
-        hash = 97 * hash + this.profondeur;
+        //hash = 97 * hash + this.profondeur;
         return hash;
     }
     
     @Override
     public String toString(){
-        return "Region : "+entree.getNom()+" "+bloc+" "+profondeur;
+        return "Region : "+entree.getEspace()+" "+entree.getNom()+" "+bloc+" "+profondeur;
     }
     
 }

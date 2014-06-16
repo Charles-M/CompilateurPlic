@@ -1,4 +1,4 @@
-package compilplic.lexique;
+ package compilplic.lexique;
 
 import compilplic.generateur.GenerateurMIPS;
 import java.util.ArrayList;

@@ -14,6 +14,7 @@ public final class GenerateurMIPS {
     
     private static GenerateurMIPS instance ;
     private static int nbstr=0;
+    private static int numChercher=0;
     
     public static GenerateurMIPS getInstance(){
         if(instance == null)
@@ -82,18 +83,11 @@ public final class GenerateurMIPS {
                 "#Initialisation\n"
                 + "la $t7,($sp)\n"
                 + "la $s7,($gp)\n"
-                + ecrireChargeEnvironnement(0)
+                + ecrireChargeEnvironnement(1,0)
+                //+ ecrireIterationChainageDyn()
                 /*+ ".data\n"
                 + "newline: .asciiz \"\\n\"\n"
                 + ".text\n"*/;
-    }
-    
-    /**
-     * 
-     * @return 
-     */
-    public String ecrireChargeEnvironnement(int deplacement){
-        return "add $sp,$sp,-"+deplacement;
     }
     
     /**
@@ -356,14 +350,14 @@ public final class GenerateurMIPS {
      * Permet de lire un entier
      * @return le code Mips associe
      */
-    public String lireEntier(int deplacement, boolean global){
+    public String lireEntier(int deplacement){
         return 
                 "#lire entier\n"
                 + ecrireChargeEntier(5)
                 + "syscall\n"
                 + "sw $v0,($sp)\n"
                 + "add $sp,$sp,-4\n"
-                + ecrireStockerIdentificateur(deplacement, global)+"\n";
+                + ecrireStockerIdentificateur(deplacement)+"\n";
     }
     
     /**
@@ -406,11 +400,14 @@ public final class GenerateurMIPS {
     /**
      * Permet d'ecrire une affectation
      * @param deplacement deplacement de la variable affectee
-     * @param global true si la variable est global false sinon
+     * @param type type de l'affectation (objet ou entier)
      * @return le code Mips associe
      */
-    public String ecrireAffectation(int deplacement, boolean global){
-        return ecrireStockerIdentificateur(deplacement, global);
+    public String ecrireAffectation(int deplacement, String type){
+        if (type.equals("entier"))
+            return ecrireStockerIdentificateur(deplacement);
+
+        return ecrireStockerObjet(deplacement);
     }
     
     /**
@@ -436,15 +433,19 @@ public final class GenerateurMIPS {
      * @param global true si la variable est globale false sinon (locale)
      * @return le code Mips associe
      */
-    public String ecrireStockerIdentificateur(int deplacement, boolean global){
-        if(global)
+    public String ecrireStockerIdentificateur(int deplacement/*, boolean global*/){
+        /*if(global)
             return
                 ecrireChargeV0()
-                + ecrireStockerGlobale(deplacement);
+                + ecrireStockerGlobale(deplacement);*/
         
         return
                 ecrireChargeV0()
                 + ecrireStockerLocale(deplacement);
+    }
+    
+    public String ecrireStockerObjet(int deplacement){
+        return "add $gp,$gp,-"+deplacement;
     }
     
     public String ecrireChargerVarGlobale(int deplacement){
@@ -478,5 +479,47 @@ public final class GenerateurMIPS {
                 + ecrireStocker()
                 + ecrireChargeEntier(region)
                 + ecrireStocker();
+    }
+    
+    public String ecrireIterationChainageDyn(){
+        return "la $t4,$t2\n"                   //On regarde dans le bloc courant
+                + "bne $v0,8($t4),iterDyn\n"    //Si le numero de region ne correspond pas on remonte le chainage dynamique
+                + "b MemEnv"+numChercher+"\n"
+                + "iterDyn:\n"                  //Iteration pour remonter le chainage dynamique
+                + "la $t4,4($t4)\n"
+                + "bne $v0,$t4,iterDyn\n"
+                + "b MemEnv"+numChercher+"\n"
+                ;
+    }
+    
+    public String ecrireInitEnv(int numBloc_retour, int deplacement){
+        numChercher++;
+        return "la $t1,($sp)\n"                     //Stockage temporaire de la nouvelle base_courante (bloc actuel dans t1
+                + "li $v0,"+numBloc_retour+"\n"
+                + ecrireIterationChainageDyn()
+                + "\nMemEnv"+numChercher+":\n"
+                + ecrireChargeEntier(deplacement)   //adr retour
+                + ecrireStocker()
+                + "sw $t2, ($sp)\n"                 //chainage dynamique vers la base du bloc englobant
+                +"la $t2,$t1\n"                     //Attribution à t2 de la nouvelle base_courante (bloc actuel)
+                + "add $sp,$sp,-4\n";
+    }
+    
+    /**
+     * Methode permettant de charger un environnement (blocs) dans la mémoire avec 
+     * @param numRegion le numero de la region que present dans la TDS
+     * @param deplacement_env le deplacement total à faire pour charger l'environnement (nombre de variable locales et paramètres * 4)
+     * @return 
+     */
+    public String ecrireChargeEnvironnement(int numRegion, int deplacement_env){
+        return  "li $t1,"+numRegion+"\n" // chainage statique (numero de region dans la TDS)
+                + "sw $t1,$sp\n"
+                + "add $sp,$sp,-4\n"
+                + "add $sp,$sp,-"+deplacement_env+"\n"
+                + "add $sp, $sp, -4\n";
+    }
+    
+    public String ecrireAppelPointer(int deplacement){
+        return "";
     }
 }

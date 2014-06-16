@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author ASUS
  */
-public class BlocIdfParam extends BlocIdf {
+public abstract class BlocIdfParam extends BlocIdf {
 
     protected ArrayList<String> liste_param ;
     
@@ -24,4 +24,17 @@ public class BlocIdfParam extends BlocIdf {
     public void ajouterParam(String t) {
         liste_param.add(t) ;
     }
+    
+    @Override
+    public String toString(){
+        String str ="(";
+        for (String string : liste_param) {
+            str += string+";";
+        }
+        str+=")";
+        return str;
+    }
+
+    @Override
+    public abstract String ecrireMips() ;
 }

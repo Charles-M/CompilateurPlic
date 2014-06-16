@@ -6,6 +6,7 @@ package compilplic.tds;
 
 import compilplic.exception.DoubleDeclarationException;
 import compilplic.exception.GestionnaireSemantique;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -25,7 +26,7 @@ public class TDS {
     private HashMap<Region,HashMap<Entree,Symbole>> listeBloc ;
     private int num_bloc, num_imbrication ;
     private int deplacement;
-
+    private int deplacement_actu;
     /**
      * Region region_actuelle (region_actuelle des regions qu'elle peut contenir)
      */
@@ -40,6 +41,7 @@ public class TDS {
         num_bloc = num_imbrication = 0 ;
         listeBloc = new HashMap<>() ;
         deplacement=0;
+        deplacement_actu=0;
     }
     
     public void ajouter(Entree e,String s, String heritage) throws DoubleDeclarationException {
@@ -48,7 +50,16 @@ public class TDS {
         }else{
             Symbole sym;
             if(!e.getEspace().equals("classe") && !e.getEspace().equals("fonction") && !e.getEspace().equals("constructeur")){
-                sym = new Symbole(s,deplacement+=4);
+                /*if(s.equals("entier")){
+                    sym = new Symbole(s,4);
+                    deplacement+=4;
+                }else{
+                    sym = new Symbole(s,4);
+                    deplacement+=4;
+                }*/
+                sym = new Symbole(s,deplacement_actu+=4);
+                sym.setRegion(region_actuelle);
+                deplacement+=4;
             }else{
                 entree_actuelle = e;
                 sym = new Symbole(s, 0, heritage);
@@ -62,17 +73,24 @@ public class TDS {
     
     /**
      * Méthode permettant d'identifier une entree (Connaitre son type)
+     * @param region la region dans laquelle on débute la recherche (après les variables globales)
      * @param e l'entree que l'on veut identifier
      * @return le symbole de l'entrée si elle existe, null sinon
      */
-    public Symbole identifier(Entree e){
+    public Symbole identifier(Region region, Entree e){
         Region r = new Region(1,1,null);
         //Recherche de l'entrée
         if(listeBloc.get(r).containsKey(e))
             return listeBloc.get(r).get(e);
         
-        r = region_actuelle; /*new Region(num_bloc, num_imbrication, region_actuelle.getParent());*/
-        if(region_actuelle.getBloc()!=1){
+        r = region; /*new Region(num_bloc, num_imbrication, region_actuelle.getParent());*/
+        for(Region set : listeBloc.keySet()){
+            if(r.equals(set)){
+                r=set;
+                break;
+            }
+        }
+        if(r.getBloc()!=1){
             r=parcoursRegion(r, e);
             if(r!=null)
                 return listeBloc.get(r).get(e);
@@ -89,11 +107,12 @@ public class TDS {
     public Region parcoursRegion(Region region, Entree e){
         //On vérifie si l'entrée existe dans cette région
         try{
-            System.out.println(e.getNom());
+            System.out.println(e);
             System.out.println(region);
-            //System.out.println(listeBloc);
-        if(listeBloc.get(region).containsKey(e))
-            return region;
+            
+            if(listeBloc.get(region).containsKey(e))
+                return region;
+            
         }catch(NullPointerException ne){
             ne.printStackTrace();
             System.exit(-1);
@@ -117,13 +136,21 @@ public class TDS {
         return parcoursRegion(region, e);
     }
     
+    public void debutBloc(){
+        
+    }
+    
+    public void finBloc(){
+        
+    }
+    
     public void entreeBloc(){
         num_bloc++ ;
         num_imbrication++ ;
         Region r = new Region(num_bloc,num_imbrication,region_actuelle);
         if(entree_actuelle!=null)
             r.setEntree(entree_actuelle);
-        
+        deplacement_actu=0;
         listeBloc.put(r,new HashMap<Entree, Symbole>());
         //La region region_actuelle est la nouvelle region dans laquelle on vient d'entrer
         this.region_actuelle=r;
@@ -134,13 +161,16 @@ public class TDS {
         num_imbrication-- ;
         //on sort du bloc donc la region region_actuelle redevient la region parent (au dessus dans la profondeur)
         
+        //Array contenant les objets attributs ayant le même nom que la classe dans la quelle on est
+        ArrayList<Entry<Entree,Symbole>> array = new ArrayList<>();
         //Parcours des variables locales
         int deplacement_actu=0;
+        
         for (Entry<Entree,Symbole> entry : listeBloc.get(region_actuelle).entrySet()) {
-            Entree e = entry.getKey();
-            Symbole s = entry.getValue();
-            if(e.getEspace().equals("variable"))
+            if(entry.getKey().getEspace().equals("variable"))
                 deplacement_actu+=4;
+            /*if(region_actuelle.getEntree().getEspace().equals("classe") && s.getType().equals(entree_actuelle.getNom()))
+                array.add(entry);*/
         }
         //on remonte à la region parente (celle contenant la declaration de la region dont on est en train de sortir
         region_actuelle=region_actuelle.getParent();
@@ -203,5 +233,15 @@ public class TDS {
 
     public int getDeplacement() {
         return deplacement;
+    }
+    
+    public Region getRegionFromEntree(Entree e, String classe){
+        for (Entry<Region, HashMap<Entree, Symbole>> entry : listeBloc.entrySet()) {
+            Region region = entry.getKey();
+            if(region.getEntree().equals(e)){
+                return region;
+            }   
+        }
+        return null;
     }
 }
