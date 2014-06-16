@@ -82,15 +82,16 @@ public class Region {
          * Quoi ? imcomprehensible ce bazar
          */
         //if(profondeur==1) return true ;
+        System.out.println("compare : "+r.bloc+" "+bloc);
         return bloc==r.bloc;//(this.bloc==r.bloc && this.profondeur==r.profondeur);
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        if(profondeur!=1)
+        //if(profondeur!=1)
             hash = 97 * hash + this.bloc;
-        hash = 97 * hash + this.profondeur;
+        //hash = 97 * hash + this.profondeur;
         return hash;
     }
     

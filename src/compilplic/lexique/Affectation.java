@@ -38,9 +38,9 @@ public class Affectation extends Instruction
     @Override
     public boolean verifier() throws SemantiqueException {
         TDS tds = TDS.getInstance();
-        System.err.println("num : "+numBloc+" "+Bloc.num);
-        Symbole s = tds.identifier(new Region(this.numBloc, 0, null),new Entree(var, 0,"variable"));
+        System.err.println("num from Bloc : "+numBloc+" "+Bloc.num);
         System.err.println("decl : "+var);
+        Symbole s = tds.identifier(new Region(this.numBloc, 0, null),new Entree(var, 0,"variable"));
         System.err.println("decl : "+s.toString());
         if(s==null)
             GestionnaireSemantique.getInstance().add(new SemantiqueException("La declaration de la variable "+var+" a la ligne "+line+" est manquante"));

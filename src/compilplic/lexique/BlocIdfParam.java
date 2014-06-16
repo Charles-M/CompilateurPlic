@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author ASUS
  */
-public class BlocIdfParam extends BlocIdf {
+public abstract class BlocIdfParam extends BlocIdf {
 
     protected ArrayList<String> liste_param ;
     
@@ -36,7 +36,5 @@ public class BlocIdfParam extends BlocIdf {
     }
 
     @Override
-    public String ecrireMips() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public abstract String ecrireMips() ;
 }

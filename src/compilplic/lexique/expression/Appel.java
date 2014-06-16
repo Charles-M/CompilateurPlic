@@ -9,6 +9,7 @@ package compilplic.lexique.expression;
 import compilplic.exception.GestionnaireSemantique;
 import compilplic.exception.SemantiqueException;
 import compilplic.generateur.GenerateurMIPS;
+import compilplic.lexique.Bloc;
 import compilplic.tds.Entree;
 import compilplic.tds.Region;
 import compilplic.tds.Symbole;
@@ -31,6 +32,7 @@ public class Appel extends Expression {
         this.nom_fonction = nom_fonction;
         this.liste_param = liste_param;
         line=l;
+        numBloc=Bloc.num;
     }
     
     @Override
@@ -68,9 +70,12 @@ public class Appel extends Expression {
             
         }
         
-        Symbole s = tds.identifier(new Region(this.numBloc,0,null),new Entree(nom_fonction,0,"function"));
+        Entree e = new Entree(nom_fonction,0,"fonction");
+        e.setParam(array);
+        System.err.println("entree : "+e);
+        Symbole s = tds.identifier(new Region(this.numBloc,0,null),e);
         if(s==null)
-            GestionnaireSemantique.getInstance().add(new SemantiqueException("la fonction "+nom_fonction+"n'a pas été déclarée"));
+            GestionnaireSemantique.getInstance().add(new SemantiqueException("la fonction "+nom_fonction+" n'a pas été déclarée"));
         return true;
     }
 
@@ -78,6 +83,10 @@ public class Appel extends Expression {
     public String ecrireMips() {
         TDS tds = TDS.getInstance();
         Entree e = new Entree(nom_fonction,0,"fonction");
+        ArrayList<String> array  = new ArrayList<>();
+        for(Expression exp : liste_param){
+            array.add(exp.getType());
+        }
         Symbole s = tds.identifier(new Region(this.numBloc,0,null),e);
         Region r = tds.getRegionFromEntree(e, nom_fonction);
         return GenerateurMIPS.getInstance().ecrireChargeEnvironnement(r.getBloc(),s.getDeplacement());

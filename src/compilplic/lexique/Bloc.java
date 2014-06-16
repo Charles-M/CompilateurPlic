@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public abstract class Bloc {
     
-    public static int num=1;
+    public static int num=0;
     public Lexique lexique;
     private int numBloc;
     

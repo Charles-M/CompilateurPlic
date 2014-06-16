@@ -2,6 +2,7 @@ package compilplic.lexique;
 
 import compilplic.exception.GestionnaireSemantique;
 import compilplic.exception.SemantiqueException;
+import compilplic.generateur.GenerateurMIPS;
 import compilplic.tds.Entree;
 import compilplic.tds.Region;
 import compilplic.tds.TDS;
@@ -59,8 +60,7 @@ public class Function extends BlocIdfParam
     
     @Override
     public String ecrireMips(){
-        String str = super.ecrireMips();
-                
+        String str = GenerateurMIPS.getInstance().ecrireBloc("Fonction_"+idf+liste_param.toString());
         for(Instruction i : instructions){
             str += i.ecrireMips();
         }

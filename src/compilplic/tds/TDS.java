@@ -73,6 +73,7 @@ public class TDS {
     
     /**
      * Méthode permettant d'identifier une entree (Connaitre son type)
+     * @param region la region dans laquelle on débute la recherche (après les variables globales)
      * @param e l'entree que l'on veut identifier
      * @return le symbole de l'entrée si elle existe, null sinon
      */
@@ -83,7 +84,12 @@ public class TDS {
             return listeBloc.get(r).get(e);
         
         r = region; /*new Region(num_bloc, num_imbrication, region_actuelle.getParent());*/
-        System.err.println(r);
+        for(Region set : listeBloc.keySet()){
+            if(r.equals(set)){
+                r=set;
+                break;
+            }
+        }
         if(r.getBloc()!=1){
             r=parcoursRegion(r, e);
             if(r!=null)
@@ -101,11 +107,12 @@ public class TDS {
     public Region parcoursRegion(Region region, Entree e){
         //On vérifie si l'entrée existe dans cette région
         try{
-            System.out.println(e.getNom());
+            System.out.println(e);
             System.out.println(region);
-            //System.out.println(listeBloc);
-        if(listeBloc.get(region).containsKey(e))
-            return region;
+            
+            if(listeBloc.get(region).containsKey(e))
+                return region;
+            
         }catch(NullPointerException ne){
             ne.printStackTrace();
             System.exit(-1);
