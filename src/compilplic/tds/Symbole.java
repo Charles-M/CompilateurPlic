@@ -15,6 +15,7 @@ public class Symbole {
     private String type, heritage;
     private int deplacement;
     private boolean global;
+    private Region region;
     
     public Symbole(String t,int d){
         type=t;
@@ -28,6 +29,14 @@ public class Symbole {
         this.deplacement = deplacement;
     }
 
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+    
     public String getType() {
         return type;
     }

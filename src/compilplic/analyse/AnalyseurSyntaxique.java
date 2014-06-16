@@ -371,7 +371,7 @@ class CUP$AnalyseurSyntaxique$actions {
 		int lright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).right;
 		ArrayList<Expression> l = (ArrayList<Expression>)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).value;
 		 /*System.out.println("fin exp -> idf(param) obj="+obj+" fonction="+f) ;*/
-            RESULT = new AppelPointer(obj, f, l) ;
+            RESULT = new AppelPointer(obj, f, l, fleft+1) ;
          
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("EXP",0, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-5)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
@@ -388,7 +388,7 @@ class CUP$AnalyseurSyntaxique$actions {
 		int lright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).right;
 		ArrayList<Expression> l = (ArrayList<Expression>)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).value;
 		 /*System.out.println("fin exp -> idf(param) idf="+f) ;*/
-            RESULT = new AppelSimple(f, l) ;
+            RESULT = new AppelSimple(f, l, fleft+1) ;
          
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("EXP",0, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-3)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
             }
